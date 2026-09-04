@@ -353,7 +353,12 @@ body.menu{overflow:hidden}
 }
 
 /* filters */
-.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:var(--s3)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-set{display:flex;flex-direction:column;gap:14px;padding-block:var(--s3);
+  border-top:1px solid var(--line)}
+.filter-row{display:grid;grid-template-columns:1fr;gap:8px;align-items:start}
+@media(min-width:800px){.filter-row{grid-template-columns:96px minmax(0,1fr);gap:var(--s3);align-items:center}}
+.filter-lab{padding-top:2px}
 .chip{
   border:1px solid var(--line-2);border-radius:var(--pill);background:none;color:var(--text-2);
   padding:10px 16px;min-height:44px;font-size:.8125rem;font-weight:500;
@@ -408,7 +413,13 @@ body.menu{overflow:hidden}
    ========================================================================== */
 .studio{display:grid;grid-template-columns:1fr;gap:var(--s4)}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
-.portrait{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+/* a 3:4 source cropped a few percent to sit in the 4:5 slot */
+.portrait.is-loop{background:var(--surface)}
+.loop-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:auto;aspect-ratio:240/322;min-height:100%;min-width:100%;border:0;pointer-events:none}
+.loop-play{position:absolute;inset:0;width:100%;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:0;cursor:pointer}
+.loop-play .play{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--on-ink);font-size:14px;padding-left:3px}
+.loop-play:hover .play{background:var(--accent);color:var(--ink)}
 .portrait .ph{background:linear-gradient(160deg,#D9D7D0,#B9B7AF 52%,#8E8C85)}
 .avail{
   display:inline-flex;align-items:center;gap:10px;margin-top:var(--s4);
@@ -629,7 +640,176 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 </main>
 
 <div id="shell-foot"></div>
-<script type="application/json" id="seed">{
+<script>history.replaceState(null,"","?p=carearch");</script><script>/* =============================================================================
+   WNH — shared site runtime
+   No framework, no build step. Loaded by every page.
+   ============================================================================= */
+(function (global) {
+  'use strict';
+
+  var W = {};
+
+  /* ---------------------------------------------------------------- base
+     The site has to work both at a domain root (wnhdesign.io/) and under a
+     repo subpath (user.github.io/wnh/). Root-absolute paths break the second
+     case, so the base is derived from this script's own URL instead. */
+  var BASE = (function () {
+    var s = document.currentScript;
+    if (!s) { var all = document.getElementsByTagName('script'); s = all[all.length - 1]; }
+    var src = (s && s.src) || '';
+    var i = src.indexOf('assets/js/site.js');
+    if (i > -1) return src.slice(0, i);
+    return location.pathname.replace(/[^/]*$/, '');
+  })();
+  W.base = BASE;
+  W.url = function (p) { return BASE + String(p == null ? '' : p).replace(/^\//, ''); };
+
+  /* ------------------------------------------------------------- helpers */
+  W.$  = function (s, r) { return (r || document).querySelector(s); };
+  W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  W.esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  };
+  /* One typeface with a normal ampersand, so no glyph substitution. Kept as a
+     named helper because every template calls it. */
+  W.t = function (s) { return W.esc(s); };
+
+  W.pad = function (n) { return String(n).padStart(2, '0'); };
+  W.slugify = function (s) {
+    return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  };
+
+  /* the mark, inline so it inherits currentColor and costs no extra request */
+  W.MARK = '<svg viewBox="0 0 193.99 86.03" role="img" aria-label="WNH" fill="currentColor">' +
+    '<polygon points="133.06 12.67 133.06 73.36 117.97 76.35 117.97 67.5 93.49 43.01 93.49 21.69 117.97 46.17 117.97 9.68 133.06 12.67"/>' +
+    '<polygon points="90.34 9.68 90.34 76.36 66.39 69.7 66.39 61.27 75.25 61.27 75.25 13.84 90.34 9.68"/>' +
+    '<polygon points="63.24 17.02 63.24 68.82 39.3 62.16 39.3 61.27 48.15 61.27 48.15 21.21 63.24 17.02"/>' +
+    '<polygon points="36.14 24.55 36.14 61.28 21.05 57.08 21.05 28.75 36.14 24.55"/>' +
+    '<polygon points="172.94 20.58 172.94 65.26 170.5 65.94 170.48 65.95 157.86 68.45 157.86 50.56 136.22 50.56 136.22 35.47 157.86 35.47 157.86 17.58 172.94 20.58"/>' +
+    '</svg>';
+
+  var ARROW = '<svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">' +
+    '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>';
+
+  /* --------------------------------------------------------- cloudinary */
+  var WIDTHS = [640, 960, 1440, 1920, 2560];
+  W.cloud = '';
+
+  W.cld = {
+    ok: function (id) { return !!(id && String(id).trim() && W.cloud); },
+    img: function (id, w) {
+      return 'https://res.cloudinary.com/' + W.cloud +
+             '/image/upload/f_auto,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
+    },
+    srcset: function (id) {
+      return WIDTHS.map(function (w) { return W.cld.img(id, w) + ' ' + w + 'w'; }).join(', ');
+    },
+    video: function (id) {
+      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/f_auto,q_auto,vc_auto/' + id + '.mp4';
+    },
+    poster: function (id) {
+      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/so_1,f_auto,q_auto,w_1600/' + id + '.jpg';
+    }
+  };
+
+  /* -------------------------------------------------------------- vimeo */
+  W.vimeoId = function (url) {
+    var m = String(url || '').match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-z]+))?/i);
+    return m ? { id: m[1], hash: m[2] || '' } : null;
+  };
+  W.vimeoSrc = function (url, autoplay) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
+  };
+
+  /* a looping brand animation: no chrome, no sound, no controls */
+  W.vimeoBg = function (url) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
+  };
+
+  /* mount a loop into a box; returns false when there is nothing to mount.
+     under reduced motion nothing moves on its own — the visitor presses play. */
+  W.loop = function (box, url, title) {
+    if (!box || !W.vimeoId(url)) return false;
+    var f = document.createElement('iframe');
+    f.className = 'loop-frame';
+    f.title = title || 'Motion';
+    f.setAttribute('frameborder', '0');
+    if (W.reduce) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'loop-play';
+      b.innerHTML = '<span class="play" aria-hidden="true">&#9654;</span>';
+      b.setAttribute('aria-label', 'Play ' + (title || 'motion'));
+      b.addEventListener('click', function () {
+        f.src = W.vimeoSrc(url, true);
+        f.allow = 'autoplay; fullscreen; picture-in-picture';
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+      box.innerHTML = '';
+      box.appendChild(b);
+    } else {
+      f.src = W.vimeoBg(url);
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.setAttribute('tabindex', '-1');
+      f.setAttribute('aria-hidden', 'true');
+      box.innerHTML = '';
+      box.appendChild(f);
+    }
+    box.classList.add('is-loop');
+    return true;
+  };
+
+  /* -------------------------------------------------------------- media */
+  W.cover = function (p, i, w) {
+    var c = p.cover || {};
+    if (W.cld.ok(c.src)) {
+      return '<img src="' + W.cld.img(c.src, w || 960) + '" srcset="' + W.cld.srcset(c.src) +
+             '" sizes="(max-width:760px) 92vw, (max-width:1180px) 46vw, 34vw" alt="' +
+             W.esc(c.alt || p.title) + '" loading="lazy" decoding="async">';
+    }
+    return '<div class="ph" data-tone="' + W.esc(p.tone || 'wine') + '">' +
+           '<span class="num">' + W.pad((i || 0) + 1) + '</span></div>';
+  };
+
+  /* Bento spans on a six-column grid. The pattern has period six and each row
+     sums to six, so it tiles cleanly — and the last card is widened to fill
+     whatever is left of its row, so an odd project count never ends on a hole. */
+  var SPAN_PATTERN = ['wide', '', 'half', 'half', 'wide', ''];
+  var SPAN_W = { '': 2, half: 3, wide: 4, full: 6 };
+
+  W.spans = function (n) {
+    var out = [], row = 0;
+    for (var i = 0; i < n; i++) {
+      var s = SPAN_PATTERN[i % SPAN_PATTERN.length];
+      if (row + SPAN_W[s] > 6) row = 0;
+      out.push(s);
+      row = (row + SPAN_W[s]) % 6;
+    }
+    if (n && row > 0) {
+      var need = SPAN_W[out[n - 1]] + (6 - row);
+      out[n - 1] = need >= 6 ? 'full' : need >= 4 ? 'wide' : need === 3 ? 'half' : '';
+    }
+    return out;
+  };
+
+  W.tags = function (list, onInk) {
+    return '<span class="tags">' + (list || []).map(function (x) {
+      return '<span class="tag' + (onInk ? ' tag-ink' : '') + '">' + W.esc(x) + '</span>';
+    }).join('') + '</span>';
+  };
+
+  /* --------------------------------------------------------------- data */
+  W.load = function () { var D = {
   "site": {
     "name": "WNH",
     "full": "WNH — Design & Production",
@@ -651,6 +831,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "video": "",
       "poster": ""
     },
+    "studioLoop": "https://vimeo.com/1224037331/1af05a27c0",
     "portfolio": {
       "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",
       "roles": [
@@ -887,7 +1068,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "url": "",
           "caption": "Asia Breakthrough Growth — broadcast package"
         }
-      ]
+      ],
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "hksh-centenary",
@@ -1001,7 +1183,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         "src": "",
         "alt": "A Century of Clinical Excellence"
       },
-      "featured": true
+      "featured": true,
+      "sector": "Health & Care"
     },
     {
       "slug": "hkma-60",
@@ -1069,7 +1252,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true
+      "featured": true,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "carearch",
@@ -1158,7 +1342,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           ],
           "caption": "Applications"
         }
-      ]
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "milwaukee-house-builder",
@@ -1231,7 +1416,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true
+      "featured": true,
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "bananaunder",
@@ -1298,7 +1484,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "caption": "Rendered, not shot",
           "size": "full"
         }
-      ]
+      ],
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "vita-green",
@@ -1347,7 +1534,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "heading": "Ingredients as evidence",
           "body": "GABA, L-theanine, and the herbs — 靈芝, 柴胡, 酸棗仁, 當歸丹參 — floated as lit spheres beside the pack. In Hong Kong health retail the ingredient list is the argument, so it gets treated as imagery rather than as small print."
         }
-      ]
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "dsa-52",
@@ -1410,7 +1598,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "benoy-love-work",
@@ -1483,7 +1672,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "url": "",
           "caption": "Project film"
         }
-      ]
+      ],
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "wada",
@@ -1532,7 +1722,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "heading": "Endorsement, accreditation, and two SKUs",
           "body": "Hong Kong health retail runs on trust markers: a celebrity user, an association accreditation, 日本製造. Each needs its own place in the hierarchy or they cancel each other out.\n\nThe two variants — 竹酢 and 唐辛子 — are shown as packs rather than as flat swatches, and the 3D foot and hand renders show where the thing actually goes. That last part matters more than it sounds: most shoppers have never used one."
         }
-      ]
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "cellmax",
@@ -1595,7 +1786,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Health & Care"
     },
     {
       "slug": "compass-web-tools",
@@ -1666,7 +1858,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
             }
           ]
         }
-      ]
+      ],
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "st-christophers",
@@ -1710,7 +1903,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "caption": "The ask, and the year it sits in",
           "size": "full"
         }
-      ]
+      ],
+      "sector": "Culture & Non-profit"
     },
     {
       "slug": "hksh-open-day",
@@ -1777,7 +1971,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "caption": "What visitors take home",
           "size": "full"
         }
-      ]
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "jann-global",
@@ -1838,7 +2033,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "sing-ping-opera",
@@ -1906,7 +2102,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Culture & Non-profit"
     },
     {
       "slug": "acker-social-system",
@@ -2000,7 +2197,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
             }
           ]
         }
-      ]
+      ],
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "compass-tokyo",
@@ -2048,7 +2246,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "caption": "Map and collateral"
         }
       ],
-      "deep": false
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "wnh-scroll-world",
@@ -2087,142 +2286,11 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "url": "",
           "caption": "Seven Scenes — continuous camera"
         }
-      ]
+      ],
+      "sector": "Studio"
     }
   ]
-}
-</script>
-<script>/* =============================================================================
-   WNH — shared site runtime
-   No framework, no build step. Loaded by every page.
-   ============================================================================= */
-(function (global) {
-  'use strict';
-
-  var W = {};
-
-  /* ---------------------------------------------------------------- base
-     The site has to work both at a domain root (wnhdesign.io/) and under a
-     repo subpath (user.github.io/wnh/). Root-absolute paths break the second
-     case, so the base is derived from this script's own URL instead. */
-  var BASE = (function () {
-    var s = document.currentScript;
-    if (!s) { var all = document.getElementsByTagName('script'); s = all[all.length - 1]; }
-    var src = (s && s.src) || '';
-    var i = src.indexOf('assets/js/site.js');
-    if (i > -1) return src.slice(0, i);
-    return location.pathname.replace(/[^/]*$/, '');
-  })();
-  W.base = BASE;
-  W.url = function (p) { return BASE + String(p == null ? '' : p).replace(/^\//, ''); };
-
-  /* ------------------------------------------------------------- helpers */
-  W.$  = function (s, r) { return (r || document).querySelector(s); };
-  W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-
-  W.esc = function (s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  };
-  /* One typeface with a normal ampersand, so no glyph substitution. Kept as a
-     named helper because every template calls it. */
-  W.t = function (s) { return W.esc(s); };
-
-  W.pad = function (n) { return String(n).padStart(2, '0'); };
-  W.slugify = function (s) {
-    return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  };
-
-  /* the mark, inline so it inherits currentColor and costs no extra request */
-  W.MARK = '<svg viewBox="0 0 193.99 86.03" role="img" aria-label="WNH" fill="currentColor">' +
-    '<polygon points="133.06 12.67 133.06 73.36 117.97 76.35 117.97 67.5 93.49 43.01 93.49 21.69 117.97 46.17 117.97 9.68 133.06 12.67"/>' +
-    '<polygon points="90.34 9.68 90.34 76.36 66.39 69.7 66.39 61.27 75.25 61.27 75.25 13.84 90.34 9.68"/>' +
-    '<polygon points="63.24 17.02 63.24 68.82 39.3 62.16 39.3 61.27 48.15 61.27 48.15 21.21 63.24 17.02"/>' +
-    '<polygon points="36.14 24.55 36.14 61.28 21.05 57.08 21.05 28.75 36.14 24.55"/>' +
-    '<polygon points="172.94 20.58 172.94 65.26 170.5 65.94 170.48 65.95 157.86 68.45 157.86 50.56 136.22 50.56 136.22 35.47 157.86 35.47 157.86 17.58 172.94 20.58"/>' +
-    '</svg>';
-
-  var ARROW = '<svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">' +
-    '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>';
-
-  /* --------------------------------------------------------- cloudinary */
-  var WIDTHS = [640, 960, 1440, 1920, 2560];
-  W.cloud = '';
-
-  W.cld = {
-    ok: function (id) { return !!(id && String(id).trim() && W.cloud); },
-    img: function (id, w) {
-      return 'https://res.cloudinary.com/' + W.cloud +
-             '/image/upload/f_auto,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
-    },
-    srcset: function (id) {
-      return WIDTHS.map(function (w) { return W.cld.img(id, w) + ' ' + w + 'w'; }).join(', ');
-    },
-    video: function (id) {
-      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/f_auto,q_auto,vc_auto/' + id + '.mp4';
-    },
-    poster: function (id) {
-      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/so_1,f_auto,q_auto,w_1600/' + id + '.jpg';
-    }
-  };
-
-  /* -------------------------------------------------------------- vimeo */
-  W.vimeoId = function (url) {
-    var m = String(url || '').match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-z]+))?/i);
-    return m ? { id: m[1], hash: m[2] || '' } : null;
-  };
-  W.vimeoSrc = function (url, autoplay) {
-    var v = W.vimeoId(url);
-    if (!v) return '';
-    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
-           'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
-  };
-
-  /* -------------------------------------------------------------- media */
-  W.cover = function (p, i, w) {
-    var c = p.cover || {};
-    if (W.cld.ok(c.src)) {
-      return '<img src="' + W.cld.img(c.src, w || 960) + '" srcset="' + W.cld.srcset(c.src) +
-             '" sizes="(max-width:760px) 92vw, (max-width:1180px) 46vw, 34vw" alt="' +
-             W.esc(c.alt || p.title) + '" loading="lazy" decoding="async">';
-    }
-    return '<div class="ph" data-tone="' + W.esc(p.tone || 'wine') + '">' +
-           '<span class="num">' + W.pad((i || 0) + 1) + '</span></div>';
-  };
-
-  /* Bento spans on a six-column grid. The pattern has period six and each row
-     sums to six, so it tiles cleanly — and the last card is widened to fill
-     whatever is left of its row, so an odd project count never ends on a hole. */
-  var SPAN_PATTERN = ['wide', '', 'half', 'half', 'wide', ''];
-  var SPAN_W = { '': 2, half: 3, wide: 4, full: 6 };
-
-  W.spans = function (n) {
-    var out = [], row = 0;
-    for (var i = 0; i < n; i++) {
-      var s = SPAN_PATTERN[i % SPAN_PATTERN.length];
-      if (row + SPAN_W[s] > 6) row = 0;
-      out.push(s);
-      row = (row + SPAN_W[s]) % 6;
-    }
-    if (n && row > 0) {
-      var need = SPAN_W[out[n - 1]] + (6 - row);
-      out[n - 1] = need >= 6 ? 'full' : need >= 4 ? 'wide' : need === 3 ? 'half' : '';
-    }
-    return out;
-  };
-
-  W.tags = function (list, onInk) {
-    return '<span class="tags">' + (list || []).map(function (x) {
-      return '<span class="tag' + (onInk ? ' tag-ink' : '') + '">' + W.esc(x) + '</span>';
-    }).join('') + '</span>';
-  };
-
-  /* --------------------------------------------------------------- data */
-  W.load = function () {
-    return Promise.resolve(JSON.parse(document.getElementById('seed').textContent))
-      .then(function(d){ W.data=d; W.cloud=(d.site&&d.site.cloudinary&&d.site.cloudinary.cloud)||''; return d; });
-  };
+}; W.data = D; W.cloud = (D.site&&D.site.cloudinary&&D.site.cloudinary.cloud)||''; return Promise.resolve(D); };
   W._unused = function () {
     return fetch(W.url('content.json'), { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('content.json ' + r.status); return r.json(); })
@@ -2236,12 +2304,21 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
   W.project = function (slug) {
     return W.projects().filter(function (p) { return p.slug === slug; })[0] || null;
   };
-  W.disciplines = function () {
+  W.sectors = function () {
     var seen = {}, out = [];
     W.projects().forEach(function (p) {
-      (p.disciplines || []).forEach(function (d) { if (!seen[d]) { seen[d] = 1; out.push(d); } });
+      if (p.sector && !seen[p.sector]) { seen[p.sector] = 1; out.push(p.sector); }
     });
-    return out.sort();
+    return out;
+  };
+  /* A filter that returns one result is not a filter. min defaults to 1 so
+     other pages are unaffected; the work index passes 2. */
+  W.disciplines = function (min) {
+    var count = {};
+    W.projects().forEach(function (p) {
+      (p.disciplines || []).forEach(function (d) { count[d] = (count[d] || 0) + 1; });
+    });
+    return Object.keys(count).filter(function (d) { return count[d] >= (min || 1); }).sort();
   };
 
   /* -------------------------------------------------------------- shell
@@ -2519,7 +2596,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 <script>
 WNH.boot(function (d) {
   var W = WNH;
-  var slug = 'carearch';
+  var slug = new URLSearchParams(location.search).get('p');
   var p = slug && W.project(slug);
 
   if (!p) { W.$('#missing').hidden = false; return; }

@@ -414,7 +414,13 @@ body.menu{overflow:hidden}
    ========================================================================== */
 .studio{display:grid;grid-template-columns:1fr;gap:var(--s4)}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
-.portrait{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+/* a 3:4 source cropped a few percent to sit in the 4:5 slot */
+.portrait.is-loop{background:var(--surface)}
+.loop-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:auto;aspect-ratio:240/322;min-height:100%;min-width:100%;border:0;pointer-events:none}
+.loop-play{position:absolute;inset:0;width:100%;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:0;cursor:pointer}
+.loop-play .play{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--on-ink);font-size:14px;padding-left:3px}
+.loop-play:hover .play{background:var(--accent);color:var(--ink)}
 .portrait .ph{background:linear-gradient(160deg,#D9D7D0,#B9B7AF 52%,#8E8C85)}
 .avail{
   display:inline-flex;align-items:center;gap:10px;margin-top:var(--s4);
@@ -801,6 +807,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       "video": "",
       "poster": ""
     },
+    "studioLoop": "https://vimeo.com/1224037331/1af05a27c0",
     "portfolio": {
       "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",
       "roles": [
@@ -2259,8 +2266,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       "sector": "Studio"
     }
   ]
-}
-;var SHA="preview";function J(o,s){return Promise.resolve(new Response(JSON.stringify(o),{status:s||200,headers:{"content-type":"application/json"}}));}window.fetch=function(u,o){u=String(u);o=o||{};if(u.indexOf("api/session")>-1)return J({ok:true,signedIn:true,cloud:"",folder:"wnh"});if(u.indexOf("api/login")>-1)return J({ok:true});if(u.indexOf("api/save")>-1){if((o.method||"GET")==="GET")return J({ok:true,sha:SHA,content:DATA});return J({ok:true,sha:SHA});}if(u.indexOf("api/")>-1)return J({ok:false,error:"Preview only"},400);return real.apply(this,arguments);};})();</script>
+};var SHA="preview";function J(o,s){return Promise.resolve(new Response(JSON.stringify(o),{status:s||200,headers:{"content-type":"application/json"}}));}window.fetch=function(u,o){u=String(u);o=o||{};if(u.indexOf("api/session")>-1)return J({ok:true,signedIn:true,cloud:"",folder:"wnh"});if(u.indexOf("api/login")>-1)return J({ok:true});if(u.indexOf("api/save")>-1){if((o.method||"GET")==="GET")return J({ok:true,sha:SHA,content:DATA});return J({ok:true,sha:SHA});}if(u.indexOf("api/")>-1)return J({ok:false,error:"Preview only"},400);return real.apply(this,arguments);};})();</script>
 <script>/* =============================================================================
    WNH — shared site runtime
    No framework, no build step. Loaded by every page.
@@ -2346,6 +2352,48 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     if (!v) return '';
     return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
            'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
+  };
+
+  /* a looping brand animation: no chrome, no sound, no controls */
+  W.vimeoBg = function (url) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
+  };
+
+  /* mount a loop into a box; returns false when there is nothing to mount.
+     under reduced motion nothing moves on its own — the visitor presses play. */
+  W.loop = function (box, url, title) {
+    if (!box || !W.vimeoId(url)) return false;
+    var f = document.createElement('iframe');
+    f.className = 'loop-frame';
+    f.title = title || 'Motion';
+    f.setAttribute('frameborder', '0');
+    if (W.reduce) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'loop-play';
+      b.innerHTML = '<span class="play" aria-hidden="true">&#9654;</span>';
+      b.setAttribute('aria-label', 'Play ' + (title || 'motion'));
+      b.addEventListener('click', function () {
+        f.src = W.vimeoSrc(url, true);
+        f.allow = 'autoplay; fullscreen; picture-in-picture';
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+      box.innerHTML = '';
+      box.appendChild(b);
+    } else {
+      f.src = W.vimeoBg(url);
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.setAttribute('tabindex', '-1');
+      f.setAttribute('aria-hidden', 'true');
+      box.innerHTML = '';
+      box.appendChild(f);
+    }
+    box.classList.add('is-loop');
+    return true;
   };
 
   /* -------------------------------------------------------------- media */
@@ -3294,6 +3342,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     f.appendChild(field('Cloudinary root folder', 'site.cloudinary.folder', { hint: 'Default: wnh' }));
     f.appendChild(field('Showreel — Vimeo URL', 'site.reel.vimeo',
       { hint: 'Background of the homepage hero, and the reel at the top of /portfolio.' }));
+    f.appendChild(field('Logo animation — Vimeo URL', 'site.studioLoop',
+      { hint: 'Loops silently in the Studio panel on the homepage. Leave empty for a plain block.' }));
 
     f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
     f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));

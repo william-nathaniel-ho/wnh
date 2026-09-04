@@ -355,7 +355,12 @@ body.menu{overflow:hidden}
 }
 
 /* filters */
-.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:var(--s3)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-set{display:flex;flex-direction:column;gap:14px;padding-block:var(--s3);
+  border-top:1px solid var(--line)}
+.filter-row{display:grid;grid-template-columns:1fr;gap:8px;align-items:start}
+@media(min-width:800px){.filter-row{grid-template-columns:96px minmax(0,1fr);gap:var(--s3);align-items:center}}
+.filter-lab{padding-top:2px}
 .chip{
   border:1px solid var(--line-2);border-radius:var(--pill);background:none;color:var(--text-2);
   padding:10px 16px;min-height:44px;font-size:.8125rem;font-weight:500;
@@ -410,7 +415,13 @@ body.menu{overflow:hidden}
    ========================================================================== */
 .studio{display:grid;grid-template-columns:1fr;gap:var(--s4)}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
-.portrait{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+/* a 3:4 source cropped a few percent to sit in the 4:5 slot */
+.portrait.is-loop{background:var(--surface)}
+.loop-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:auto;aspect-ratio:240/322;min-height:100%;min-width:100%;border:0;pointer-events:none}
+.loop-play{position:absolute;inset:0;width:100%;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:0;cursor:pointer}
+.loop-play .play{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--on-ink);font-size:14px;padding-left:3px}
+.loop-play:hover .play{background:var(--accent);color:var(--ink)}
 .portrait .ph{background:linear-gradient(160deg,#D9D7D0,#B9B7AF 52%,#8E8C85)}
 .avail{
   display:inline-flex;align-items:center;gap:10px;margin-top:var(--s4);
@@ -421,7 +432,7 @@ body.menu{overflow:hidden}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
 
 .cta-link{
-  display:block;padding-block:clamp(var(--s5),8vw,var(--s7));
+  display:block;width:100%;text-align:left;padding-block:clamp(var(--s5),8vw,var(--s7));
   font-size:clamp(2.4rem,9vw,7rem);font-weight:500;letter-spacing:-.04em;line-height:.98;
   transition:color .4s var(--ease);
 }
@@ -430,11 +441,15 @@ body.menu{overflow:hidden}
 
 footer{border-top:1px solid var(--line);padding-block:var(--s4)}
 .foot-grid{display:grid;grid-template-columns:1fr;gap:var(--s4)}
-@media(min-width:700px){.foot-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:700px){.foot-grid{grid-template-columns:repeat(4,1fr)}
+  .foot-grid.foot-3{grid-template-columns:repeat(3,1fr)}}
 .foot-col h4{margin:0 0 var(--s2);font-size:.6875rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--text-2)}
 .foot-col a,.foot-col p{display:flex;align-items:center;margin:0;min-height:40px;font-size:.875rem}
 .foot-col a{transition:color .3s}
 .foot-col a:hover{color:var(--accent)}
+.foot-btn{display:flex;align-items:center;min-height:40px;padding:0;font-size:.875rem;
+  color:var(--text);text-align:left;transition:color .3s}
+.foot-btn:hover{color:var(--accent)}
 .foot-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s2);margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--line)}
 
 /* ==========================================================================
@@ -525,6 +540,49 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   .rv{opacity:1;transform:none}
 }
+
+
+/* ==========================================================================
+   ENQUIRY DIALOG
+   A mailto: loses most people at the point their mail client opens, so the
+   button opens a form instead. Native <dialog> for focus handling and Esc.
+   ========================================================================== */
+.sheet-dlg{
+  border:0;padding:0;background:transparent;max-width:min(560px,92vw);width:100%;
+  color:var(--text);
+}
+.sheet-dlg::backdrop{background:rgba(11,13,20,.55);backdrop-filter:blur(6px)}
+.sheet-dlg .enq,.sheet-dlg .enq-done{
+  position:relative;background:var(--surface);border-radius:var(--r-lg);
+  padding:clamp(26px,4vw,44px);box-shadow:0 30px 80px rgba(11,13,20,.24);
+}
+.sheet-dlg h2{
+  margin:10px 0 0;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:500;
+  letter-spacing:-.03em;line-height:1.1;max-width:18ch;
+}
+.enq-note{margin:12px 0 var(--s4);color:var(--text-2);font-size:.95rem;line-height:1.55;max-width:44ch}
+.enq-x{
+  position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--text-2);
+  transition:background .25s,color .25s;
+}
+.enq-x:hover{background:var(--bg);color:var(--text)}
+.enq-f{margin-bottom:16px}
+.enq-f label{
+  display:block;margin-bottom:7px;font-size:.6875rem;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-2);
+}
+.enq-f input,.enq-f textarea{
+  width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);
+  color:var(--text);padding:12px 14px;font:inherit;font-size:1rem;resize:vertical;
+}
+.enq-f input:focus,.enq-f textarea:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:transparent}
+.enq-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.enq-err{min-height:22px;color:var(--accent-2);font-size:.875rem;line-height:1.4}
+.enq-act{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;margin-top:6px}
+.enq-alt{font-size:.8125rem;color:var(--text-2);border-bottom:1px solid var(--line-2);padding-bottom:1px}
+.enq-alt:hover{color:var(--text)}
+.enq-send:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -590,7 +648,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
   <!-- 6 — contact -->
   <section style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <a class="cta-link" data-mailto href="#">Get in touch</a>
+      <button class="cta-link" data-contact>Get in touch</button>
       <div class="cta-foot">
         <a class="pill pill-solid" data-mail data-mailto href="#"></a>
         <span class="lab" data-locations></span>
@@ -601,7 +659,176 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 </main>
 
 <div id="shell-foot"></div>
-<script type="application/json" id="seed">{
+<script>/* =============================================================================
+   WNH — shared site runtime
+   No framework, no build step. Loaded by every page.
+   ============================================================================= */
+(function (global) {
+  'use strict';
+
+  var W = {};
+
+  /* ---------------------------------------------------------------- base
+     The site has to work both at a domain root (wnhdesign.io/) and under a
+     repo subpath (user.github.io/wnh/). Root-absolute paths break the second
+     case, so the base is derived from this script's own URL instead. */
+  var BASE = (function () {
+    var s = document.currentScript;
+    if (!s) { var all = document.getElementsByTagName('script'); s = all[all.length - 1]; }
+    var src = (s && s.src) || '';
+    var i = src.indexOf('assets/js/site.js');
+    if (i > -1) return src.slice(0, i);
+    return location.pathname.replace(/[^/]*$/, '');
+  })();
+  W.base = BASE;
+  W.url = function (p) { return BASE + String(p == null ? '' : p).replace(/^\//, ''); };
+
+  /* ------------------------------------------------------------- helpers */
+  W.$  = function (s, r) { return (r || document).querySelector(s); };
+  W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  W.esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  };
+  /* One typeface with a normal ampersand, so no glyph substitution. Kept as a
+     named helper because every template calls it. */
+  W.t = function (s) { return W.esc(s); };
+
+  W.pad = function (n) { return String(n).padStart(2, '0'); };
+  W.slugify = function (s) {
+    return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  };
+
+  /* the mark, inline so it inherits currentColor and costs no extra request */
+  W.MARK = '<svg viewBox="0 0 193.99 86.03" role="img" aria-label="WNH" fill="currentColor">' +
+    '<polygon points="133.06 12.67 133.06 73.36 117.97 76.35 117.97 67.5 93.49 43.01 93.49 21.69 117.97 46.17 117.97 9.68 133.06 12.67"/>' +
+    '<polygon points="90.34 9.68 90.34 76.36 66.39 69.7 66.39 61.27 75.25 61.27 75.25 13.84 90.34 9.68"/>' +
+    '<polygon points="63.24 17.02 63.24 68.82 39.3 62.16 39.3 61.27 48.15 61.27 48.15 21.21 63.24 17.02"/>' +
+    '<polygon points="36.14 24.55 36.14 61.28 21.05 57.08 21.05 28.75 36.14 24.55"/>' +
+    '<polygon points="172.94 20.58 172.94 65.26 170.5 65.94 170.48 65.95 157.86 68.45 157.86 50.56 136.22 50.56 136.22 35.47 157.86 35.47 157.86 17.58 172.94 20.58"/>' +
+    '</svg>';
+
+  var ARROW = '<svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">' +
+    '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>';
+
+  /* --------------------------------------------------------- cloudinary */
+  var WIDTHS = [640, 960, 1440, 1920, 2560];
+  W.cloud = '';
+
+  W.cld = {
+    ok: function (id) { return !!(id && String(id).trim() && W.cloud); },
+    img: function (id, w) {
+      return 'https://res.cloudinary.com/' + W.cloud +
+             '/image/upload/f_auto,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
+    },
+    srcset: function (id) {
+      return WIDTHS.map(function (w) { return W.cld.img(id, w) + ' ' + w + 'w'; }).join(', ');
+    },
+    video: function (id) {
+      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/f_auto,q_auto,vc_auto/' + id + '.mp4';
+    },
+    poster: function (id) {
+      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/so_1,f_auto,q_auto,w_1600/' + id + '.jpg';
+    }
+  };
+
+  /* -------------------------------------------------------------- vimeo */
+  W.vimeoId = function (url) {
+    var m = String(url || '').match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-z]+))?/i);
+    return m ? { id: m[1], hash: m[2] || '' } : null;
+  };
+  W.vimeoSrc = function (url, autoplay) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
+  };
+
+  /* a looping brand animation: no chrome, no sound, no controls */
+  W.vimeoBg = function (url) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
+  };
+
+  /* mount a loop into a box; returns false when there is nothing to mount.
+     under reduced motion nothing moves on its own — the visitor presses play. */
+  W.loop = function (box, url, title) {
+    if (!box || !W.vimeoId(url)) return false;
+    var f = document.createElement('iframe');
+    f.className = 'loop-frame';
+    f.title = title || 'Motion';
+    f.setAttribute('frameborder', '0');
+    if (W.reduce) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'loop-play';
+      b.innerHTML = '<span class="play" aria-hidden="true">&#9654;</span>';
+      b.setAttribute('aria-label', 'Play ' + (title || 'motion'));
+      b.addEventListener('click', function () {
+        f.src = W.vimeoSrc(url, true);
+        f.allow = 'autoplay; fullscreen; picture-in-picture';
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+      box.innerHTML = '';
+      box.appendChild(b);
+    } else {
+      f.src = W.vimeoBg(url);
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.setAttribute('tabindex', '-1');
+      f.setAttribute('aria-hidden', 'true');
+      box.innerHTML = '';
+      box.appendChild(f);
+    }
+    box.classList.add('is-loop');
+    return true;
+  };
+
+  /* -------------------------------------------------------------- media */
+  W.cover = function (p, i, w) {
+    var c = p.cover || {};
+    if (W.cld.ok(c.src)) {
+      return '<img src="' + W.cld.img(c.src, w || 960) + '" srcset="' + W.cld.srcset(c.src) +
+             '" sizes="(max-width:760px) 92vw, (max-width:1180px) 46vw, 34vw" alt="' +
+             W.esc(c.alt || p.title) + '" loading="lazy" decoding="async">';
+    }
+    return '<div class="ph" data-tone="' + W.esc(p.tone || 'wine') + '">' +
+           '<span class="num">' + W.pad((i || 0) + 1) + '</span></div>';
+  };
+
+  /* Bento spans on a six-column grid. The pattern has period six and each row
+     sums to six, so it tiles cleanly — and the last card is widened to fill
+     whatever is left of its row, so an odd project count never ends on a hole. */
+  var SPAN_PATTERN = ['wide', '', 'half', 'half', 'wide', ''];
+  var SPAN_W = { '': 2, half: 3, wide: 4, full: 6 };
+
+  W.spans = function (n) {
+    var out = [], row = 0;
+    for (var i = 0; i < n; i++) {
+      var s = SPAN_PATTERN[i % SPAN_PATTERN.length];
+      if (row + SPAN_W[s] > 6) row = 0;
+      out.push(s);
+      row = (row + SPAN_W[s]) % 6;
+    }
+    if (n && row > 0) {
+      var need = SPAN_W[out[n - 1]] + (6 - row);
+      out[n - 1] = need >= 6 ? 'full' : need >= 4 ? 'wide' : need === 3 ? 'half' : '';
+    }
+    return out;
+  };
+
+  W.tags = function (list, onInk) {
+    return '<span class="tags">' + (list || []).map(function (x) {
+      return '<span class="tag' + (onInk ? ' tag-ink' : '') + '">' + W.esc(x) + '</span>';
+    }).join('') + '</span>';
+  };
+
+  /* --------------------------------------------------------------- data */
+  W.load = function () { var D = {
   "site": {
     "name": "WNH",
     "full": "WNH — Design & Production",
@@ -609,7 +836,6 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     "manifesto": "We don't just deliver designs; we build the infrastructure for them. Our systems let non-designers hold the brand together long after we've gone.",
     "studioCopy": "WNH works across identity, campaign, exhibition, 3D and film — and builds the guidelines, templates and tools that keep all of it consistent once it's in your team's hands.",
     "locations": [
-      "Perth",
       "Hong Kong"
     ],
     "email": "hello@wnhdesign.io",
@@ -624,20 +850,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "video": "",
       "poster": ""
     },
-    "social": [
-      {
-        "label": "Instagram",
-        "url": "#"
-      },
-      {
-        "label": "Vimeo",
-        "url": "#"
-      },
-      {
-        "label": "LinkedIn",
-        "url": "#"
-      }
-    ],
+    "studioLoop": "https://vimeo.com/1224037331/1af05a27c0",
     "portfolio": {
       "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",
       "roles": [
@@ -651,6 +864,10 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       ],
       "note": "Full case studies, references and the long version on request.",
       "statement": "I've shot in an operating theatre, run a live broadcast gallery, modelled a chainsaw and drawn a logistics icon set. What links them isn't the craft — it's that in every case somebody had to keep it going after I left. Building the thing that lets them is the part of the job I actually love."
+    },
+    "contact": {
+      "endpoint": "",
+      "note": "A sentence is enough to start. I reply within two working days."
     }
   },
   "capabilities": [
@@ -774,10 +991,16 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
   ],
   "clients": [
     "Milwaukee",
+    "TTI",
     "Hong Kong Sanatorium & Hospital",
     "HKMA",
-    "Cellmax",
+    "Vita Green 維特健靈",
+    "BananaUnder 蕉下",
     "Benoy",
+    "CAREARCH HK",
+    "和田保健貼",
+    "S.K.H. St. Christopher's Home",
+    "Cellmax",
     "Acker Merrall & Condit",
     "Compass Offices",
     "Jann Global Logistics",
@@ -788,7 +1011,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     {
       "slug": "milwaukee-breakthrough",
       "title": "Asia Breakthrough Growth",
-      "client": "Milwaukee",
+      "client": "Milwaukee — TTI",
       "year": 2022,
       "disciplines": [
         "Live Broadcast",
@@ -821,15 +1044,51 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "blocks": [
         {
           "type": "text",
+          "heading": "The brief",
+          "body": "Asia Breakthrough Growth was Milwaukee's largest regional event of 2022, and it was built to be watched live rather than reported afterwards. That decision changes everything upstream: there is no edit to fix a mistake in, and no second pass at a graphic that missed its cue.\n\nTwo roles on the same show — technical lead on the live stream, and designer of the motion graphics package running through it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Broadcast gallery during Asia Breakthrough Growth",
+          "caption": "Multi-camera gallery, live to region",
+          "size": "full"
+        },
+        {
+          "type": "text",
           "heading": "One take, no post",
-          "body": "A live broadcast has no edit to hide in. The graphics package has to be built to be called on cue rather than rendered afterwards, the camera chain has to hold for the full length of the show, and every decision is watched in real time across the region.\n\nTechnical lead on the stream and designer of the motion graphics — which meant one person owned both what was on screen and the system putting it there. On a live show that is the difference between a graphic that lands and a graphic that arrives late."
+          "body": "A broadcast graphics package is not a video. It has to be built as a set of states that can be called on cue, hold at any length, and survive being cut to from a camera that arrived a beat early.\n\nThe technical chain — cameras, switching, encoding, stream — had to hold for the full run of the show, in a room full of people who could not be asked to wait."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage and product reveal"
+            },
+            {
+              "src": "",
+              "alt": "Presenter to camera"
+            },
+            {
+              "src": "",
+              "alt": "Floor team before broadcast"
+            }
+          ],
+          "caption": "Product reveal, presenter position, floor team"
+        },
+        {
+          "type": "text",
+          "heading": "Owning both ends",
+          "body": "Designing the graphics and running the stream is usually two people in two rooms. Doing both meant the package was designed around what the switcher could actually do, and the show was cut around what the graphics needed.\n\nOn a live show that is the difference between a graphic that lands and a graphic that arrives late."
         },
         {
           "type": "vimeo",
           "url": "",
-          "caption": "Broadcast package"
+          "caption": "Asia Breakthrough Growth — broadcast package"
         }
-      ]
+      ],
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "hksh-centenary",
@@ -839,43 +1098,112 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "disciplines": [
         "Brand",
         "Exhibition",
-        "Film"
+        "3D",
+        "Live Broadcast"
       ],
-      "role": "Design Direction, 3D, Exhibition, Film",
+      "role": "Design, 3D & Exhibition, Broadcast Technical",
       "deep": true,
       "tone": "hksh",
-      "summary": "The centenary programme for Hong Kong Sanatorium & Hospital — a 3D centenary mark, the ceremony stage, a museum exhibition, a six-part film series and the web showcase that held it together.",
+      "summary": "The centenary programme for Hong Kong Sanatorium & Hospital — commemorative design, an exhibition taken from 3D model to finished build, and the technical side of the opening ceremony's online broadcast.",
       "credits": [
         {
-          "role": "Design Direction",
+          "role": "Commemorative design",
           "name": "WNH"
         },
         {
-          "role": "3D & Exhibition",
+          "role": "Exhibition — 3D to build",
           "name": "WNH"
         },
         {
-          "role": "Film",
+          "role": "Opening ceremony — broadcast technical",
           "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Hong Kong Sanatorium & Hospital"
         }
       ],
       "blocks": [
         {
           "type": "text",
-          "heading": "One anniversary, six surfaces",
-          "body": "A centenary is not a logo. It is a stage set, an exhibition at the Hong Kong Museum of Medical Sciences, a film series shot inside working theatres and labs, a website, and a hundred pieces of print — all of which have to look like one year.\n\nThe 100 mark was modelled in 3D first so it could exist as a physical sculpture on stage before it was ever a flat graphic."
+          "heading": "A hundred years is not a logo",
+          "body": "Hong Kong Sanatorium & Hospital turned a hundred in 2022. A centenary of that size lands as a ceremony, an exhibition, a film series and several hundred commemorative pieces — and all of it has to read as one year rather than six separate jobs.\n\n醫護傳承 · 卓越百年 — A Century of Clinical Excellence."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Centenary opening ceremony with the 3D 100 mark",
+          "caption": "The opening ceremony",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Designed it, then ran the broadcast of it",
+          "body": "Alongside the commemorative design, the technical side of the opening ceremony's online broadcast was mine — which meant the same person who designed what was on the stage was responsible for how it reached everyone who could not be in the room.\n\nThat is an unusual pairing, and a useful one. Ceremony graphics get designed for the room and then fall apart on a stream; here they were built knowing exactly what the stream would do to them."
+        },
+        {
+          "type": "text",
+          "heading": "The mark had to be an object first",
+          "body": "The centenary mark was modelled in 3D before it was drawn flat, because it had to exist as a physical sculpture on the ceremony stage. Designing it as an object first meant the printed version inherited the real thing's proportions, rather than the sculpture being a thickened copy of a logo."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Centenary mark, front view"
+            },
+            {
+              "src": "",
+              "alt": "Centenary mark, side view"
+            },
+            {
+              "src": "",
+              "alt": "Stage sculpture in place"
+            }
+          ],
+          "caption": "Front, side, and as built"
+        },
+        {
+          "type": "text",
+          "heading": "From three-dimensional model to finished build",
+          "body": "The centenary exhibition set out a hundred years of the hospital's part in medical advances in Hong Kong — healthcare delivery, medical education and clinical research, and how the institution held its standard of care through each of them.\n\nThe framework was built from 3D models through to the finished thing on the floor. Exhibition work is unforgiving in a way print is not: a wrong measurement is not a reprint, it is a carpenter."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Exhibition framework in 3D"
+            },
+            {
+              "src": "",
+              "alt": "Wall graphics and archive vitrines"
+            },
+            {
+              "src": "",
+              "alt": "Uniform display and showcase items"
+            }
+          ],
+          "caption": "3D framework, wall graphics, showcase"
+        },
+        {
+          "type": "text",
+          "heading": "Filmed where the work happens",
+          "body": "A film series shot inside working theatres, labs and consultation rooms rather than on a set. Hospitals are difficult places to film in and impossible to fake, which is the reason to do it."
         },
         {
           "type": "vimeo",
           "url": "",
-          "caption": "Centenary film series"
+          "caption": "A Century of Clinical Excellence — film series"
         }
       ],
       "cover": {
         "src": "",
         "alt": "A Century of Clinical Excellence"
       },
-      "featured": true
+      "featured": true,
+      "sector": "Health & Care"
     },
     {
       "slug": "hkma-60",
@@ -895,7 +1223,42 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         {
           "type": "text",
           "heading": "An anniversary that had to do work",
-          "body": "The 60 mark was built on a construction grid with clear-space and colour rules, because it had to survive a year of use by people who are not designers.\n\nIt then became a content platform: a hundred filmed interviews with Hong Kong business leaders, indexed and browsable."
+          "body": "The Hong Kong Management Association turned sixty. The mark was built on a construction grid with clear-space and colour rules from the start, because it was going to spend a year being applied by people who are not designers — event teams, printers, partner organisations."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "HKMA 60 mark with construction grid and clear space",
+          "caption": "Construction, clear space, colour",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "From a mark to a platform",
+          "body": "The anniversary then became content. Over a hundred filmed interviews with Hong Kong business leaders, indexed and browsable by field — a body of leadership insight rather than a commemorative page.\n\nDesigning the identity and building the platform in the same hands meant the site was laid out around what the interviews actually were, not around a template."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Leaders index"
+            },
+            {
+              "src": "",
+              "alt": "Interview page"
+            },
+            {
+              "src": "",
+              "alt": "Field selection"
+            }
+          ],
+          "caption": "The interview platform"
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "HKMA 60 — interview series"
         }
       ],
       "cover": {
@@ -908,12 +1271,103 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true
+      "featured": true,
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "carearch",
+      "title": "A Mark Built From People",
+      "client": "CAREARCH HK 善延護理",
+      "year": 2023,
+      "disciplines": [
+        "Brand",
+        "Digital"
+      ],
+      "role": "Identity System, Web Design",
+      "featured": true,
+      "deep": true,
+      "tone": "hksh",
+      "summary": "A full identity for a Hong Kong nursing agency — a mark drawn from human figures arranged into a care cross, documented with construction, type and colour rules, and applied from ID badge to bilingual website.",
+      "cover": {
+        "src": "",
+        "alt": "CAREARCH HK identity system"
+      },
+      "credits": [
+        {
+          "role": "Identity & Web",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "CAREARCH HK 善延護理有限公司"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The mark is the service",
+          "body": "A nursing agency places people. So the mark is made of people — figures arranged into the plus of a care symbol, each one a different colour because the whole point is that they are individuals being matched to a family.\n\nIt reads as a medical cross at a glance and as a group of people the moment you look properly."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Primary logo and construction grid",
+          "caption": "Primary logo, and the grid it is built on",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Documented so it survives",
+          "body": "Construction and clear space on a grid. DFYuanHK for the Chinese, tracked +100; Gotham Bold for the Latin, tracked +10. A five-colour system. Three icon treatments and four secondary lockups, so there is a correct answer for a badge, a favicon, an English-only context and a stacked one.\n\nThis is the part clients skip and then quietly regret. An agency's brand gets applied by nurses, coordinators and printers — never by the designer."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Type specification"
+            },
+            {
+              "src": "",
+              "alt": "Colour system"
+            },
+            {
+              "src": "",
+              "alt": "Icon and secondary lockups"
+            }
+          ],
+          "caption": "Type, colour, and the secondary set"
+        },
+        {
+          "type": "text",
+          "heading": "Down to the lanyard",
+          "body": "Business cards, the staff ID badge on its lanyard, and a bilingual site built around the one thing a family actually arrives to do: search for care by district and service type.\n\n培育醫護專業 · 傳承愛心使命."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Business cards"
+            },
+            {
+              "src": "",
+              "alt": "Staff ID badge and lanyard"
+            },
+            {
+              "src": "",
+              "alt": "Desktop and mobile site"
+            }
+          ],
+          "caption": "Applications"
+        }
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "milwaukee-house-builder",
       "title": "House Builder",
-      "client": "Milwaukee",
+      "client": "Milwaukee — TTI",
       "year": 2023,
       "disciplines": [
         "3D",
@@ -927,8 +1381,48 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "blocks": [
         {
           "type": "text",
-          "heading": "Brand into a game",
-          "body": "A power-tool brand in a build-a-house game only works if the tools read as the real thing. Every model, texture and UI state was built from the product line, so a screenshot still looks like Milwaukee.\n\n3D modelling, game visual design, motion graphics and rendering, all in-house."
+          "heading": "A power-tool brand, in a game",
+          "body": "House Builder puts Milwaukee's tools in a player's hands to build houses. A tool brand in a game only survives if the tools read as the real product — the moment a chainsaw becomes a generic game asset, the whole thing stops being Milwaukee and becomes an advert for nobody."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "House Builder key visual with tools and timber house",
+          "caption": "Key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Every texture is a product decision",
+          "body": "Levels are named after timber — spruce, oak, redwood, kauri — and each has its own plank and grain treatment, because the difference between woods is the difference between which tool you reach for.\n\nThe tool cards carry the real M18 line-up. The action set — fastening, cutting, cleaning — maps to product categories rather than game verbs."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Timber and plank texture study"
+            },
+            {
+              "src": "",
+              "alt": "In-game tool selection UI"
+            },
+            {
+              "src": "",
+              "alt": "Level progression screens"
+            }
+          ],
+          "caption": "Texture study, tool UI, level progression"
+        },
+        {
+          "type": "text",
+          "heading": "Modelled, lit, rendered, animated",
+          "body": "3D modelling, game visual design, motion graphics and rendering, all in one pipeline — which is what let the marketing renders and the in-game art stay the same object rather than two interpretations of it."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "House Builder — 3D animation"
         }
       ],
       "cover": {
@@ -941,7 +1435,126 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true
+      "featured": true,
+      "sector": "Consumer & Retail"
+    },
+    {
+      "slug": "bananaunder",
+      "title": "Pocket, Capsule, Mini",
+      "client": "BananaUnder",
+      "year": 2021,
+      "disciplines": [
+        "3D",
+        "Product",
+        "Campaign"
+      ],
+      "role": "3D Product Visualisation",
+      "featured": false,
+      "deep": false,
+      "tone": "cellmax",
+      "summary": "3D product key visuals for the sun-protection brand's umbrella lines — 口袋系列, 膠囊系列 and 小黑傘系列 — each series given its own colour world while staying one family.",
+      "cover": {
+        "src": "",
+        "alt": "BananaUnder umbrella series key visual"
+      },
+      "credits": [
+        {
+          "role": "3D & Art Direction",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "BananaUnder 蕉下"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "One product, three arguments",
+          "body": "Three umbrella series, each sold on a different claim — pocket-sized and ultralight, capsule in a range of colours, the mini black umbrella blocking 99% of UV. The same object photographed three ways would have made them look like the same thing.\n\nBuilt in 3D instead: each series gets its own colour world, light and set of floating forms, so a shopper can tell the lines apart at a glance while the brand still reads as one."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "口袋系列 — pocket series"
+            },
+            {
+              "src": "",
+              "alt": "膠囊系列 CAPSULE 4.0"
+            },
+            {
+              "src": "",
+              "alt": "小黑傘系列 — mini black umbrella"
+            }
+          ],
+          "caption": "Three series, three colour worlds"
+        },
+        {
+          "type": "text",
+          "heading": "Why render rather than shoot",
+          "body": "A studio shoot fixes you to the samples that exist on the day. Rendering means the whole range can be shown in every colourway, at a consistent light and scale, before the range is even finished."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Product key visual detail",
+          "caption": "Rendered, not shot",
+          "size": "full"
+        }
+      ],
+      "sector": "Consumer & Retail"
+    },
+    {
+      "slug": "vita-green",
+      "title": "Vita Calm",
+      "client": "Vita Green 維特健靈",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "Digital"
+      ],
+      "role": "Key Visual, Campaign Design",
+      "featured": true,
+      "deep": false,
+      "tone": "hkma",
+      "summary": "Campaign and e-commerce visuals for Hong Kong's number-one sleep supplement — a night world that carries a hard retail offer without turning into a discount banner.",
+      "cover": {
+        "src": "",
+        "alt": "Vita Green Vita Calm campaign key visual"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Vita Green 維特健靈"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A premium claim and a hard offer, in one frame",
+          "body": "寧心 is a four-year category leader with a gift-with-purchase mechanic attached — buy nine boxes and a smartwatch comes with it. Those two jobs pull in opposite directions: the first wants calm and authority, the second wants urgency.\n\nThe answer is a night sky rather than a sale colour. Deep navy and gold hold the No.1 claim; the offer sits inside the same world as gold-edged badges instead of being pasted on top of it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Vita Calm campaign banner",
+          "caption": "The banner, at full retail width",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Ingredients as evidence",
+          "body": "GABA, L-theanine, and the herbs — 靈芝, 柴胡, 酸棗仁, 當歸丹參 — floated as lit spheres beside the pack. In Hong Kong health retail the ingredient list is the argument, so it gets treated as imagery rather than as small print."
+        }
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "dsa-52",
@@ -959,8 +1572,38 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "blocks": [
         {
           "type": "text",
+          "heading": "功在不捨，傲而不凡",
+          "body": "Campaign identity for the 52nd Distinguished Salesperson Award — Pride in Perseverance. An awards programme is a stress test for a key visual: it has to hold at the scale of a stage backdrop and at the size of a medal ribbon, in two languages, on the same day."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "DSA 52 key visual",
+          "caption": "The key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
           "heading": "One visual, every surface",
-          "body": "功在不捨，傲而不凡. The key visual had to hold at the scale of a stage backdrop and at the size of a medal ribbon, in two languages, across a print brochure and a phone screen."
+          "body": "Stage backdrop, digital panels, roll-up banners, the winners' brochure, invitations, and the award itself. Each one is a different production process with a different tolerance, so the visual was built from elements that could be separated and re-weighted rather than a single fixed composition."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage backdrop and digital panels"
+            },
+            {
+              "src": "",
+              "alt": "Winners' brochure spread"
+            },
+            {
+              "src": "",
+              "alt": "Award ribbon and medal"
+            }
+          ],
+          "caption": "Backdrop, brochure, award"
         }
       ],
       "cover": {
@@ -973,8 +1616,133 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true,
-      "deep": false
+      "featured": false,
+      "deep": false,
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "benoy-love-work",
+      "title": "Love Work",
+      "client": "Benoy",
+      "year": 2021,
+      "disciplines": [
+        "Motion",
+        "Film",
+        "Presentation"
+      ],
+      "role": "Motion Graphics, Film, Internal Comms",
+      "featured": false,
+      "deep": false,
+      "tone": "compass",
+      "summary": "An ongoing engagement with the architecture practice — the APAC monthly report as motion graphics, an animated argument for working from any location, project films for client presentations, and internal award banners.",
+      "cover": {
+        "src": "",
+        "alt": "Benoy motion graphics and film"
+      },
+      "credits": [
+        {
+          "role": "Motion & Film",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Benoy"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "First Friday",
+          "body": "The APAC marketing group presents a monthly report. Turning it into motion graphics was the first piece of motion work for Benoy — a recurring format rather than a one-off film, which means it has to be quick to rebuild every month and still look deliberate."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "First Friday title sequence",
+          "caption": "First Friday — monthly report titles",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Love Work",
+          "body": "Benoy put forward a position on the post-COVID work environment: that work happens from any location. It needed a presentation and an animated video to argue it.\n\nThe animation had to carry an argument rather than decorate one — isometric diagrams that show what actually changes when an office stops being a single address."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Post-COVID workplace diagram"
+            },
+            {
+              "src": "",
+              "alt": "Working from any location"
+            }
+          ],
+          "caption": "The Love Work argument, drawn"
+        },
+        {
+          "type": "text",
+          "heading": "Project films and award banners",
+          "body": "Films for a run of architectural projects, cut for presenting to clients. And internal banners announcing the projects that had won architectural prizes — small work, but it is what a practice's own people see every day."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Project film"
+        }
+      ],
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "wada",
+      "title": "A Dehumidifier You Wear",
+      "client": "和田保健貼",
+      "year": 2024,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "3D"
+      ],
+      "role": "Key Visual, Retail Design",
+      "featured": false,
+      "deep": false,
+      "tone": "cellmax",
+      "summary": "Retail campaign for a Japanese-made health patch — a celebrity endorsement, three benefit claims and two product variants, held together by one idea a shopper understands in a second.",
+      "cover": {
+        "src": "",
+        "alt": "和田保健貼 retail poster"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "和田保健貼"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "貼上身之抽濕機",
+          "body": "A patch that draws damp out of the body is a hard thing to sell in a sentence. 貼上身之抽濕機 — a dehumidifier you stick on — does it in five characters, and the whole poster is built to deliver that line rather than to list features.\n\n告別水腫 · 回復幼腿 · 改善酸痛 arrive as soft bubbles around it, so the benefits support the idea instead of competing with it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "和田保健貼 retail poster",
+          "caption": "The poster",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Endorsement, accreditation, and two SKUs",
+          "body": "Hong Kong health retail runs on trust markers: a celebrity user, an association accreditation, 日本製造. Each needs its own place in the hierarchy or they cancel each other out.\n\nThe two variants — 竹酢 and 唐辛子 — are shown as packs rather than as flat swatches, and the 3D foot and hand renders show where the thing actually goes. That last part matters more than it sounds: most shoppers have never used one."
+        }
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "cellmax",
@@ -989,7 +1757,43 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "role": "Design, Art Direction",
       "tone": "cellmax",
       "summary": "Anniversary identity and collateral for the skincare brand — retail display, leaflets, brochures and a social system that keeps the range looking like one family.",
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Fifteen years, one shelf",
+          "body": "An anniversary mark for a skincare brand, extended across retail display, leaflets, brochures and social. Beauty collateral fails in a specific way: every product gets its own treatment until the range stops looking like one brand on the shelf."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Cellmax fifteenth anniversary key visual",
+          "caption": "Anniversary key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "A family, not a set of one-offs",
+          "body": "The system fixes the proportions, the colour behaviour and the type relationship, so a new product or a new promotion joins the family instead of restarting it."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Retail display"
+            },
+            {
+              "src": "",
+              "alt": "Leaflet and brochure"
+            },
+            {
+              "src": "",
+              "alt": "Social key visuals"
+            }
+          ],
+          "caption": "Display, print, social"
+        }
+      ],
       "cover": {
         "src": "",
         "alt": "Fifteen Years"
@@ -1000,8 +1804,9 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true,
-      "deep": false
+      "featured": false,
+      "deep": false,
+      "sector": "Health & Care"
     },
     {
       "slug": "compass-web-tools",
@@ -1013,7 +1818,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         "Design Systems"
       ],
       "role": "Design & Build",
-      "featured": true,
+      "featured": false,
       "deep": true,
       "tone": "compass",
       "summary": "A suite of hand-built, single-file web tools that let a marketing team across nine cities produce on-brand collateral without a designer in the room.",
@@ -1036,14 +1841,24 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         {
           "type": "text",
           "heading": "The problem",
-          "body": "Nine cities, one brand, and a marketing team that needed a one-pager by Thursday. Every request routed through a designer, so every request waited.\n\nThe fix was not a template library. It was a set of tools that make the brand the path of least resistance."
+          "body": "Nine cities, one brand, and a marketing team that needed a one-pager by Thursday. Every request routed through a designer, so every request waited — and the further from head office, the longer the wait and the looser the brand.\n\nThe fix was not a template library. Templates get edited until they are not templates."
         },
         {
           "type": "image",
           "src": "",
-          "alt": "One-pager builder interface",
-          "size": "full",
-          "caption": "One-Pager Builder — brand rules enforced by the tool, not by review"
+          "alt": "One-Pager Builder interface",
+          "caption": "Brand rules enforced by the tool, not by review",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Make the brand the easy path",
+          "body": "Each tool is a single self-contained HTML file. It holds the type, colour, spacing and logo rules, and it will not produce something off-brand because there is no control that lets it.\n\nA marketer fills in the content, the tool does the design. The output is on-brand because it could not have been anything else."
+        },
+        {
+          "type": "quote",
+          "text": "The brand stops being a document people are asked to read, and becomes the shape of the tool they are already using.",
+          "attribution": "The idea the suite runs on"
         },
         {
           "type": "stats",
@@ -1062,7 +1877,121 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
             }
           ]
         }
-      ]
+      ],
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "st-christophers",
+      "title": "Seventy Dollars a Month",
+      "client": "S.K.H. St. Christopher's Home 聖公會聖基道兒童院",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Social",
+        "Charity"
+      ],
+      "role": "Campaign Design",
+      "featured": false,
+      "deep": false,
+      "tone": "opera",
+      "summary": "A child sponsorship campaign for the children's home's ninetieth year — 童愛傳承, and one number the reader has to be able to say yes to.",
+      "cover": {
+        "src": "",
+        "alt": "小小助養人計劃 campaign"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "S.K.H. St. Christopher's Home"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The number does the asking",
+          "body": "小小助養人計劃 — the Little Sponsor Programme. Charity work fails when the ask is buried under the mission statement. Here 每月70元 sits on its own card at the bottom of the frame, at a size nothing else competes with, so the reader reaches a decision rather than a feeling.\n\n童愛傳承 above it carries the ninetieth year — the argument that this is a thing being handed on, not launched."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "小小助養人計劃 campaign visual",
+          "caption": "The ask, and the year it sits in",
+          "size": "full"
+        }
+      ],
+      "sector": "Culture & Non-profit"
+    },
+    {
+      "slug": "hksh-open-day",
+      "title": "Open Day",
+      "client": "Hong Kong Sanatorium & Hospital",
+      "year": 2023,
+      "disciplines": [
+        "Exhibition",
+        "Campaign",
+        "Print"
+      ],
+      "role": "Booth System, Graphics",
+      "featured": false,
+      "deep": false,
+      "tone": "hksh",
+      "summary": "A modular booth system for a hospital open day built around diabetes education — measuring stations, interactive panels and take-home print that a nursing team could set up and run without a designer present.",
+      "cover": {
+        "src": "",
+        "alt": "HKSH open day booth system"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Hong Kong Sanatorium & Hospital"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Health education has to be handled",
+          "body": "健康你「圖」多少 — an open day where visitors check their own numbers. Blood sugar readings, a myth-busting game, a measuring wheel: the graphics are not there to be admired, they are there to be touched by strangers and explained by a nurse in thirty seconds."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Measuring station"
+            },
+            {
+              "src": "",
+              "alt": "Blood sugar panel"
+            },
+            {
+              "src": "",
+              "alt": "Myth-busting game"
+            }
+          ],
+          "caption": "Stations across the floor"
+        },
+        {
+          "type": "text",
+          "heading": "Built to be run by the ward, not the studio",
+          "body": "The stands are modular and repeatable, so the same kit works in a lobby, a corridor or a hall, and the team running it can set it up themselves. Leaflets and take-home print carry the same system, so what a visitor leaves with matches what they just stood in front of."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Take-home leaflets and print",
+          "caption": "What visitors take home",
+          "size": "full"
+        }
+      ],
+      "sector": "Health & Care"
     },
     {
       "slug": "jann-global",
@@ -1075,7 +2004,43 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "role": "Identity System",
       "tone": "logistics",
       "summary": "A complete identity for a freight company — mark, typographic spec, a custom set of 3D logistics icons, colour system and full stationery.",
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A freight company that had to look like one",
+          "body": "A complete identity for a logistics business — mark, typographic specification, colour system and full stationery, documented so it could be used without asking."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Jann Global Logistics identity",
+          "caption": "The mark and colour system",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Icons as part of the system",
+          "body": "Logistics companies drown in stock icons that never match. This one got a custom set, modelled in 3D and lit consistently, so a diagram of a service reads as the same brand as the letterhead."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Custom 3D logistics icon set"
+            },
+            {
+              "src": "",
+              "alt": "Typographic specification"
+            },
+            {
+              "src": "",
+              "alt": "Stationery"
+            }
+          ],
+          "caption": "Icons, type spec, stationery"
+        }
+      ],
       "cover": {
         "src": "",
         "alt": "Jann Global Logistics"
@@ -1087,7 +2052,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "sing-ping-opera",
@@ -1102,7 +2068,48 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "role": "Identity, Film, Content",
       "tone": "opera",
       "summary": "Bilingual identity and performance content for a London Cantonese opera association — logo lockups in Chinese and English, stage films and a social system for a four-hundred-year-old art form.",
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Two scripts, one voice",
+          "body": "Identity and performance content for a London Cantonese opera association. The mark had to work in Chinese and English without one being a translation of the other — 昇平粵苑 set to sit beside its English lockup as an equal, not a subtitle."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "昇平粵苑 logo lockups, Chinese and English",
+          "caption": "Bilingual lockups",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "The stage is the campaign",
+          "body": "For a four-hundred-year-old art form, the argument for an audience is made by the performance itself. The content system is built around stage photography and film rather than graphics about opera."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage performance"
+            },
+            {
+              "src": "",
+              "alt": "Performance film still"
+            },
+            {
+              "src": "",
+              "alt": "Instagram content set"
+            }
+          ],
+          "caption": "Stage, film, social"
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Performance film"
+        }
+      ],
       "cover": {
         "src": "",
         "alt": "Keeping the Songs"
@@ -1114,7 +2121,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         }
       ],
       "featured": false,
-      "deep": false
+      "deep": false,
+      "sector": "Culture & Non-profit"
     },
     {
       "slug": "acker-social-system",
@@ -1159,14 +2167,19 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         {
           "type": "image",
           "src": "",
-          "alt": "Grid of Instagram posts",
-          "size": "full",
-          "caption": "Instagram grid — one voice, three post shapes"
+          "alt": "Instagram grid",
+          "caption": "One voice, three post shapes",
+          "size": "full"
         },
         {
           "type": "quote",
           "text": "Say the wine, say why it matters, stop.",
           "attribution": "The rule the whole system runs on"
+        },
+        {
+          "type": "text",
+          "heading": "Written twice, not translated once",
+          "body": "RedNote posts are written natively in Chinese against their own platform conventions. The two languages share a position and a set of rules, not a source text."
         },
         {
           "type": "images",
@@ -1203,7 +2216,8 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
             }
           ]
         }
-      ]
+      ],
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "compass-tokyo",
@@ -1233,11 +2247,26 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "blocks": [
         {
           "type": "text",
-          "heading": "One week",
-          "body": "Two centres, a launch date that had already been announced, and no photography yet. The drawn network map became the hero because it was the one asset that didn't depend on a shoot."
+          "heading": "One week, no photography",
+          "body": "Two new Tokyo centres, a launch date that had already been announced, and no photography yet. The drawn network map became the hero because it was the one asset that did not depend on a shoot."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Drawn network map"
+            },
+            {
+              "src": "",
+              "alt": "Bilingual one-pager"
+            }
+          ],
+          "caption": "Map and collateral"
         }
       ],
-      "deep": false
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
       "slug": "wnh-scroll-world",
@@ -1267,151 +2296,20 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       ],
       "blocks": [
         {
-          "type": "vimeo",
-          "url": "",
-          "caption": "Seven Scenes — continuous camera, no cuts"
-        },
-        {
           "type": "text",
           "heading": "One camera, no cuts",
-          "body": "Scroll position drives video currentTime. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you can't cut, every transition has to be designed."
+          "body": "Scroll position drives video time. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you cannot cut, every transition has to be designed rather than edited."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Seven Scenes — continuous camera"
         }
-      ]
+      ],
+      "sector": "Studio"
     }
   ]
-}
-</script>
-<script>/* =============================================================================
-   WNH — shared site runtime
-   No framework, no build step. Loaded by every page.
-   ============================================================================= */
-(function (global) {
-  'use strict';
-
-  var W = {};
-
-  /* ---------------------------------------------------------------- base
-     The site has to work both at a domain root (wnhdesign.io/) and under a
-     repo subpath (user.github.io/wnh/). Root-absolute paths break the second
-     case, so the base is derived from this script's own URL instead. */
-  var BASE = (function () {
-    var s = document.currentScript;
-    if (!s) { var all = document.getElementsByTagName('script'); s = all[all.length - 1]; }
-    var src = (s && s.src) || '';
-    var i = src.indexOf('assets/js/site.js');
-    if (i > -1) return src.slice(0, i);
-    return location.pathname.replace(/[^/]*$/, '');
-  })();
-  W.base = BASE;
-  W.url = function (p) { return BASE + String(p == null ? '' : p).replace(/^\//, ''); };
-
-  /* ------------------------------------------------------------- helpers */
-  W.$  = function (s, r) { return (r || document).querySelector(s); };
-  W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-
-  W.esc = function (s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  };
-  /* One typeface with a normal ampersand, so no glyph substitution. Kept as a
-     named helper because every template calls it. */
-  W.t = function (s) { return W.esc(s); };
-
-  W.pad = function (n) { return String(n).padStart(2, '0'); };
-  W.slugify = function (s) {
-    return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  };
-
-  /* the mark, inline so it inherits currentColor and costs no extra request */
-  W.MARK = '<svg viewBox="0 0 193.99 86.03" role="img" aria-label="WNH" fill="currentColor">' +
-    '<polygon points="133.06 12.67 133.06 73.36 117.97 76.35 117.97 67.5 93.49 43.01 93.49 21.69 117.97 46.17 117.97 9.68 133.06 12.67"/>' +
-    '<polygon points="90.34 9.68 90.34 76.36 66.39 69.7 66.39 61.27 75.25 61.27 75.25 13.84 90.34 9.68"/>' +
-    '<polygon points="63.24 17.02 63.24 68.82 39.3 62.16 39.3 61.27 48.15 61.27 48.15 21.21 63.24 17.02"/>' +
-    '<polygon points="36.14 24.55 36.14 61.28 21.05 57.08 21.05 28.75 36.14 24.55"/>' +
-    '<polygon points="172.94 20.58 172.94 65.26 170.5 65.94 170.48 65.95 157.86 68.45 157.86 50.56 136.22 50.56 136.22 35.47 157.86 35.47 157.86 17.58 172.94 20.58"/>' +
-    '</svg>';
-
-  var ARROW = '<svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">' +
-    '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>';
-
-  /* --------------------------------------------------------- cloudinary */
-  var WIDTHS = [640, 960, 1440, 1920, 2560];
-  W.cloud = '';
-
-  W.cld = {
-    ok: function (id) { return !!(id && String(id).trim() && W.cloud); },
-    img: function (id, w) {
-      return 'https://res.cloudinary.com/' + W.cloud +
-             '/image/upload/f_auto,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
-    },
-    srcset: function (id) {
-      return WIDTHS.map(function (w) { return W.cld.img(id, w) + ' ' + w + 'w'; }).join(', ');
-    },
-    video: function (id) {
-      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/f_auto,q_auto,vc_auto/' + id + '.mp4';
-    },
-    poster: function (id) {
-      return 'https://res.cloudinary.com/' + W.cloud + '/video/upload/so_1,f_auto,q_auto,w_1600/' + id + '.jpg';
-    }
-  };
-
-  /* -------------------------------------------------------------- vimeo */
-  W.vimeoId = function (url) {
-    var m = String(url || '').match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-z]+))?/i);
-    return m ? { id: m[1], hash: m[2] || '' } : null;
-  };
-  W.vimeoSrc = function (url, autoplay) {
-    var v = W.vimeoId(url);
-    if (!v) return '';
-    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
-           'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
-  };
-
-  /* -------------------------------------------------------------- media */
-  W.cover = function (p, i, w) {
-    var c = p.cover || {};
-    if (W.cld.ok(c.src)) {
-      return '<img src="' + W.cld.img(c.src, w || 960) + '" srcset="' + W.cld.srcset(c.src) +
-             '" sizes="(max-width:760px) 92vw, (max-width:1180px) 46vw, 34vw" alt="' +
-             W.esc(c.alt || p.title) + '" loading="lazy" decoding="async">';
-    }
-    return '<div class="ph" data-tone="' + W.esc(p.tone || 'wine') + '">' +
-           '<span class="num">' + W.pad((i || 0) + 1) + '</span></div>';
-  };
-
-  /* Bento spans on a six-column grid. The pattern has period six and each row
-     sums to six, so it tiles cleanly — and the last card is widened to fill
-     whatever is left of its row, so an odd project count never ends on a hole. */
-  var SPAN_PATTERN = ['wide', '', 'half', 'half', 'wide', ''];
-  var SPAN_W = { '': 2, half: 3, wide: 4, full: 6 };
-
-  W.spans = function (n) {
-    var out = [], row = 0;
-    for (var i = 0; i < n; i++) {
-      var s = SPAN_PATTERN[i % SPAN_PATTERN.length];
-      if (row + SPAN_W[s] > 6) row = 0;
-      out.push(s);
-      row = (row + SPAN_W[s]) % 6;
-    }
-    if (n && row > 0) {
-      var need = SPAN_W[out[n - 1]] + (6 - row);
-      out[n - 1] = need >= 6 ? 'full' : need >= 4 ? 'wide' : need === 3 ? 'half' : '';
-    }
-    return out;
-  };
-
-  W.tags = function (list, onInk) {
-    return '<span class="tags">' + (list || []).map(function (x) {
-      return '<span class="tag' + (onInk ? ' tag-ink' : '') + '">' + W.esc(x) + '</span>';
-    }).join('') + '</span>';
-  };
-
-  /* --------------------------------------------------------------- data */
-  W.load = function () {
-    return Promise.resolve(JSON.parse(document.getElementById('seed').textContent))
-      .then(function(d){ W.data=d; W.cloud=(d.site&&d.site.cloudinary&&d.site.cloudinary.cloud)||''; return d; });
-  };
+}; W.data = D; W.cloud = (D.site&&D.site.cloudinary&&D.site.cloudinary.cloud)||''; return Promise.resolve(D); };
   W._unused = function () {
     return fetch(W.url('content.json'), { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('content.json ' + r.status); return r.json(); })
@@ -1425,12 +2323,21 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
   W.project = function (slug) {
     return W.projects().filter(function (p) { return p.slug === slug; })[0] || null;
   };
-  W.disciplines = function () {
+  W.sectors = function () {
     var seen = {}, out = [];
     W.projects().forEach(function (p) {
-      (p.disciplines || []).forEach(function (d) { if (!seen[d]) { seen[d] = 1; out.push(d); } });
+      if (p.sector && !seen[p.sector]) { seen[p.sector] = 1; out.push(p.sector); }
     });
-    return out.sort();
+    return out;
+  };
+  /* A filter that returns one result is not a filter. min defaults to 1 so
+     other pages are unaffected; the work index passes 2. */
+  W.disciplines = function (min) {
+    var count = {};
+    W.projects().forEach(function (p) {
+      (p.disciplines || []).forEach(function (d) { count[d] = (count[d] || 0) + 1; });
+    });
+    return Object.keys(count).filter(function (d) { return count[d] >= (min || 1); }).sort();
   };
 
   /* -------------------------------------------------------------- shell
@@ -1447,7 +2354,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
           '<a href="' + W.url('#studio') + '">Studio</a>' +
         '</nav>' +
-        '<a class="pill nav-cta" data-mailto href="#">Start a project ' + ARROW + '</a>' +
+        '<button class="pill nav-cta" data-contact>Start a project ' + ARROW + '</button>' +
         '<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">' +
           '<i></i><i></i><i></i></button>' +
       '</div></header>' +
@@ -1462,15 +2369,15 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 
     var foot = W.$('#shell-foot');
     if (foot) foot.innerHTML =
-      '<footer><div class="wrap"><div class="foot-grid">' +
+      '<footer><div class="wrap"><div class="foot-grid foot-3">' +
         '<div class="foot-col"><h4>Studio</h4><p data-full></p><p data-locations></p></div>' +
         '<div class="foot-col"><h4>Index</h4>' +
           '<a href="' + W.url('work/') + '">Work</a>' +
           '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
-          '<a href="' + W.url('#studio') + '">Studio</a>' +
-          '<a href="' + W.url('#contact') + '">Contact</a></div>' +
-        '<div class="foot-col" data-social><h4>Elsewhere</h4></div>' +
-        '<div class="foot-col"><h4>Colophon</h4><p>Geist</p><p>Hand-built. No framework.</p></div>' +
+          '<a href="' + W.url('#studio') + '">Studio</a></div>' +
+        '<div class="foot-col"><h4>Contact</h4>' +
+          '<a data-mail data-mailto href="#"></a>' +
+          '<button class="foot-btn" data-contact>Start a project</button></div>' +
       '</div><div class="foot-bot lab">' +
         '<span>&copy; <span data-year></span> WNH</span><span data-locations></span>' +
       '</div></div></footer>';
@@ -1492,13 +2399,6 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     W.$$('[data-locations]').forEach(function (el) { el.textContent = (s.locations || []).join(' / '); });
     W.$$('[data-full]').forEach(function (el) { el.innerHTML = W.t(s.full || ''); });
     W.$$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
-
-    var social = W.$('[data-social]');
-    if (social) {
-      social.innerHTML = '<h4>Elsewhere</h4>' + (s.social || []).map(function (l) {
-        return '<a href="' + W.esc(l.url) + '" rel="noopener">' + W.esc(l.label) + '</a>';
-      }).join('');
-    }
   };
 
   /* --------------------------------------------------------------- menu */
@@ -1584,6 +2484,113 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     });
   };
 
+
+  /* ------------------------------------------------------------- enquiry
+     A real form rather than a mailto: most people never finish a mailto —
+     it opens a client they may not use. Posts to site.contact.endpoint
+     (a Formspree URL or any endpoint that accepts JSON); with no endpoint
+     set it falls back to composing the mail, so the button always works. */
+  W.contact = function (d) {
+    var s = (d && d.site) || {};
+    var c = s.contact || {};
+    var mail = s.email || '';
+
+    var dlg = document.createElement('dialog');
+    dlg.className = 'sheet-dlg';
+    dlg.innerHTML =
+      '<form method="dialog" class="enq" novalidate>' +
+        '<button class="enq-x" value="cancel" aria-label="Close">' +
+          '<svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">' +
+          '<path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.4"/></svg></button>' +
+        '<div class="lab">Start a project</div>' +
+        '<h2>Tell me what you\'re making.</h2>' +
+        '<p class="enq-note">' + W.esc(c.note || '') + '</p>' +
+        '<div class="enq-f"><label for="enq-name">Name</label>' +
+          '<input id="enq-name" name="name" type="text" autocomplete="name" required></div>' +
+        '<div class="enq-f"><label for="enq-email">Email</label>' +
+          '<input id="enq-email" name="email" type="email" autocomplete="email" required></div>' +
+        '<div class="enq-f"><label for="enq-msg">Message</label>' +
+          '<textarea id="enq-msg" name="message" rows="5" required></textarea></div>' +
+        '<div class="enq-hp" aria-hidden="true">' +
+          '<label>Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label></div>' +
+        '<div class="enq-err" role="alert"></div>' +
+        '<div class="enq-act">' +
+          '<button type="submit" class="pill pill-solid enq-send">Send</button>' +
+          '<a class="enq-alt" href="mailto:' + W.esc(mail) + '">or email directly</a>' +
+        '</div>' +
+      '</form>' +
+      '<div class="enq-done" hidden>' +
+        '<div class="lab">Sent</div>' +
+        '<h2>Thanks — I\'ll come back to you.</h2>' +
+        '<p class="enq-note">Usually within two working days.</p>' +
+        '<button class="pill enq-close">Close</button>' +
+      '</div>';
+    document.body.appendChild(dlg);
+
+    var form = dlg.querySelector('.enq');
+    var err = dlg.querySelector('.enq-err');
+    var send = dlg.querySelector('.enq-send');
+
+    var open = function () {
+      err.textContent = '';
+      if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+      var f = dlg.querySelector('#enq-name');
+      if (f) setTimeout(function () { f.focus(); }, 40);
+    };
+    var close = function () {
+      if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+    };
+
+    W.$$('[data-contact]').forEach(function (b) {
+      b.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+    dlg.querySelector('.enq-x').addEventListener('click', function (e) { e.preventDefault(); close(); });
+    dlg.querySelector('.enq-close').addEventListener('click', close);
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      err.textContent = '';
+      var data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
+      if (form.company.value) return;                    /* honeypot */
+      if (!data.name || !data.email || !data.message) {
+        err.textContent = 'Name, email and a message, please.'; return;
+      }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) {
+        err.textContent = 'That email address does not look right.'; return;
+      }
+
+      if (!c.endpoint) {
+        /* no endpoint configured — hand it to the mail client with the
+           fields already filled, so nothing the person typed is lost */
+        location.href = 'mailto:' + mail +
+          '?subject=' + encodeURIComponent('Project enquiry — ' + data.name) +
+          '&body=' + encodeURIComponent(data.message + '\n\n— ' + data.name + ' (' + data.email + ')');
+        return;
+      }
+
+      send.disabled = true; send.textContent = 'Sending…';
+      fetch(c.endpoint, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('Send failed (' + r.status + ')');
+        form.hidden = true;
+        dlg.querySelector('.enq-done').hidden = false;
+        dlg.querySelector('.enq-close').focus();
+      }).catch(function (e2) {
+        err.textContent = e2.message + ' — you can email directly instead.';
+      }).finally(function () {
+        send.disabled = false; send.textContent = 'Send';
+      });
+    });
+  };
+
   W.boot = function (render) {
     W.shell();
     W.links();
@@ -1591,6 +2598,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     W.load().then(function (d) {
       W.chrome(d);
       if (render) render(d);
+      W.contact(d);
       W.reveal();
       W.meters();
       W.facades();

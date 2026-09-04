@@ -102,7 +102,7 @@
   <!-- STUDIO -->
   <section class="sec-tight" id="studio" style="padding-top:0">
     <div class="wrap studio">
-      <div class="portrait rv"><div class="ph"></div></div>
+      <div class="portrait rv" id="studio-loop"><div class="ph"></div></div>
       <div class="rv">
         <div class="lab">Studio &mdash; 002</div>
         <p class="statement" style="font-size:clamp(1.35rem,2.6vw,2.1rem);margin-top:var(--s3)" id="studio-copy"></p>
@@ -137,6 +137,7 @@ WNH.boot(function (d) {
     '<span>Reel 2026</span>';
   W.$('#statement').textContent = s.manifesto || '';
   W.$('#studio-copy').textContent = s.studioCopy || '';
+  W.loop(W.$('#studio-loop'), s.studioLoop, (s.name || 'WNH') + ' motion mark');
   W.$('#avail').textContent = s.availability || '';
   W.$('#work-count').textContent = '(' + W.projects().length + ')';
   W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';

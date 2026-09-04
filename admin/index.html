@@ -815,6 +815,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     f.appendChild(field('Cloudinary root folder', 'site.cloudinary.folder', { hint: 'Default: wnh' }));
     f.appendChild(field('Showreel — Vimeo URL', 'site.reel.vimeo',
       { hint: 'Background of the homepage hero, and the reel at the top of /portfolio.' }));
+    f.appendChild(field('Logo animation — Vimeo URL', 'site.studioLoop',
+      { hint: 'Loops silently in the Studio panel on the homepage. Leave empty for a plain block.' }));
 
     f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
     f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));

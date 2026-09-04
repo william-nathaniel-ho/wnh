@@ -406,7 +406,13 @@ body.menu{overflow:hidden}
    ========================================================================== */
 .studio{display:grid;grid-template-columns:1fr;gap:var(--s4)}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
-.portrait{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+/* a 3:4 source cropped a few percent to sit in the 4:5 slot */
+.portrait.is-loop{background:var(--surface)}
+.loop-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:auto;aspect-ratio:240/322;min-height:100%;min-width:100%;border:0;pointer-events:none}
+.loop-play{position:absolute;inset:0;width:100%;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:0;cursor:pointer}
+.loop-play .play{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--on-ink);font-size:14px;padding-left:3px}
+.loop-play:hover .play{background:var(--accent);color:var(--ink)}
 .portrait .ph{background:linear-gradient(160deg,#D9D7D0,#B9B7AF 52%,#8E8C85)}
 .avail{
   display:inline-flex;align-items:center;gap:10px;margin-top:var(--s4);

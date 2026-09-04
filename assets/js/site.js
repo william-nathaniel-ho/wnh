@@ -85,6 +85,48 @@
            'title=0&byline=0&portrait=0&dnt=1&autopause=0' + (autoplay ? '&autoplay=1' : '');
   };
 
+  /* a looping brand animation: no chrome, no sound, no controls */
+  W.vimeoBg = function (url) {
+    var v = W.vimeoId(url);
+    if (!v) return '';
+    return 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+           'background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
+  };
+
+  /* mount a loop into a box; returns false when there is nothing to mount.
+     under reduced motion nothing moves on its own — the visitor presses play. */
+  W.loop = function (box, url, title) {
+    if (!box || !W.vimeoId(url)) return false;
+    var f = document.createElement('iframe');
+    f.className = 'loop-frame';
+    f.title = title || 'Motion';
+    f.setAttribute('frameborder', '0');
+    if (W.reduce) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'loop-play';
+      b.innerHTML = '<span class="play" aria-hidden="true">&#9654;</span>';
+      b.setAttribute('aria-label', 'Play ' + (title || 'motion'));
+      b.addEventListener('click', function () {
+        f.src = W.vimeoSrc(url, true);
+        f.allow = 'autoplay; fullscreen; picture-in-picture';
+        box.innerHTML = '';
+        box.appendChild(f);
+      });
+      box.innerHTML = '';
+      box.appendChild(b);
+    } else {
+      f.src = W.vimeoBg(url);
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.setAttribute('tabindex', '-1');
+      f.setAttribute('aria-hidden', 'true');
+      box.innerHTML = '';
+      box.appendChild(f);
+    }
+    box.classList.add('is-loop');
+    return true;
+  };
+
   /* -------------------------------------------------------------- media */
   W.cover = function (p, i, w) {
     var c = p.cover || {};
