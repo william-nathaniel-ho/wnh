@@ -93,37 +93,88 @@
            'background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
   };
 
-  /* mount a loop into a box; returns false when there is nothing to mount.
-     under reduced motion nothing moves on its own — the visitor presses play. */
-  W.loop = function (box, url, title) {
-    if (!box || !W.vimeoId(url)) return false;
-    var f = document.createElement('iframe');
-    f.className = 'loop-frame';
-    f.title = title || 'Motion';
-    f.setAttribute('frameborder', '0');
+  /* a file path, a Cloudinary public id, or a Vimeo URL — decided by shape */
+  W.loopSrc = function (src) {
+    src = String(src || '').trim();
+    if (!src) return null;
+    if (/vimeo\.com/i.test(src)) return { kind: 'vimeo', url: src };
+    if (/^https?:\/\//i.test(src) || /\.(mp4|webm|mov|m4v)$/i.test(src)) {
+      return { kind: 'file', url: /^https?:\/\//i.test(src) ? src : W.url(src) };
+    }
+    return W.cld.ok(src) ? { kind: 'file', url: W.cld.video(src), poster: W.cld.poster(src) } : null;
+  };
+
+  /* mount a loop into a box. the static mark holds the space from the first
+     paint, so nothing is ever blank; the motion fades in once it can play.
+     under reduced motion nothing starts on its own — the visitor presses play. */
+  W.loop = function (box, conf, title) {
+    if (!box) return false;
+    if (typeof conf === 'string') conf = { src: conf };
+    conf = conf || {};
+    var src = W.loopSrc(conf.src || conf.vimeo);
+    if (!src) return false;
+
+    box.classList.add('is-loop');
+    box.innerHTML = '';
+
+    var still = document.createElement('div');
+    still.className = 'loop-still';
+    still.innerHTML = conf.poster
+      ? '<img alt="" src="' + W.esc(W.cld.ok(conf.poster) ? W.cld.img(conf.poster, 720) : W.url(conf.poster)) + '">'
+      : W.MARK;
+    box.appendChild(still);
+
+    var ready = function () { box.classList.add('is-ready'); };
+
+    if (src.kind === 'file') {
+      var v = document.createElement('video');
+      v.className = 'loop-media';
+      v.src = src.url;
+      if (src.poster) v.poster = src.poster;
+      v.muted = true; v.loop = true; v.playsInline = true;
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      v.setAttribute('aria-hidden', 'true');
+      v.preload = W.reduce ? 'metadata' : 'auto';
+      /* nothing autoplays under reduced motion: hand over the real controls,
+         and drop the still so it cannot sit on top of them */
+      if (W.reduce) { v.controls = true; still.remove(); ready(); }
+      else { v.autoplay = true; v.addEventListener('playing', ready, { once: true });
+             v.addEventListener('loadeddata', ready, { once: true }); }
+      v.addEventListener('error', function () { box.classList.remove('is-ready'); });
+      box.appendChild(v);
+      return true;
+    }
+
+    /* Vimeo: a player is ~300KB of chrome before the first frame, so the mark
+       stays put until the embed reports it has loaded */
+    var mount = function (autoplay) {
+      var f = document.createElement('iframe');
+      f.className = 'loop-media';
+      f.title = title || 'Motion';
+      f.setAttribute('frameborder', '0');
+      f.allow = 'autoplay; fullscreen; picture-in-picture';
+      f.addEventListener('load', function () { setTimeout(ready, 400); });
+      if (autoplay) {
+        f.src = W.vimeoBg(src.url);
+        f.setAttribute('tabindex', '-1');
+        f.setAttribute('aria-hidden', 'true');
+      } else {
+        f.src = W.vimeoSrc(src.url, true);
+      }
+      return f;
+    };
+
     if (W.reduce) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'loop-play';
       b.innerHTML = '<span class="play" aria-hidden="true">&#9654;</span>';
       b.setAttribute('aria-label', 'Play ' + (title || 'motion'));
-      b.addEventListener('click', function () {
-        f.src = W.vimeoSrc(url, true);
-        f.allow = 'autoplay; fullscreen; picture-in-picture';
-        box.innerHTML = '';
-        box.appendChild(f);
-      });
-      box.innerHTML = '';
-      box.appendChild(b);
+      b.addEventListener('click', function () { box.innerHTML = ''; box.appendChild(mount(false)); ready(); });
+      still.appendChild(b);
     } else {
-      f.src = W.vimeoBg(url);
-      f.allow = 'autoplay; fullscreen; picture-in-picture';
-      f.setAttribute('tabindex', '-1');
-      f.setAttribute('aria-hidden', 'true');
-      box.innerHTML = '';
-      box.appendChild(f);
+      box.appendChild(mount(true));
     }
-    box.classList.add('is-loop');
     return true;
   };
 
