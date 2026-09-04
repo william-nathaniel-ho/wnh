@@ -304,11 +304,10 @@
           "body": "Hong Kong Sanatorium & Hospital turned a hundred in 2022. A centenary of that size lands as a ceremony, an exhibition, a film series and several hundred commemorative pieces — and all of it has to read as one year rather than six separate jobs.\n\n醫護傳承 · 卓越百年 — A Century of Clinical Excellence."
         },
         {
-          "type": "image",
-          "src": "",
-          "alt": "Centenary opening ceremony with the 3D 100 mark",
+          "type": "video",
           "caption": "The opening ceremony",
-          "size": "full"
+          "src": "wnh/hksh-centenary/uotuoiare4zkvzqvjdgu",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -373,8 +372,9 @@
         }
       ],
       "cover": {
-        "src": "",
-        "alt": "A Century of Clinical Excellence"
+        "src": "wnh/hksh-centenary/wz6xv1bjnhjkaq64oxgv",
+        "alt": "A Century of Clinical Excellence",
+        "ar": 1.4991
       },
       "featured": true,
       "sector": "Health & Care"
