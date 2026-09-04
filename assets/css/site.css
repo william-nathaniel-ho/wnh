@@ -408,10 +408,12 @@ body.menu{overflow:hidden}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
 .portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
 /* the mark holds the frame until the motion is ready to take over */
-.portrait.is-loop{background:var(--surface-2)}
+.portrait.is-loop{background:var(--loop-bg,var(--surface-2))}
 .loop-still{position:absolute;inset:0;z-index:2;display:grid;place-items:center;
-  background:var(--surface-2);transition:opacity .55s ease}
+  background:var(--loop-bg,var(--surface-2));transition:opacity .55s ease}
 .loop-still svg{width:34%;max-width:150px;height:auto;color:var(--ink);opacity:.16}
+.is-dark .loop-still svg{color:var(--on-ink);opacity:.22}
+.is-dark .loop-play .play{background:var(--on-ink);color:var(--ink)}
 .loop-still img{width:100%;height:100%;object-fit:cover}
 .is-loop.is-ready .loop-still{opacity:0;pointer-events:none}
 .loop-media{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);

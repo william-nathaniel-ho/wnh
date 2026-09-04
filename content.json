@@ -21,8 +21,9 @@
       "poster": ""
     },
     "studioLoop": {
-      "src": "https://vimeo.com/1224037331/1af05a27c0",
-      "poster": ""
+      "src": "assets/motion/wnh-mark.mp4",
+      "poster": "assets/motion/wnh-mark.jpg",
+      "bg": "#060608"
     },
     "portfolio": {
       "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",

@@ -416,10 +416,12 @@ body.menu{overflow:hidden}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
 .portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
 /* the mark holds the frame until the motion is ready to take over */
-.portrait.is-loop{background:var(--surface-2)}
+.portrait.is-loop{background:var(--loop-bg,var(--surface-2))}
 .loop-still{position:absolute;inset:0;z-index:2;display:grid;place-items:center;
-  background:var(--surface-2);transition:opacity .55s ease}
+  background:var(--loop-bg,var(--surface-2));transition:opacity .55s ease}
 .loop-still svg{width:34%;max-width:150px;height:auto;color:var(--ink);opacity:.16}
+.is-dark .loop-still svg{color:var(--on-ink);opacity:.22}
+.is-dark .loop-play .play{background:var(--on-ink);color:var(--ink)}
 .loop-still img{width:100%;height:100%;object-fit:cover}
 .is-loop.is-ready .loop-still{opacity:0;pointer-events:none}
 .loop-media{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -822,8 +824,9 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       "poster": ""
     },
     "studioLoop": {
-      "src": "https://vimeo.com/1224037331/1af05a27c0",
-      "poster": ""
+      "src": "assets/motion/wnh-mark.mp4",
+      "poster": "assets/motion/wnh-mark.jpg",
+      "bg": "#060608"
     },
     "portfolio": {
       "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",
@@ -2403,6 +2406,19 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     box.classList.add('is-loop');
     box.innerHTML = '';
 
+    /* the holding frame takes the film's own ground colour, so the panel never
+       flashes paper-white before a dark loop arrives */
+    if (conf.bg) {
+      box.style.setProperty('--loop-bg', conf.bg);
+      var hex = String(conf.bg).replace('#', '');
+      if (hex.length === 3) hex = hex.replace(/./g, '$&$&');
+      if (/^[0-9a-f]{6}$/i.test(hex)) {
+        var n = parseInt(hex, 16);
+        var lum = (0.299 * (n >> 16 & 255) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255;
+        if (lum < 0.5) box.classList.add('is-dark');
+      }
+    }
+
     var still = document.createElement('div');
     still.className = 'loop-still';
     still.innerHTML = conf.poster
@@ -3414,6 +3430,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       { hint: 'Loops silently in the Studio panel. An MP4 in the repo (assets/motion/wnh-mark.mp4) or a Cloudinary video id starts far faster than a Vimeo embed. Empty leaves a plain block.' }));
     f.appendChild(field('Logo animation — poster image', 'site.studioLoop.poster',
       { hint: 'Optional Cloudinary id or path shown while the motion loads. Empty shows the WNH mark.' }));
+    f.appendChild(field('Logo animation — holding colour', 'site.studioLoop.bg',
+      { hint: 'Hex colour behind the animation while it loads — match the film\'s own background so nothing flashes. Default: the paper grey.' }));
 
     f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
     f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));

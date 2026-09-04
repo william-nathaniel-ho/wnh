@@ -117,6 +117,19 @@
     box.classList.add('is-loop');
     box.innerHTML = '';
 
+    /* the holding frame takes the film's own ground colour, so the panel never
+       flashes paper-white before a dark loop arrives */
+    if (conf.bg) {
+      box.style.setProperty('--loop-bg', conf.bg);
+      var hex = String(conf.bg).replace('#', '');
+      if (hex.length === 3) hex = hex.replace(/./g, '$&$&');
+      if (/^[0-9a-f]{6}$/i.test(hex)) {
+        var n = parseInt(hex, 16);
+        var lum = (0.299 * (n >> 16 & 255) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255;
+        if (lum < 0.5) box.classList.add('is-dark');
+      }
+    }
+
     var still = document.createElement('div');
     still.className = 'loop-still';
     still.innerHTML = conf.poster

@@ -819,6 +819,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       { hint: 'Loops silently in the Studio panel. An MP4 in the repo (assets/motion/wnh-mark.mp4) or a Cloudinary video id starts far faster than a Vimeo embed. Empty leaves a plain block.' }));
     f.appendChild(field('Logo animation — poster image', 'site.studioLoop.poster',
       { hint: 'Optional Cloudinary id or path shown while the motion loads. Empty shows the WNH mark.' }));
+    f.appendChild(field('Logo animation — holding colour', 'site.studioLoop.bg',
+      { hint: 'Hex colour behind the animation while it loads — match the film\'s own background so nothing flashes. Default: the paper grey.' }));
 
     f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
     f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));
