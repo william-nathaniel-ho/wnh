@@ -388,6 +388,30 @@
     global.addEventListener('scroll', function () { requestAnimationFrame(check); }, { passive: true });
   };
 
+  /* A row of images whose shapes do not match. Equal columns leave a 16:9
+     shot floating in a 4:3 box with dead space under it, and a fixed crop
+     throws away the part of the picture that mattered. So: widths in
+     proportion to each image's own ratio, which makes every height in the row
+     identical and the row exactly as wide as the column. Ratios come from the
+     value stored at upload where there is one, and from the loaded image where
+     there is not — and a stored ratio that turns out to be wrong is corrected
+     the moment the real image arrives. */
+  W.justify = function (root) {
+    W.$$('.blk-images .media', root).forEach(function (box) {
+      var img = box.querySelector('img');
+      if (!img) return;
+      var fit = function () {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        if (!w || !h) return;
+        var real = w / h, had = parseFloat(box.style.getPropertyValue('--ar'));
+        if (!had || Math.abs(had - real) / real > 0.02) {
+          box.style.setProperty('--ar', real.toFixed(4));
+        }
+      };
+      if (img.complete) fit(); else img.addEventListener('load', fit, { once: true });
+    });
+  };
+
   /* click-to-load Vimeo, so one page never pulls four players at once */
   W.facades = function () {
     W.$$('.embed[data-vimeo]').forEach(function (box) {

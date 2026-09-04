@@ -106,8 +106,12 @@ WNH.boot(function (d) {
     },
     images: function (b) {
       var items = b.items || [];
-      return '<figure><div class="blk-images' + (items.length === 3 ? ' three' : '') + '">' +
-        items.map(function (it) { return '<div class="media">' + media(it.src, it.alt, '4x5') + '</div>'; }).join('') +
+      return '<figure><div class="blk-images">' +
+        items.map(function (it) {
+          var ar = parseFloat(it.ar);
+          return '<div class="media"' + (ar > 0 ? ' style="--ar:' + ar.toFixed(4) + '"' : '') + '>' +
+                 media(it.src, it.alt, '4x5') + '</div>';
+        }).join('') +
         '</div>' + cap(b.caption) + '</figure>';
     },
     video: function (b) {
@@ -143,6 +147,7 @@ WNH.boot(function (d) {
     if (!fn) { console.warn('WNH: unknown block type', b.type); return ''; }
     return '<div class="rv">' + fn(b) + '</div>';
   }).join('');
+  W.justify(W.$('#c-blocks'));
 
   if ((p.credits || []).length) {
     W.$('#c-credits-wrap').hidden = false;

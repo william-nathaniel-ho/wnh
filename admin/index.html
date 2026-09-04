@@ -461,6 +461,105 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
   }
 
   /* ------------------------------------------------------------- images */
+
+  /* Downscale and re-encode before upload. A 12MB export off a Mac is the
+     same picture as a 400KB one at the size a browser will ever show it, and
+     the small one costs less storage, uploads faster and delivers sooner.
+     Cloudinary still optimises per-request on top of this (f_auto,q_auto).
+     GIF and SVG pass straight through — a canvas would flatten the animation
+     and rasterise the vector. */
+  var SHRINK_PX = 2400, SHRINK_Q = 0.85;
+  var encodes = {};
+  function canEncode(type) {
+    if (!(type in encodes)) {
+      var c = document.createElement('canvas');
+      c.width = c.height = 1;
+      try { encodes[type] = c.toDataURL(type).indexOf('data:' + type) === 0; }
+      catch (e) { encodes[type] = false; }
+    }
+    return encodes[type];
+  }
+  function shrink(file) {
+    return new Promise(function (resolve) {
+      if (!file || !/^image\//.test(file.type) || /gif|svg/i.test(file.type)) return resolve(file);
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var w = img.naturalWidth, h = img.naturalHeight;
+        if (!w || !h) return resolve(file);
+        var scale = Math.min(1, SHRINK_PX / Math.max(w, h));
+        var cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+        var c = document.createElement('canvas');
+        c.width = cw; c.height = ch;
+        var ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0, cw, ch);
+
+        /* a logo on transparency has to stay PNG; a photo is far smaller as JPEG */
+        var alpha = false;
+        if (/png|webp/i.test(file.type)) {
+          try {
+            var d = ctx.getImageData(0, 0, cw, ch).data;
+            for (var i = 3; i < d.length; i += 4) { if (d[i] < 250) { alpha = true; break; } }
+          } catch (e) { alpha = true; }
+        }
+        /* A photograph re-encoded as PNG is usually BIGGER than it started —
+           PNG is lossless, so it cannot throw away what a photo is mostly made
+           of. WebP keeps the transparency and still compresses like a photo,
+           so it is the right target when there is an alpha channel, with PNG
+           only as the fallback for a browser that cannot encode it. */
+        var types = alpha
+          ? (canEncode('image/webp') ? ['image/webp', 'image/png'] : ['image/png'])
+          : ['image/jpeg'];
+        var EXT = { 'image/webp': '.webp', 'image/png': '.png', 'image/jpeg': '.jpg' };
+
+        (function attempt(i, best) {
+          if (i >= types.length) {
+            /* never hand back something larger than what we were given */
+            if (!best || best.blob.size >= file.size) return resolve(file);
+            var name = file.name.replace(/\.[a-z0-9]+$/i, '') + EXT[best.type];
+            var out;
+            try { out = new File([best.blob], name, { type: best.type }); }
+            catch (e) { out = best.blob; out.name = name; }
+            out.shrunk = { from: file.size, to: best.blob.size, w: cw, h: ch, was: w + '×' + h };
+            return resolve(out);
+          }
+          c.toBlob(function (blob) {
+            if (blob && (!best || blob.size < best.blob.size)) best = { blob: blob, type: types[i] };
+            /* good enough — stop before spending time on the fallback */
+            if (best && best.blob.size < file.size * 0.9) return attempt(types.length, best);
+            attempt(i + 1, best);
+          }, types[i], SHRINK_Q);
+        })(0, null);
+      };
+      img.src = url;
+    });
+  }
+
+  function kb(n) {
+    return n >= 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.max(1, Math.round(n / 1024)) + 'KB';
+  }
+
+  /* how many places in content.json point at this public id */
+  function usesOf(id) {
+    if (!id) return 0;
+    var s = JSON.stringify(S.data), needle = JSON.stringify(id), n = 0, i = s.indexOf(needle);
+    while (i > -1) { n++; i = s.indexOf(needle, i + needle.length); }
+    return n;
+  }
+
+  /* an asset that no longer exists must not stay referenced anywhere */
+  function clearRefs(node, id) {
+    if (Array.isArray(node)) {
+      node.forEach(function (v, i) { if (v === id) node[i] = ''; else clearRefs(v, id); });
+    } else if (node && typeof node === 'object') {
+      Object.keys(node).forEach(function (k) {
+        if (node[k] === id) node[k] = ''; else clearRefs(node[k], id);
+      });
+    }
+  }
+
   function imageField(label, path, folder, altPath) {
     var el = document.createElement('div');
     el.className = 'fld';
@@ -468,13 +567,15 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       '<div class="prev"></div><div>' +
       '<input type="text" placeholder="cloudinary public id">' +
       '<div class="acts"><div class="drop" tabindex="0" role="button">Click or drop a file to upload</div>' +
-      '<button class="btn sm dim" type="button" data-clear>Clear</button></div>' +
+      '<button class="btn sm dim" type="button" data-clear>Clear</button>' +
+      '<button class="btn sm dim" type="button" data-del>Delete from Cloudinary</button></div>' +
       '<div class="folder"></div></div></div>';
 
     var prev = el.querySelector('.prev');
     var text = el.querySelector('input');
     var drop = el.querySelector('.drop');
     var clear = el.querySelector('[data-clear]');
+    var del = el.querySelector('[data-del]');
     var fold = el.querySelector('.folder');
 
     var root = (S.data.site && S.data.site.cloudinary && S.data.site.cloudinary.folder) || S.cfg.folder || 'wnh';
@@ -492,6 +593,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
         prev.innerHTML = '<div class="none">' + (id ? 'Set the cloud name' : 'Empty') + '</div>';
       }
       clear.disabled = !id;
+      del.disabled = !id || !cn;
+      disarm();
     }
     bindText(text, path, { onInput: paint });
     paint();
@@ -500,17 +603,69 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       snap(); set(path, ''); text.value = ''; dirty(true); paint();
     });
 
+    /* Deleting from Cloudinary cannot be undone, so it takes two clicks and
+       says up front how many places use the file. Clear (above) only drops
+       the reference — this drops the file itself. */
+    var armTimer = null;
+    function disarm() {
+      clearTimeout(armTimer);
+      del.dataset.armed = '0';
+      del.classList.remove('danger');
+      del.textContent = 'Delete from Cloudinary';
+    }
+    del.addEventListener('click', function () {
+      var id = get(path);
+      if (!id) return;
+      if (del.dataset.armed !== '1') {
+        var n = usesOf(id);
+        del.dataset.armed = '1';
+        del.classList.add('danger');
+        del.textContent = n > 1 ? 'Delete for good? used ' + n + '×' : 'Delete for good?';
+        armTimer = setTimeout(disarm, 5000);
+        return;
+      }
+      disarm();
+      del.disabled = true;
+      del.textContent = 'Deleting…';
+      api('destroy', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          public_id: id,
+          resource_type: /\.(mp4|mov|webm)$/i.test(id) ? 'video' : 'image'
+        })
+      }).then(function (res) {
+        snap();
+        clearRefs(S.data, id);
+        dirty(true);
+        toast(res.result === 'not found'
+          ? 'Already gone from Cloudinary — references cleared'
+          : 'Deleted ' + id + ' — publish to save the change');
+        rerender();
+      }).catch(function (e) {
+        if (e.session) return relock();
+        toast(e.message, true);
+        del.disabled = false;
+        disarm();
+      });
+    });
+
     var MAX = 100 * 1024 * 1024;
-    function upload(file) {
-      if (!file) return;
+    function upload(original) {
+      if (!original) return;
+      drop.classList.add('busy');
+      drop.textContent = 'Preparing…';
+
+      shrink(original).then(function (file) {
       if (file.size > MAX) {
+        drop.classList.remove('busy');
+        drop.textContent = 'Click or drop a file to upload';
         toast('That file is ' + Math.round(file.size / 1048576) + 'MB — the limit is 100MB. Put video on Vimeo.', true);
         return;
       }
-      drop.classList.add('busy');
       drop.textContent = 'Uploading… 0%';
 
-      api('upload-signature', {
+      return api('upload-signature', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ folder: folder || '' })
@@ -543,13 +698,22 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
         snap();
         set(path, res.public_id);
         text.value = res.public_id;
+        /* remember the shape, so a row of mixed images lays out correctly on
+           the first paint instead of reflowing once the pictures arrive */
+        if (/\.src$/.test(path) && res.width && res.height) {
+          set(path.replace(/\.src$/, '.ar'), +(res.width / res.height).toFixed(4));
+        }
         if (altPath && !get(altPath)) {
           set(altPath, file.name.replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' '));
           var altEl = document.querySelector('[data-path="' + cssEsc(altPath) + '"]');
           if (altEl) altEl.value = get(altPath);
         }
         dirty(true); paint();
-        toast('Uploaded — ' + res.public_id);
+        toast(file.shrunk
+          ? 'Uploaded — ' + kb(file.shrunk.from) + ' compressed to ' + kb(file.shrunk.to) +
+            ' (' + file.shrunk.was + ' → ' + file.shrunk.w + '×' + file.shrunk.h + ')'
+          : 'Uploaded — ' + res.public_id);
+      });
       }).catch(function (e) {
         if (e.session) return relock();
         toast(e.message, true);
