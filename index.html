@@ -142,8 +142,9 @@ WNH.boot(function (d) {
   W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
 
   /* an even grid of identical cards reads as a catalogue, not a studio */
+  var spans = W.spans(featured.length);
   W.$('#bento').innerHTML = featured.map(function (p, i) {
-    var span = W.span(i);
+    var span = spans[i];
     return '<a class="card rv ' + span + '" href="' +
       W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
       '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +

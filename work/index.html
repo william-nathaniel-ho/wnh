@@ -66,8 +66,9 @@ WNH.boot(function (d) {
       (active ? ' — ' + active : '');
     W.$('#empty').hidden = list.length > 0;
 
+    var spans = W.spans(list.length);
     W.$('#cards').innerHTML = list.map(function (p, i) {
-      return '<a class="card rv in ' + W.span(i) + '" href="' +
+      return '<a class="card rv in ' + spans[i] + '" href="' +
         W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +
         '<div class="card-body"><div class="card-top">' +

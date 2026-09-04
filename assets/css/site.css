@@ -274,10 +274,12 @@ body.menu{overflow:hidden}
   .card{grid-column:span 2}
   .card.wide{grid-column:span 4}
   .card.half{grid-column:span 3}
+  .card.full{grid-column:span 6}
 }
 .card-media{display:block;position:relative;overflow:hidden;background:var(--surface-2);aspect-ratio:4/5}
 .card.wide .card-media{aspect-ratio:16/10}
 .card.half .card-media{aspect-ratio:3/2}
+.card.full .card-media{aspect-ratio:21/9}
 .card-media>*{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
 .card:hover .card-media>*{transform:scale(1.04)}
 .card-body{padding:var(--s3);display:flex;flex-direction:column;gap:10px;flex:1}

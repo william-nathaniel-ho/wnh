@@ -123,8 +123,9 @@ WNH.boot(function (d) {
   function drawCards() {
     var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
     W.$('#pf-count').textContent = list.length + ' projects' + (active ? ' — ' + active : '');
+    var spans = W.spans(list.length);
     W.$('#pf-cards').innerHTML = list.map(function (p, i) {
-      return '<a class="card rv in ' + W.span(i) + '" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
+      return '<a class="card rv in ' + spans[i] + '" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         '<div class="card-media">' + W.cover(p, i, 960) + '</div>' +
         '<div class="card-body"><div class="card-top">' +
           '<span class="lab">' + W.t(p.client) + '</span><span class="lab">' + W.esc(p.year) + '</span></div>' +

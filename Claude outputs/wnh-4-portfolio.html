@@ -3,11 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WNH — Design &amp; Production</title>
-<meta name="description" content="WNH is an independent design and production studio. Brand, film, motion, 3D and digital. Perth / Hong Kong.">
-<meta property="og:title" content="WNH — Design &amp; Production">
-<meta property="og:description" content="Independent design and production studio.">
-<meta property="og:type" content="website">
+<title>Portfolio — WNH</title>
+<meta name="description" content="Selected work and capabilities — design direction, brand, film, motion, 3D and digital build.">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#F1F0EC">
 <style>/* ==========================================================================
    WNH — design system
@@ -524,111 +522,74 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 }
 </style>
 </head>
-<body class="hero-dark">
+<body>
 <a class="skip" href="#work">Skip to work</a>
 <div id="shell-nav"></div>
 
 <main>
-  <!-- HERO — paper panel riding over full-bleed media -->
-  <section class="hero" id="top">
-    <div class="hero-media">
-      <div class="field" id="field"></div>
-      <div class="grain" aria-hidden="true"></div>
-    </div>
-    <div class="hero-top">
-      <div class="hero-cap lab lab-ink" id="hero-cap"></div>
-    </div>
-    <div class="hero-body">
-      <div class="wrap">
-        <div class="hero-panel">
-          <p class="line" id="hero-line"></p>
-          <div class="hero-meta lab" id="hero-meta"></div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-cue">
-      <span class="bar" aria-hidden="true"></span>
-      <span class="lab lab-ink">Scroll</span>
+  <!-- 1 — reel first -->
+  <section class="case-hero">
+    <div class="wrap">
+      <div class="lab">Portfolio &mdash; <span data-year></span></div>
+      <h1 class="case-title" style="max-width:14ch">Design <br>&amp; Production</h1>
+      <p class="case-summary" id="pf-lead"></p>
+      <div class="pf-roles" id="pf-roles"></div>
+      <div id="pf-reel" style="margin-top:var(--s5)"></div>
     </div>
   </section>
 
-  <!-- STATEMENT -->
+  <!-- 2 — approach -->
   <section class="sec-tight">
     <div class="wrap two">
-      <div class="lab rv in">Statement<br>&mdash; 001</div>
-      <p class="statement rv" id="statement"></p>
+      <div class="lab">Approach<br>&mdash; 001</div>
+      <p class="statement" id="pf-statement"></p>
     </div>
   </section>
 
-  <!-- WORK -->
+  <!-- 3 — deep dives -->
   <section class="sec-tight" id="work" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head rv">
-        <div>
-          <div class="lab">Selected work</div>
-          <h2 class="h-sec" style="margin-top:10px">Recent projects</h2>
-        </div>
-        <a class="pill" data-href="work/">
-          <span>All work <span id="work-count"></span></span>
-          <svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>
-        </a>
+        <div><div class="lab">Selected work</div>
+          <h2 class="h-sec" style="margin-top:10px">In depth</h2></div>
       </div>
-      <div class="bento" id="bento"></div>
+      <div class="deep" id="deep"></div>
     </div>
   </section>
 
-  <!-- CAPABILITIES -->
-  <section class="sec-tight" id="capabilities" style="padding-top:0">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <div>
-          <div class="lab">Capabilities</div>
-          <h2 class="h-sec" style="margin-top:10px">What the studio does</h2>
-        </div>
-      </div>
-      <div class="caps" id="caps"></div>
-    </div>
-  </section>
-
-  <!-- PROCESS — dark contrast panel -->
+  <!-- 4 — everything -->
   <section class="sec-tight" style="padding-top:0">
     <div class="wrap">
-      <div class="panel-ink rv" style="padding:clamp(32px,5vw,72px)">
-        <div class="sec-head" style="margin-bottom:var(--s5)">
-          <div>
-            <div class="lab lab-ink">Process</div>
-            <h2 class="h-sec" style="margin-top:10px">Four steps, no theatre</h2>
-          </div>
-        </div>
-        <div class="steps" id="steps"></div>
+      <div class="sec-head rv">
+        <div><div class="lab">Archive</div>
+          <h2 class="h-sec" style="margin-top:10px">Everything</h2></div>
+        <span class="lab" id="pf-count"></span>
       </div>
+      <div class="filters" id="pf-filters" role="group" aria-label="Filter by discipline"></div>
+      <div class="bento" id="pf-cards" style="margin-top:var(--s3)"></div>
     </div>
   </section>
 
-  <!-- CLIENTS -->
-  <section aria-label="Selected clients" style="margin-bottom:var(--s6)">
-    <div class="marq"><div class="marq-track" id="marq"></div></div>
-  </section>
-
-  <!-- STUDIO -->
-  <section class="sec-tight" id="studio" style="padding-top:0">
-    <div class="wrap studio">
-      <div class="portrait rv"><div class="ph"></div></div>
-      <div class="rv">
-        <div class="lab">Studio &mdash; 002</div>
-        <p class="statement" style="font-size:clamp(1.35rem,2.6vw,2.1rem);margin-top:var(--s3)" id="studio-copy"></p>
-        <div class="avail"><i aria-hidden="true"></i><span id="avail"></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" style="border-top:1px solid var(--line)">
+  <!-- 5 — capabilities + toolkit -->
+  <section class="sec-tight" style="padding-top:0">
     <div class="wrap">
-      <a class="cta-link" data-mailto href="#">Start a project</a>
+      <div class="sec-head rv"><div><div class="lab">Capabilities</div>
+        <h2 class="h-sec" style="margin-top:10px">What I lead</h2></div></div>
+      <div class="caps" id="pf-caps"></div>
+      <div class="sec-head rv" style="margin-top:var(--s6)"><div><div class="lab">Toolkit</div>
+        <h2 class="h-sec" style="margin-top:10px">What I run it in</h2></div></div>
+      <div class="tools" id="pf-tools"></div>
+    </div>
+  </section>
+
+  <!-- 6 — contact -->
+  <section style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <a class="cta-link" data-mailto href="#">Get in touch</a>
       <div class="cta-foot">
         <a class="pill pill-solid" data-mail data-mailto href="#"></a>
-        <span class="lab" id="cta-loc"></span>
+        <span class="lab" data-locations></span>
+        <span class="lab" id="pf-note"></span>
       </div>
     </div>
   </section>
@@ -1387,72 +1348,81 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 </script>
 <script>
 WNH.boot(function (d) {
-  var W = WNH, s = d.site || {};
-  var featured = W.projects().filter(function (p) { return p.featured !== false; });
+  var W = WNH, s = d.site || {}, pf = s.portfolio || {};
+  var all = W.projects();
 
-  W.$('#hero-line').textContent = s.tagline || '';
-  W.$('#hero-cap').innerHTML = 'Brand &middot; Film &middot; Motion<br>3D &middot; Digital';
-  W.$('#hero-meta').innerHTML =
-    '<span>' + W.esc((s.locations || []).join(' / ')) + '</span>' +
-    '<span>Reel 2026</span>';
-  W.$('#statement').textContent = s.manifesto || '';
-  W.$('#studio-copy').textContent = s.studioCopy || '';
-  W.$('#avail').textContent = s.availability || '';
-  W.$('#work-count').textContent = '(' + W.projects().length + ')';
-  W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
-
-  /* an even grid of identical cards reads as a catalogue, not a studio */
-  var spans = W.spans(featured.length);
-  W.$('#bento').innerHTML = featured.map(function (p, i) {
-    var span = spans[i];
-    return '<a class="card rv ' + span + '" href="' +
-      W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
-      '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +
-      '<div class="card-body">' +
-        '<div class="card-top"><span class="lab">' + W.t(p.client) + '</span>' +
-          '<span class="lab">' + W.esc(p.year) + '</span></div>' +
-        '<h3 class="h-card">' + W.t(p.title) + '</h3>' +
-        (span ? '<p class="card-sum">' + W.t(p.summary) + '</p>' : '') +
-        W.tags(p.disciplines) +
-      '</div></a>';
+  W.$('#pf-lead').textContent = pf.lead || s.tagline || '';
+  W.$('#pf-statement').textContent = s.manifesto || '';
+  W.$('#pf-note').textContent = pf.note || '';
+  W.$('#pf-roles').innerHTML = (pf.roles || []).map(function (r) {
+    return '<span>' + W.t(r) + '</span>';
   }).join('');
 
-  W.$('#caps').innerHTML = (d.capabilities || []).map(function (c, i) {
+  var reel = W.$('#pf-reel');
+  reel.innerHTML = (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo))
+    ? '<div class="embed" data-vimeo="' + W.esc(s.reel.vimeo) + '" data-title="Showreel">' +
+      '<div class="embed-facade" role="button" tabindex="0"><span class="play">' +
+      '<svg width="11" height="13" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0l12 7-12 7z"/></svg>' +
+      ' Play reel</span></div></div>'
+    : '<div class="embed"><div class="embed-facade">' +
+      '<span class="play">Reel — add a Vimeo link in /admin</span></div></div>';
+
+  var deep = all.filter(function (p) { return p.deep; });
+  W.$('#deep').innerHTML = deep.map(function (p, i) {
+    var href = W.url('work/case.html?p=' + encodeURIComponent(p.slug));
+    return '<article class="deep-item rv">' +
+      '<a class="deep-media" href="' + href + '">' + W.cover(p, i, 1440) + '</a>' +
+      '<div class="deep-body">' +
+        '<span class="lab">' + W.pad(i + 1) + ' &mdash; ' + W.t(p.client) + ' &middot; ' + W.esc(p.year) + '</span>' +
+        '<h3><a href="' + href + '">' + W.t(p.title) + '</a></h3>' +
+        '<p>' + W.t(p.summary) + '</p>' +
+        '<div style="margin-top:var(--s3)">' + W.tags(p.disciplines) + '</div>' +
+      '</div></article>';
+  }).join('');
+
+  var active = '';
+  function drawCards() {
+    var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
+    W.$('#pf-count').textContent = list.length + ' projects' + (active ? ' — ' + active : '');
+    var spans = W.spans(list.length);
+    W.$('#pf-cards').innerHTML = list.map(function (p, i) {
+      return '<a class="card rv in ' + spans[i] + '" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
+        '<div class="card-media">' + W.cover(p, i, 960) + '</div>' +
+        '<div class="card-body"><div class="card-top">' +
+          '<span class="lab">' + W.t(p.client) + '</span><span class="lab">' + W.esc(p.year) + '</span></div>' +
+        '<h3 class="h-card">' + W.t(p.title) + '</h3>' + W.tags(p.disciplines) + '</div></a>';
+    }).join('');
+  }
+  W.$('#pf-filters').innerHTML =
+    ['<button class="chip" data-d="" aria-pressed="true">All</button>']
+    .concat(W.disciplines().map(function (x) {
+      return '<button class="chip" data-d="' + W.esc(x) + '" aria-pressed="false">' + W.esc(x) + '</button>';
+    })).join('');
+  W.$('#pf-filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    active = b.dataset.d;
+    W.$$('#pf-filters .chip').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.d === active));
+    });
+    drawCards();
+  });
+  drawCards();
+
+  W.$('#pf-caps').innerHTML = (d.capabilities || []).map(function (c, i) {
     return '<article class="cap rv"><span class="lab accent">' + W.pad(i + 1) + '</span>' +
       '<h3>' + W.t(c.title) + '</h3><p>' + W.t(c.summary) + '</p><ul>' +
       (c.items || []).map(function (x) { return '<li>' + W.t(x) + '</li>'; }).join('') + '</ul></article>';
   }).join('');
 
-  W.$('#steps').innerHTML = (d.process || []).map(function (p) {
-    return '<article class="step"><span class="n">' + W.esc(p.step) + '</span>' +
-      '<h3>' + W.t(p.title) + '</h3><p>' + W.t(p.body) + '</p></article>';
+  W.$('#pf-tools').innerHTML = (d.tools || []).map(function (t) {
+    return '<div class="tool"><h4>' + W.t(t.title) + '</h4><p>' + W.t(t.body) + '</p></div>';
   }).join('');
 
-  var names = (d.clients || []);
-  W.$('#marq').innerHTML = names.concat(names).map(function (n) {
-    return '<span class="marq-item">' + W.t(n) + '</span>';
-  }).join('');
-
-  /* showreel behind the hero: Vimeo, then a Cloudinary mp4, else the field */
-  var field = W.$('#field');
-  if (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo)) {
-    var f = document.createElement('iframe');
-    f.src = W.vimeoSrc(s.reel.vimeo, true) + '&muted=1&loop=1&background=1';
-    f.allow = 'autoplay; fullscreen';
-    f.setAttribute('aria-hidden', 'true');
-    f.title = 'Showreel';
-    f.style.cssText = 'position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;' +
-      'min-width:100%;min-height:100%;transform:translate(-50%,-50%);border:0';
-    field.replaceWith(f);
-  } else if (s.reel && W.cld.ok(s.reel.video)) {
-    var v = document.createElement('video');
-    v.src = W.cld.video(s.reel.video);
-    if (W.cld.ok(s.reel.poster)) v.poster = W.cld.poster(s.reel.poster);
-    v.muted = v.loop = v.autoplay = v.playsInline = true;
-    v.setAttribute('playsinline', '');
-    v.setAttribute('aria-hidden', 'true');
-    field.replaceWith(v);
-  }
+  W.$$('.embed-facade').forEach(function (f) {
+    f.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); }
+    });
+  });
 });
 </script>
 </body>

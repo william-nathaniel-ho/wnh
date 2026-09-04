@@ -97,11 +97,26 @@
            '<span class="num">' + W.pad((i || 0) + 1) + '</span></div>';
   };
 
-  /* Bento spans on a six-column grid. The pattern has period six and each
-     row sums to six, so the grid tiles cleanly at any project count instead
-     of leaving a hole whenever a wide card wraps. */
+  /* Bento spans on a six-column grid. The pattern has period six and each row
+     sums to six, so it tiles cleanly — and the last card is widened to fill
+     whatever is left of its row, so an odd project count never ends on a hole. */
   var SPAN_PATTERN = ['wide', '', 'half', 'half', 'wide', ''];
-  W.span = function (i) { return SPAN_PATTERN[i % SPAN_PATTERN.length]; };
+  var SPAN_W = { '': 2, half: 3, wide: 4, full: 6 };
+
+  W.spans = function (n) {
+    var out = [], row = 0;
+    for (var i = 0; i < n; i++) {
+      var s = SPAN_PATTERN[i % SPAN_PATTERN.length];
+      if (row + SPAN_W[s] > 6) row = 0;
+      out.push(s);
+      row = (row + SPAN_W[s]) % 6;
+    }
+    if (n && row > 0) {
+      var need = SPAN_W[out[n - 1]] + (6 - row);
+      out[n - 1] = need >= 6 ? 'full' : need >= 4 ? 'wide' : need === 3 ? 'half' : '';
+    }
+    return out;
+  };
 
   W.tags = function (list, onInk) {
     return '<span class="tags">' + (list || []).map(function (x) {
