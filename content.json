@@ -2,11 +2,10 @@
   "site": {
     "name": "WNH",
     "full": "WNH — Design & Production",
-    "tagline": "Independent design and production studio.",
-    "manifesto": "Most studios can make a thing look good in a grid. Fewer can make it hold up in motion, at 4 a.m., on a phone, in a language you don't speak. That's the part we care about.",
-    "studioCopy": "WNH is a small studio with a long reach — brand, film, motion, 3D and the web builds that carry them. You talk to the people doing the work, so nothing gets diluted on its way to you.",
+    "tagline": "Design systems, built to outlast the designer.",
+    "manifesto": "We don't just deliver designs; we build the infrastructure for them. Our systems let non-designers hold the brand together long after we've gone.",
+    "studioCopy": "WNH works across identity, campaign, exhibition, 3D and film — and builds the guidelines, templates and tools that keep all of it consistent once it's in your team's hands.",
     "locations": [
-      "Perth",
       "Hong Kong"
     ],
     "email": "hello@wnhdesign.io",
@@ -21,98 +20,97 @@
       "video": "",
       "poster": ""
     },
-    "social": [
-      {
-        "label": "Instagram",
-        "url": "#"
-      },
-      {
-        "label": "Vimeo",
-        "url": "#"
-      },
-      {
-        "label": "LinkedIn",
-        "url": "#"
-      }
-    ],
     "portfolio": {
-      "lead": "Fifteen years of brand, film and 3D work, and the web builds that put it in front of people. Available for design direction, and for the kind of role where making and leading are the same job.",
+      "lead": "Identity systems, campaign and event design, exhibitions, 3D and live broadcast — and the guidelines and tools that keep them consistent afterwards. Available for design direction, and for the kind of role where making and leading are the same job.",
       "roles": [
         "Design Direction",
-        "Brand & Identity",
-        "Film & Motion",
-        "3D & Character",
-        "Digital Build",
-        "AI Production"
+        "Brand Identity",
+        "Campaign & Event",
+        "Exhibition & Spatial",
+        "3D & Motion",
+        "Film & Broadcast",
+        "Digital Build"
       ],
-      "note": "Full case studies and references on request."
+      "note": "Full case studies, references and the long version on request.",
+      "statement": "I've shot in an operating theatre, run a live broadcast gallery, modelled a chainsaw and drawn a logistics icon set. What links them isn't the craft — it's that in every case somebody had to keep it going after I left. Building the thing that lets them is the part of the job I actually love."
+    },
+    "contact": {
+      "endpoint": "",
+      "note": "A sentence is enough to start. I reply within two working days."
     }
   },
   "capabilities": [
     {
-      "id": "brand",
-      "title": "Brand & Identity",
-      "summary": "Systems built to survive contact with the real world — not just the deck.",
+      "id": "identity",
+      "title": "Brand Identity Systems",
+      "summary": "Marks, construction and clear-space rules, colour and type specs, custom icon sets, stationery — documented so anyone can apply them.",
       "items": [
-        "Naming & positioning",
-        "Identity systems",
-        "Type & colour systems",
-        "Guidelines & toolkits"
+        "Logo & lockups",
+        "Construction & clear space",
+        "Colour & type systems",
+        "Icon sets",
+        "Stationery",
+        "Guidelines"
       ]
     },
     {
-      "id": "film",
-      "title": "Film & Direction",
-      "summary": "From treatment to grade. Brand films, campaign cutdowns, event coverage, documentary.",
+      "id": "campaign",
+      "title": "Campaign & Event Identity",
+      "summary": "One key visual carried the whole way out — stage backdrop, banners, digital panels, print, invitations, trophies.",
       "items": [
-        "Treatment & storyboard",
-        "Direction",
-        "Edit & grade",
-        "Sound"
+        "Key visual",
+        "Stage & backdrop",
+        "Banners & digital panels",
+        "Brochures & invitations",
+        "Awards & trophies"
+      ]
+    },
+    {
+      "id": "exhibition",
+      "title": "Exhibition & Spatial",
+      "summary": "Museum-grade exhibitions, roadshow booths and showcase builds, previsualised in 3D before anyone cuts timber.",
+      "items": [
+        "Exhibition design",
+        "Roadshow booths",
+        "Wall graphics & vitrines",
+        "3D previsualisation",
+        "Fabrication drawings"
       ]
     },
     {
       "id": "motion",
-      "title": "Motion & 3D",
-      "summary": "Idents, product animation, character work, and the 3D worlds that hold them.",
+      "title": "3D & Motion",
+      "summary": "Product and game 3D, look development, animated idents and kinetic titles — modelled, lit and rendered start to finish.",
       "items": [
+        "3D modelling & rendering",
+        "Product & game visuals",
         "Idents & titles",
-        "3D character design",
-        "Product animation",
-        "Look development"
+        "Look development",
+        "Motion graphics"
+      ]
+    },
+    {
+      "id": "film",
+      "title": "Film & Broadcast",
+      "summary": "Documentary series, corporate interviews and live multi-camera events, from treatment through to grade.",
+      "items": [
+        "Documentary & brand film",
+        "Interviews",
+        "Live & multi-camera",
+        "Edit & grade",
+        "Event coverage"
       ]
     },
     {
       "id": "digital",
-      "title": "Digital & Web",
-      "summary": "Sites and tools that ship. Hand-built, fast, and editable by the people who own them.",
+      "title": "Digital & Tooling",
+      "summary": "Sites, content platforms and the internal tools that let a team produce on-brand work without a designer in the room.",
       "items": [
-        "Design systems",
-        "Front-end build",
+        "Responsive sites",
+        "Content platforms",
         "Internal tools",
-        "Deployment & handover"
-      ]
-    },
-    {
-      "id": "ai",
-      "title": "AI Production",
-      "summary": "AI-assisted pipelines for volume work — used where it earns its place, and nowhere else.",
-      "items": [
-        "Generative image & video",
-        "Character consistency",
-        "Pipeline design",
-        "Team training"
-      ]
-    },
-    {
-      "id": "social",
-      "title": "Social & Campaign",
-      "summary": "Always-on content that stays on-brand across markets and platforms.",
-      "items": [
-        "Content systems",
-        "Platform-native edits",
-        "Bilingual copy",
-        "Reporting"
+        "Design systems",
+        "Handover & training"
       ]
     }
   ],
@@ -142,17 +140,17 @@
     {
       "id": "design",
       "title": "Design",
-      "body": "Figma, Illustrator, Photoshop, InDesign"
+      "body": "Illustrator, Photoshop, InDesign, Figma"
+    },
+    {
+      "id": "three",
+      "title": "3D",
+      "body": "Cinema 4D, Blender, Redshift, Octane"
     },
     {
       "id": "motion",
-      "title": "Motion & 3D",
-      "body": "After Effects, Cinema 4D, Blender, Redshift"
-    },
-    {
-      "id": "film",
-      "title": "Film",
-      "body": "Premiere, DaVinci Resolve, Sony / RED bodies"
+      "title": "Motion & Film",
+      "body": "After Effects, Premiere, DaVinci Resolve"
     },
     {
       "id": "build",
@@ -161,13 +159,1140 @@
     }
   ],
   "clients": [
+    "Milwaukee",
+    "TTI",
+    "Hong Kong Sanatorium & Hospital",
+    "HKMA",
+    "Vita Green 維特健靈",
+    "BananaUnder 蕉下",
+    "Benoy",
+    "CAREARCH HK",
+    "和田保健貼",
+    "S.K.H. St. Christopher's Home",
+    "Cellmax",
     "Acker Merrall & Condit",
     "Compass Offices",
-    "Acker Asia",
-    "Cantonese Opera Association",
-    "Independent"
+    "Jann Global Logistics",
+    "Sing Ping Cantonese Opera",
+    "Irish Chaplaincy"
   ],
   "projects": [
+    {
+      "slug": "milwaukee-breakthrough",
+      "title": "Asia Breakthrough Growth",
+      "client": "Milwaukee — TTI",
+      "year": 2022,
+      "disciplines": [
+        "Live Broadcast",
+        "Motion",
+        "Event"
+      ],
+      "role": "Live Stream Technical Lead, Motion Graphics",
+      "featured": true,
+      "deep": true,
+      "tone": "milwaukee",
+      "summary": "Milwaukee's largest Asia event of 2022, staged as a live broadcast — the multi-camera gallery, the motion graphics package, and the whole technical chain from camera to stream.",
+      "cover": {
+        "src": "",
+        "alt": "Milwaukee Asia Breakthrough Growth live broadcast"
+      },
+      "credits": [
+        {
+          "role": "Live Stream Technical Lead",
+          "name": "WNH"
+        },
+        {
+          "role": "Motion Graphics",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Milwaukee"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The brief",
+          "body": "Asia Breakthrough Growth was Milwaukee's largest regional event of 2022, and it was built to be watched live rather than reported afterwards. That decision changes everything upstream: there is no edit to fix a mistake in, and no second pass at a graphic that missed its cue.\n\nTwo roles on the same show — technical lead on the live stream, and designer of the motion graphics package running through it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Broadcast gallery during Asia Breakthrough Growth",
+          "caption": "Multi-camera gallery, live to region",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "One take, no post",
+          "body": "A broadcast graphics package is not a video. It has to be built as a set of states that can be called on cue, hold at any length, and survive being cut to from a camera that arrived a beat early.\n\nThe technical chain — cameras, switching, encoding, stream — had to hold for the full run of the show, in a room full of people who could not be asked to wait."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage and product reveal"
+            },
+            {
+              "src": "",
+              "alt": "Presenter to camera"
+            },
+            {
+              "src": "",
+              "alt": "Floor team before broadcast"
+            }
+          ],
+          "caption": "Product reveal, presenter position, floor team"
+        },
+        {
+          "type": "text",
+          "heading": "Owning both ends",
+          "body": "Designing the graphics and running the stream is usually two people in two rooms. Doing both meant the package was designed around what the switcher could actually do, and the show was cut around what the graphics needed.\n\nOn a live show that is the difference between a graphic that lands and a graphic that arrives late."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Asia Breakthrough Growth — broadcast package"
+        }
+      ],
+      "sector": "Consumer & Retail"
+    },
+    {
+      "slug": "hksh-centenary",
+      "title": "A Century of Clinical Excellence",
+      "client": "Hong Kong Sanatorium & Hospital",
+      "year": 2022,
+      "disciplines": [
+        "Brand",
+        "Exhibition",
+        "3D",
+        "Live Broadcast"
+      ],
+      "role": "Design, 3D & Exhibition, Broadcast Technical",
+      "deep": true,
+      "tone": "hksh",
+      "summary": "The centenary programme for Hong Kong Sanatorium & Hospital — commemorative design, an exhibition taken from 3D model to finished build, and the technical side of the opening ceremony's online broadcast.",
+      "credits": [
+        {
+          "role": "Commemorative design",
+          "name": "WNH"
+        },
+        {
+          "role": "Exhibition — 3D to build",
+          "name": "WNH"
+        },
+        {
+          "role": "Opening ceremony — broadcast technical",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Hong Kong Sanatorium & Hospital"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A hundred years is not a logo",
+          "body": "Hong Kong Sanatorium & Hospital turned a hundred in 2022. A centenary of that size lands as a ceremony, an exhibition, a film series and several hundred commemorative pieces — and all of it has to read as one year rather than six separate jobs.\n\n醫護傳承 · 卓越百年 — A Century of Clinical Excellence."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Centenary opening ceremony with the 3D 100 mark",
+          "caption": "The opening ceremony",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Designed it, then ran the broadcast of it",
+          "body": "Alongside the commemorative design, the technical side of the opening ceremony's online broadcast was mine — which meant the same person who designed what was on the stage was responsible for how it reached everyone who could not be in the room.\n\nThat is an unusual pairing, and a useful one. Ceremony graphics get designed for the room and then fall apart on a stream; here they were built knowing exactly what the stream would do to them."
+        },
+        {
+          "type": "text",
+          "heading": "The mark had to be an object first",
+          "body": "The centenary mark was modelled in 3D before it was drawn flat, because it had to exist as a physical sculpture on the ceremony stage. Designing it as an object first meant the printed version inherited the real thing's proportions, rather than the sculpture being a thickened copy of a logo."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Centenary mark, front view"
+            },
+            {
+              "src": "",
+              "alt": "Centenary mark, side view"
+            },
+            {
+              "src": "",
+              "alt": "Stage sculpture in place"
+            }
+          ],
+          "caption": "Front, side, and as built"
+        },
+        {
+          "type": "text",
+          "heading": "From three-dimensional model to finished build",
+          "body": "The centenary exhibition set out a hundred years of the hospital's part in medical advances in Hong Kong — healthcare delivery, medical education and clinical research, and how the institution held its standard of care through each of them.\n\nThe framework was built from 3D models through to the finished thing on the floor. Exhibition work is unforgiving in a way print is not: a wrong measurement is not a reprint, it is a carpenter."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Exhibition framework in 3D"
+            },
+            {
+              "src": "",
+              "alt": "Wall graphics and archive vitrines"
+            },
+            {
+              "src": "",
+              "alt": "Uniform display and showcase items"
+            }
+          ],
+          "caption": "3D framework, wall graphics, showcase"
+        },
+        {
+          "type": "text",
+          "heading": "Filmed where the work happens",
+          "body": "A film series shot inside working theatres, labs and consultation rooms rather than on a set. Hospitals are difficult places to film in and impossible to fake, which is the reason to do it."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "A Century of Clinical Excellence — film series"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "A Century of Clinical Excellence"
+      },
+      "featured": true,
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "hkma-60",
+      "title": "Sixty Years of Management",
+      "client": "HKMA",
+      "year": 2020,
+      "disciplines": [
+        "Brand",
+        "Digital",
+        "Film"
+      ],
+      "role": "Identity, Web, Film",
+      "deep": true,
+      "tone": "hkma",
+      "summary": "A 60th-anniversary identity for the Hong Kong Management Association, extended into an interview platform carrying over a hundred leadership insights from Hong Kong business leaders.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "An anniversary that had to do work",
+          "body": "The Hong Kong Management Association turned sixty. The mark was built on a construction grid with clear-space and colour rules from the start, because it was going to spend a year being applied by people who are not designers — event teams, printers, partner organisations."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "HKMA 60 mark with construction grid and clear space",
+          "caption": "Construction, clear space, colour",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "From a mark to a platform",
+          "body": "The anniversary then became content. Over a hundred filmed interviews with Hong Kong business leaders, indexed and browsable by field — a body of leadership insight rather than a commemorative page.\n\nDesigning the identity and building the platform in the same hands meant the site was laid out around what the interviews actually were, not around a template."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Leaders index"
+            },
+            {
+              "src": "",
+              "alt": "Interview page"
+            },
+            {
+              "src": "",
+              "alt": "Field selection"
+            }
+          ],
+          "caption": "The interview platform"
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "HKMA 60 — interview series"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "Sixty Years of Management"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": true,
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "carearch",
+      "title": "A Mark Built From People",
+      "client": "CAREARCH HK 善延護理",
+      "year": 2023,
+      "disciplines": [
+        "Brand",
+        "Digital"
+      ],
+      "role": "Identity System, Web Design",
+      "featured": true,
+      "deep": true,
+      "tone": "hksh",
+      "summary": "A full identity for a Hong Kong nursing agency — a mark drawn from human figures arranged into a care cross, documented with construction, type and colour rules, and applied from ID badge to bilingual website.",
+      "cover": {
+        "src": "",
+        "alt": "CAREARCH HK identity system"
+      },
+      "credits": [
+        {
+          "role": "Identity & Web",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "CAREARCH HK 善延護理有限公司"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The mark is the service",
+          "body": "A nursing agency places people. So the mark is made of people — figures arranged into the plus of a care symbol, each one a different colour because the whole point is that they are individuals being matched to a family.\n\nIt reads as a medical cross at a glance and as a group of people the moment you look properly."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Primary logo and construction grid",
+          "caption": "Primary logo, and the grid it is built on",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Documented so it survives",
+          "body": "Construction and clear space on a grid. DFYuanHK for the Chinese, tracked +100; Gotham Bold for the Latin, tracked +10. A five-colour system. Three icon treatments and four secondary lockups, so there is a correct answer for a badge, a favicon, an English-only context and a stacked one.\n\nThis is the part clients skip and then quietly regret. An agency's brand gets applied by nurses, coordinators and printers — never by the designer."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Type specification"
+            },
+            {
+              "src": "",
+              "alt": "Colour system"
+            },
+            {
+              "src": "",
+              "alt": "Icon and secondary lockups"
+            }
+          ],
+          "caption": "Type, colour, and the secondary set"
+        },
+        {
+          "type": "text",
+          "heading": "Down to the lanyard",
+          "body": "Business cards, the staff ID badge on its lanyard, and a bilingual site built around the one thing a family actually arrives to do: search for care by district and service type.\n\n培育醫護專業 · 傳承愛心使命."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Business cards"
+            },
+            {
+              "src": "",
+              "alt": "Staff ID badge and lanyard"
+            },
+            {
+              "src": "",
+              "alt": "Desktop and mobile site"
+            }
+          ],
+          "caption": "Applications"
+        }
+      ],
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "milwaukee-house-builder",
+      "title": "House Builder",
+      "client": "Milwaukee — TTI",
+      "year": 2023,
+      "disciplines": [
+        "3D",
+        "Motion",
+        "Game"
+      ],
+      "role": "3D Modelling, Game Visual Design, Motion",
+      "deep": false,
+      "tone": "milwaukee",
+      "summary": "A 3D-built promotional game world for Milwaukee — modelled tools, wood and plank textures, level art and the UI that carries the brand into a game without diluting it.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A power-tool brand, in a game",
+          "body": "House Builder puts Milwaukee's tools in a player's hands to build houses. A tool brand in a game only survives if the tools read as the real product — the moment a chainsaw becomes a generic game asset, the whole thing stops being Milwaukee and becomes an advert for nobody."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "House Builder key visual with tools and timber house",
+          "caption": "Key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Every texture is a product decision",
+          "body": "Levels are named after timber — spruce, oak, redwood, kauri — and each has its own plank and grain treatment, because the difference between woods is the difference between which tool you reach for.\n\nThe tool cards carry the real M18 line-up. The action set — fastening, cutting, cleaning — maps to product categories rather than game verbs."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Timber and plank texture study"
+            },
+            {
+              "src": "",
+              "alt": "In-game tool selection UI"
+            },
+            {
+              "src": "",
+              "alt": "Level progression screens"
+            }
+          ],
+          "caption": "Texture study, tool UI, level progression"
+        },
+        {
+          "type": "text",
+          "heading": "Modelled, lit, rendered, animated",
+          "body": "3D modelling, game visual design, motion graphics and rendering, all in one pipeline — which is what let the marketing renders and the in-game art stay the same object rather than two interpretations of it."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "House Builder — 3D animation"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "House Builder"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": true,
+      "sector": "Consumer & Retail"
+    },
+    {
+      "slug": "bananaunder",
+      "title": "Pocket, Capsule, Mini",
+      "client": "BananaUnder",
+      "year": 2021,
+      "disciplines": [
+        "3D",
+        "Product",
+        "Campaign"
+      ],
+      "role": "3D Product Visualisation",
+      "featured": false,
+      "deep": false,
+      "tone": "cellmax",
+      "summary": "3D product key visuals for the sun-protection brand's umbrella lines — 口袋系列, 膠囊系列 and 小黑傘系列 — each series given its own colour world while staying one family.",
+      "cover": {
+        "src": "",
+        "alt": "BananaUnder umbrella series key visual"
+      },
+      "credits": [
+        {
+          "role": "3D & Art Direction",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "BananaUnder 蕉下"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "One product, three arguments",
+          "body": "Three umbrella series, each sold on a different claim — pocket-sized and ultralight, capsule in a range of colours, the mini black umbrella blocking 99% of UV. The same object photographed three ways would have made them look like the same thing.\n\nBuilt in 3D instead: each series gets its own colour world, light and set of floating forms, so a shopper can tell the lines apart at a glance while the brand still reads as one."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "口袋系列 — pocket series"
+            },
+            {
+              "src": "",
+              "alt": "膠囊系列 CAPSULE 4.0"
+            },
+            {
+              "src": "",
+              "alt": "小黑傘系列 — mini black umbrella"
+            }
+          ],
+          "caption": "Three series, three colour worlds"
+        },
+        {
+          "type": "text",
+          "heading": "Why render rather than shoot",
+          "body": "A studio shoot fixes you to the samples that exist on the day. Rendering means the whole range can be shown in every colourway, at a consistent light and scale, before the range is even finished."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Product key visual detail",
+          "caption": "Rendered, not shot",
+          "size": "full"
+        }
+      ],
+      "sector": "Consumer & Retail"
+    },
+    {
+      "slug": "vita-green",
+      "title": "Vita Calm",
+      "client": "Vita Green 維特健靈",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "Digital"
+      ],
+      "role": "Key Visual, Campaign Design",
+      "featured": true,
+      "deep": false,
+      "tone": "hkma",
+      "summary": "Campaign and e-commerce visuals for Hong Kong's number-one sleep supplement — a night world that carries a hard retail offer without turning into a discount banner.",
+      "cover": {
+        "src": "",
+        "alt": "Vita Green Vita Calm campaign key visual"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Vita Green 維特健靈"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A premium claim and a hard offer, in one frame",
+          "body": "寧心 is a four-year category leader with a gift-with-purchase mechanic attached — buy nine boxes and a smartwatch comes with it. Those two jobs pull in opposite directions: the first wants calm and authority, the second wants urgency.\n\nThe answer is a night sky rather than a sale colour. Deep navy and gold hold the No.1 claim; the offer sits inside the same world as gold-edged badges instead of being pasted on top of it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Vita Calm campaign banner",
+          "caption": "The banner, at full retail width",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Ingredients as evidence",
+          "body": "GABA, L-theanine, and the herbs — 靈芝, 柴胡, 酸棗仁, 當歸丹參 — floated as lit spheres beside the pack. In Hong Kong health retail the ingredient list is the argument, so it gets treated as imagery rather than as small print."
+        }
+      ],
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "dsa-52",
+      "title": "Pride in Perseverance",
+      "client": "HKMA",
+      "year": 2021,
+      "disciplines": [
+        "Brand",
+        "Campaign",
+        "Print"
+      ],
+      "role": "Key Visual, Campaign Design",
+      "tone": "wine",
+      "summary": "Campaign identity for the 52nd Distinguished Salesperson Award — one crystalline key visual carried through stage backdrop, digital panels, banners, brochures, invitations and the award itself.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "功在不捨，傲而不凡",
+          "body": "Campaign identity for the 52nd Distinguished Salesperson Award — Pride in Perseverance. An awards programme is a stress test for a key visual: it has to hold at the scale of a stage backdrop and at the size of a medal ribbon, in two languages, on the same day."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "DSA 52 key visual",
+          "caption": "The key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "One visual, every surface",
+          "body": "Stage backdrop, digital panels, roll-up banners, the winners' brochure, invitations, and the award itself. Each one is a different production process with a different tolerance, so the visual was built from elements that could be separated and re-weighted rather than a single fixed composition."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage backdrop and digital panels"
+            },
+            {
+              "src": "",
+              "alt": "Winners' brochure spread"
+            },
+            {
+              "src": "",
+              "alt": "Award ribbon and medal"
+            }
+          ],
+          "caption": "Backdrop, brochure, award"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "Pride in Perseverance"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": false,
+      "deep": false,
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "benoy-love-work",
+      "title": "Love Work",
+      "client": "Benoy",
+      "year": 2021,
+      "disciplines": [
+        "Motion",
+        "Film",
+        "Presentation"
+      ],
+      "role": "Motion Graphics, Film, Internal Comms",
+      "featured": false,
+      "deep": false,
+      "tone": "compass",
+      "summary": "An ongoing engagement with the architecture practice — the APAC monthly report as motion graphics, an animated argument for working from any location, project films for client presentations, and internal award banners.",
+      "cover": {
+        "src": "",
+        "alt": "Benoy motion graphics and film"
+      },
+      "credits": [
+        {
+          "role": "Motion & Film",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Benoy"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "First Friday",
+          "body": "The APAC marketing group presents a monthly report. Turning it into motion graphics was the first piece of motion work for Benoy — a recurring format rather than a one-off film, which means it has to be quick to rebuild every month and still look deliberate."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "First Friday title sequence",
+          "caption": "First Friday — monthly report titles",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Love Work",
+          "body": "Benoy put forward a position on the post-COVID work environment: that work happens from any location. It needed a presentation and an animated video to argue it.\n\nThe animation had to carry an argument rather than decorate one — isometric diagrams that show what actually changes when an office stops being a single address."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Post-COVID workplace diagram"
+            },
+            {
+              "src": "",
+              "alt": "Working from any location"
+            }
+          ],
+          "caption": "The Love Work argument, drawn"
+        },
+        {
+          "type": "text",
+          "heading": "Project films and award banners",
+          "body": "Films for a run of architectural projects, cut for presenting to clients. And internal banners announcing the projects that had won architectural prizes — small work, but it is what a practice's own people see every day."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Project film"
+        }
+      ],
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "wada",
+      "title": "A Dehumidifier You Wear",
+      "client": "和田保健貼",
+      "year": 2024,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "3D"
+      ],
+      "role": "Key Visual, Retail Design",
+      "featured": false,
+      "deep": false,
+      "tone": "cellmax",
+      "summary": "Retail campaign for a Japanese-made health patch — a celebrity endorsement, three benefit claims and two product variants, held together by one idea a shopper understands in a second.",
+      "cover": {
+        "src": "",
+        "alt": "和田保健貼 retail poster"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "和田保健貼"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "貼上身之抽濕機",
+          "body": "A patch that draws damp out of the body is a hard thing to sell in a sentence. 貼上身之抽濕機 — a dehumidifier you stick on — does it in five characters, and the whole poster is built to deliver that line rather than to list features.\n\n告別水腫 · 回復幼腿 · 改善酸痛 arrive as soft bubbles around it, so the benefits support the idea instead of competing with it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "和田保健貼 retail poster",
+          "caption": "The poster",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Endorsement, accreditation, and two SKUs",
+          "body": "Hong Kong health retail runs on trust markers: a celebrity user, an association accreditation, 日本製造. Each needs its own place in the hierarchy or they cancel each other out.\n\nThe two variants — 竹酢 and 唐辛子 — are shown as packs rather than as flat swatches, and the 3D foot and hand renders show where the thing actually goes. That last part matters more than it sounds: most shoppers have never used one."
+        }
+      ],
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "cellmax",
+      "title": "Fifteen Years",
+      "client": "Cellmax",
+      "year": 2023,
+      "disciplines": [
+        "Brand",
+        "Print",
+        "Social"
+      ],
+      "role": "Design, Art Direction",
+      "tone": "cellmax",
+      "summary": "Anniversary identity and collateral for the skincare brand — retail display, leaflets, brochures and a social system that keeps the range looking like one family.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Fifteen years, one shelf",
+          "body": "An anniversary mark for a skincare brand, extended across retail display, leaflets, brochures and social. Beauty collateral fails in a specific way: every product gets its own treatment until the range stops looking like one brand on the shelf."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Cellmax fifteenth anniversary key visual",
+          "caption": "Anniversary key visual",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "A family, not a set of one-offs",
+          "body": "The system fixes the proportions, the colour behaviour and the type relationship, so a new product or a new promotion joins the family instead of restarting it."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Retail display"
+            },
+            {
+              "src": "",
+              "alt": "Leaflet and brochure"
+            },
+            {
+              "src": "",
+              "alt": "Social key visuals"
+            }
+          ],
+          "caption": "Display, print, social"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "Fifteen Years"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": false,
+      "deep": false,
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "compass-web-tools",
+      "title": "The Tool Suite",
+      "client": "Compass Offices",
+      "year": 2026,
+      "disciplines": [
+        "Digital",
+        "Design Systems"
+      ],
+      "role": "Design & Build",
+      "featured": false,
+      "deep": true,
+      "tone": "compass",
+      "summary": "A suite of hand-built, single-file web tools that let a marketing team across nine cities produce on-brand collateral without a designer in the room.",
+      "cover": {
+        "src": "",
+        "alt": "Compass Offices web tool suite",
+        "ratio": "16x9"
+      },
+      "credits": [
+        {
+          "role": "Design & Build",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Compass Offices"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The problem",
+          "body": "Nine cities, one brand, and a marketing team that needed a one-pager by Thursday. Every request routed through a designer, so every request waited — and the further from head office, the longer the wait and the looser the brand.\n\nThe fix was not a template library. Templates get edited until they are not templates."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "One-Pager Builder interface",
+          "caption": "Brand rules enforced by the tool, not by review",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Make the brand the easy path",
+          "body": "Each tool is a single self-contained HTML file. It holds the type, colour, spacing and logo rules, and it will not produce something off-brand because there is no control that lets it.\n\nA marketer fills in the content, the tool does the design. The output is on-brand because it could not have been anything else."
+        },
+        {
+          "type": "quote",
+          "text": "The brand stops being a document people are asked to read, and becomes the shape of the tool they are already using.",
+          "attribution": "The idea the suite runs on"
+        },
+        {
+          "type": "stats",
+          "items": [
+            {
+              "value": "9",
+              "label": "Cities served"
+            },
+            {
+              "value": "1 file",
+              "label": "Per tool, no build step"
+            },
+            {
+              "value": "0",
+              "label": "Design reviews needed"
+            }
+          ]
+        }
+      ],
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "st-christophers",
+      "title": "Seventy Dollars a Month",
+      "client": "S.K.H. St. Christopher's Home 聖公會聖基道兒童院",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Social",
+        "Charity"
+      ],
+      "role": "Campaign Design",
+      "featured": false,
+      "deep": false,
+      "tone": "opera",
+      "summary": "A child sponsorship campaign for the children's home's ninetieth year — 童愛傳承, and one number the reader has to be able to say yes to.",
+      "cover": {
+        "src": "",
+        "alt": "小小助養人計劃 campaign"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "S.K.H. St. Christopher's Home"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The number does the asking",
+          "body": "小小助養人計劃 — the Little Sponsor Programme. Charity work fails when the ask is buried under the mission statement. Here 每月70元 sits on its own card at the bottom of the frame, at a size nothing else competes with, so the reader reaches a decision rather than a feeling.\n\n童愛傳承 above it carries the ninetieth year — the argument that this is a thing being handed on, not launched."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "小小助養人計劃 campaign visual",
+          "caption": "The ask, and the year it sits in",
+          "size": "full"
+        }
+      ],
+      "sector": "Culture & Non-profit"
+    },
+    {
+      "slug": "hksh-open-day",
+      "title": "Open Day",
+      "client": "Hong Kong Sanatorium & Hospital",
+      "year": 2023,
+      "disciplines": [
+        "Exhibition",
+        "Campaign",
+        "Print"
+      ],
+      "role": "Booth System, Graphics",
+      "featured": false,
+      "deep": false,
+      "tone": "hksh",
+      "summary": "A modular booth system for a hospital open day built around diabetes education — measuring stations, interactive panels and take-home print that a nursing team could set up and run without a designer present.",
+      "cover": {
+        "src": "",
+        "alt": "HKSH open day booth system"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Hong Kong Sanatorium & Hospital"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Health education has to be handled",
+          "body": "健康你「圖」多少 — an open day where visitors check their own numbers. Blood sugar readings, a myth-busting game, a measuring wheel: the graphics are not there to be admired, they are there to be touched by strangers and explained by a nurse in thirty seconds."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Measuring station"
+            },
+            {
+              "src": "",
+              "alt": "Blood sugar panel"
+            },
+            {
+              "src": "",
+              "alt": "Myth-busting game"
+            }
+          ],
+          "caption": "Stations across the floor"
+        },
+        {
+          "type": "text",
+          "heading": "Built to be run by the ward, not the studio",
+          "body": "The stands are modular and repeatable, so the same kit works in a lobby, a corridor or a hall, and the team running it can set it up themselves. Leaflets and take-home print carry the same system, so what a visitor leaves with matches what they just stood in front of."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Take-home leaflets and print",
+          "caption": "What visitors take home",
+          "size": "full"
+        }
+      ],
+      "sector": "Health & Care"
+    },
+    {
+      "slug": "jann-global",
+      "title": "Jann Global Logistics",
+      "client": "Jann Global Logistics",
+      "year": 2019,
+      "disciplines": [
+        "Brand"
+      ],
+      "role": "Identity System",
+      "tone": "logistics",
+      "summary": "A complete identity for a freight company — mark, typographic spec, a custom set of 3D logistics icons, colour system and full stationery.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A freight company that had to look like one",
+          "body": "A complete identity for a logistics business — mark, typographic specification, colour system and full stationery, documented so it could be used without asking."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Jann Global Logistics identity",
+          "caption": "The mark and colour system",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Icons as part of the system",
+          "body": "Logistics companies drown in stock icons that never match. This one got a custom set, modelled in 3D and lit consistently, so a diagram of a service reads as the same brand as the letterhead."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Custom 3D logistics icon set"
+            },
+            {
+              "src": "",
+              "alt": "Typographic specification"
+            },
+            {
+              "src": "",
+              "alt": "Stationery"
+            }
+          ],
+          "caption": "Icons, type spec, stationery"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "Jann Global Logistics"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": false,
+      "deep": false,
+      "sector": "Corporate & Institutional"
+    },
+    {
+      "slug": "sing-ping-opera",
+      "title": "Keeping the Songs",
+      "client": "Sing Ping Cantonese Opera",
+      "year": 2022,
+      "disciplines": [
+        "Brand",
+        "Film",
+        "Social"
+      ],
+      "role": "Identity, Film, Content",
+      "tone": "opera",
+      "summary": "Bilingual identity and performance content for a London Cantonese opera association — logo lockups in Chinese and English, stage films and a social system for a four-hundred-year-old art form.",
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Two scripts, one voice",
+          "body": "Identity and performance content for a London Cantonese opera association. The mark had to work in Chinese and English without one being a translation of the other — 昇平粵苑 set to sit beside its English lockup as an equal, not a subtitle."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "昇平粵苑 logo lockups, Chinese and English",
+          "caption": "Bilingual lockups",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "The stage is the campaign",
+          "body": "For a four-hundred-year-old art form, the argument for an audience is made by the performance itself. The content system is built around stage photography and film rather than graphics about opera."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Stage performance"
+            },
+            {
+              "src": "",
+              "alt": "Performance film still"
+            },
+            {
+              "src": "",
+              "alt": "Instagram content set"
+            }
+          ],
+          "caption": "Stage, film, social"
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Performance film"
+        }
+      ],
+      "cover": {
+        "src": "",
+        "alt": "Keeping the Songs"
+      },
+      "credits": [
+        {
+          "role": "Design & Direction",
+          "name": "WNH"
+        }
+      ],
+      "featured": false,
+      "deep": false,
+      "sector": "Culture & Non-profit"
+    },
     {
       "slug": "acker-social-system",
       "title": "A Voice for Fine Wine",
@@ -179,8 +1304,8 @@
         "Copy"
       ],
       "role": "Creative Direction, Copy, Design",
-      "featured": true,
-      "deep": true,
+      "featured": false,
+      "deep": false,
       "tone": "wine",
       "summary": "A bilingual content system for the oldest fine-wine house in America — one voice across Instagram and RedNote, in two languages, without sounding translated.",
       "cover": {
@@ -211,14 +1336,19 @@
         {
           "type": "image",
           "src": "",
-          "alt": "Grid of Instagram posts",
-          "size": "full",
-          "caption": "Instagram grid — one voice, three post shapes"
+          "alt": "Instagram grid",
+          "caption": "One voice, three post shapes",
+          "size": "full"
         },
         {
           "type": "quote",
           "text": "Say the wine, say why it matters, stop.",
           "attribution": "The rule the whole system runs on"
+        },
+        {
+          "type": "text",
+          "heading": "Written twice, not translated once",
+          "body": "RedNote posts are written natively in Chinese against their own platform conventions. The two languages share a position and a set of rules, not a source text."
         },
         {
           "type": "images",
@@ -255,107 +1385,8 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "slug": "compass-web-tools",
-      "title": "The Tool Suite",
-      "client": "Compass Offices",
-      "year": 2026,
-      "disciplines": [
-        "Digital",
-        "Design Systems"
       ],
-      "role": "Design & Build",
-      "featured": true,
-      "deep": true,
-      "tone": "compass",
-      "summary": "A suite of hand-built, single-file web tools that let a marketing team across nine cities produce on-brand collateral without a designer in the room.",
-      "cover": {
-        "src": "",
-        "alt": "Compass Offices web tool suite",
-        "ratio": "16x9"
-      },
-      "credits": [
-        {
-          "role": "Design & Build",
-          "name": "WNH"
-        },
-        {
-          "role": "Client",
-          "name": "Compass Offices"
-        }
-      ],
-      "blocks": [
-        {
-          "type": "text",
-          "heading": "The problem",
-          "body": "Nine cities, one brand, and a marketing team that needed a one-pager by Thursday. Every request routed through a designer, so every request waited.\n\nThe fix was not a template library. It was a set of tools that make the brand the path of least resistance."
-        },
-        {
-          "type": "image",
-          "src": "",
-          "alt": "One-pager builder interface",
-          "size": "full",
-          "caption": "One-Pager Builder — brand rules enforced by the tool, not by review"
-        },
-        {
-          "type": "stats",
-          "items": [
-            {
-              "value": "9",
-              "label": "Cities served"
-            },
-            {
-              "value": "1 file",
-              "label": "Per tool, no build step"
-            },
-            {
-              "value": "0",
-              "label": "Design reviews needed"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "wnh-scroll-world",
-      "title": "Seven Scenes",
-      "client": "WNH",
-      "year": 2025,
-      "disciplines": [
-        "Digital",
-        "3D",
-        "Film"
-      ],
-      "role": "Direction, Build",
-      "featured": true,
-      "deep": true,
-      "tone": "scroll",
-      "summary": "A scroll-driven cinematic where the page scrub drives a single continuous camera through seven worlds — each one rebuilt from a real project.",
-      "cover": {
-        "src": "",
-        "alt": "Scroll-driven cinematic portfolio",
-        "ratio": "16x9"
-      },
-      "credits": [
-        {
-          "role": "Direction & Build",
-          "name": "WNH"
-        }
-      ],
-      "blocks": [
-        {
-          "type": "vimeo",
-          "url": "",
-          "caption": "Seven Scenes — continuous camera, no cuts"
-        },
-        {
-          "type": "text",
-          "heading": "One camera, no cuts",
-          "body": "Scroll position drives video currentTime. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you can't cut, every transition has to be designed."
-        }
-      ]
+      "sector": "Consumer & Retail"
     },
     {
       "slug": "compass-tokyo",
@@ -368,7 +1399,7 @@
         "Copy"
       ],
       "role": "Design, Build, Copy",
-      "featured": true,
+      "featured": false,
       "tone": "tokyo",
       "summary": "Market-entry collateral for two new Tokyo centres — drawn network maps, bilingual one-pagers, and a launch page built in a week.",
       "cover": {
@@ -385,42 +1416,66 @@
       "blocks": [
         {
           "type": "text",
-          "heading": "One week",
-          "body": "Two centres, a launch date that had already been announced, and no photography yet. The drawn network map became the hero because it was the one asset that didn't depend on a shoot."
+          "heading": "One week, no photography",
+          "body": "Two new Tokyo centres, a launch date that had already been announced, and no photography yet. The drawn network map became the hero because it was the one asset that did not depend on a shoot."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Drawn network map"
+            },
+            {
+              "src": "",
+              "alt": "Bilingual one-pager"
+            }
+          ],
+          "caption": "Map and collateral"
         }
-      ]
+      ],
+      "deep": false,
+      "sector": "Corporate & Institutional"
     },
     {
-      "slug": "cantonese-opera",
-      "title": "Keeping the Songs",
-      "client": "Cantonese Opera Association",
+      "slug": "wnh-scroll-world",
+      "title": "Seven Scenes",
+      "client": "WNH",
       "year": 2025,
       "disciplines": [
-        "Brand",
+        "Digital",
+        "3D",
         "Film"
       ],
-      "role": "Design, Film",
-      "featured": true,
-      "tone": "opera",
-      "summary": "Identity and film support for a London association making the case to Arts Council England that a four-hundred-year-old art form still has an audience.",
+      "role": "Direction, Build",
+      "featured": false,
+      "deep": false,
+      "tone": "scroll",
+      "summary": "A scroll-driven cinematic where the page scrub drives a single continuous camera through seven worlds — each one rebuilt from a real project.",
       "cover": {
         "src": "",
-        "alt": "Cantonese opera identity and film",
-        "ratio": "4x5"
+        "alt": "Scroll-driven cinematic portfolio",
+        "ratio": "16x9"
       },
       "credits": [
         {
-          "role": "Design & Film",
+          "role": "Direction & Build",
           "name": "WNH"
         }
       ],
       "blocks": [
         {
           "type": "text",
-          "heading": "The case",
-          "body": "Funding bodies do not respond to heritage claims. They respond to evidence of an audience. The work had to show a living art form, not an archive."
+          "heading": "One camera, no cuts",
+          "body": "Scroll position drives video time. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you cannot cut, every transition has to be designed rather than edited."
+        },
+        {
+          "type": "vimeo",
+          "url": "",
+          "caption": "Seven Scenes — continuous camera"
         }
-      ]
+      ],
+      "sector": "Studio"
     }
   ]
 }

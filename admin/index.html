@@ -75,7 +75,7 @@ body{font-size:15px}
 .row2{display:grid;grid-template-columns:1fr;gap:0 14px}
 @media(min-width:700px){.row2{grid-template-columns:1fr 1fr}}
 .row3{display:grid;grid-template-columns:1fr;gap:0 14px}
-@media(min-width:700px){.row3{grid-template-columns:2fr 1fr 1fr}}
+@media(min-width:700px){.row3{grid-template-columns:2fr 1fr 1fr 1fr}}
 .sub-h{margin:26px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
 .sub-h .lbl{margin:0}
 .sub-h p{margin:6px 0 0;font-size:.85rem;color:var(--text-2);max-width:56ch;line-height:1.5}
@@ -788,7 +788,6 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     s.portfolio = s.portfolio || {};
     s.reel = s.reel || {};
     s.cloudinary = s.cloudinary || {};
-    s.social = s.social || [];
 
     f.appendChild(field('Studio name', 'site.name'));
     f.appendChild(field('Full name (browser title, footer)', 'site.full'));
@@ -803,6 +802,13 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     f.appendChild(r);
     f.appendChild(lines('Locations', 'site.locations'));
 
+    s.contact = s.contact || {};
+    f.appendChild(subHead('Enquiry form',
+      'The "Start a project" button opens a form. Paste a Formspree endpoint (or any URL that accepts a JSON POST) and it sends from the page; leave it empty and the form hands the message to the visitor\'s mail client instead.'));
+    f.appendChild(field('Form endpoint', 'site.contact.endpoint',
+      { hint: 'e.g. https://formspree.io/f/xxxxxxx — leave empty to fall back to email.' }));
+    f.appendChild(field('Form intro line', 'site.contact.note'));
+
     f.appendChild(subHead('Media', 'The cloud name is the single value that makes every image on the site work. Anything moving belongs on Vimeo.'));
     f.appendChild(field('Cloudinary cloud name', 'site.cloudinary.cloud',
       { hint: 'From your Cloudinary dashboard.', onInput: function () { rerenderSoon(); } }));
@@ -812,22 +818,11 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
 
     f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
     f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));
+    f.appendChild(field('Statement (first person)', 'site.portfolio.statement',
+      { multiline: true, hint: 'This page speaks as you, not as the studio — write it in the first person.' }));
     f.appendChild(lines('Role tags', 'site.portfolio.roles'));
     f.appendChild(field('Footer note', 'site.portfolio.note'));
 
-    f.appendChild(subHead('Social links'));
-    s.social.forEach(function (l, i) {
-      var box = itemBox({ index: i, title: l.label || 'Link', arrPath: 'site.social' });
-      var rr = document.createElement('div'); rr.className = 'row2';
-      rr.appendChild(field('Label', 'site.social.' + i + '.label'));
-      rr.appendChild(field('URL', 'site.social.' + i + '.url'));
-      box.appendChild(rr);
-      f.appendChild(box);
-    });
-    f.appendChild(addBtn('Add social link', function () {
-      s.social.push({ label: '', url: '' });
-      return 'site.social.' + (s.social.length - 1) + '.label';
-    }));
     return f;
   }
 
@@ -1098,8 +1093,12 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     });
     r2.appendChild(slugField);
     r2.appendChild(field('Year', P + '.year', { type: 'number' }));
+    r2.appendChild(select('Sector', P + '.sector',
+      ['Health & Care', 'Corporate & Institutional', 'Consumer & Retail',
+       'Culture & Non-profit', 'Studio']));
     r2.appendChild(select('Placeholder tint', P + '.tone',
-      ['wine', 'compass', 'imace', 'scroll', 'tokyo', 'opera']));
+      ['wine', 'compass', 'scroll', 'tokyo', 'opera',
+       'milwaukee', 'hksh', 'hkma', 'cellmax', 'logistics']));
     main.appendChild(r2);
 
     main.appendChild(field('Role', P + '.role'));

@@ -73,7 +73,7 @@
   <!-- 6 — contact -->
   <section style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <a class="cta-link" data-mailto href="#">Get in touch</a>
+      <button class="cta-link" data-contact>Get in touch</button>
       <div class="cta-foot">
         <a class="pill pill-solid" data-mail data-mailto href="#"></a>
         <span class="lab" data-locations></span>
@@ -91,7 +91,9 @@ WNH.boot(function (d) {
   var all = W.projects();
 
   W.$('#pf-lead').textContent = pf.lead || s.tagline || '';
-  W.$('#pf-statement').textContent = s.manifesto || '';
+  /* the studio site speaks as 'we'; this page is one person, so it has
+     its own statement rather than reusing the studio manifesto */
+  W.$('#pf-statement').textContent = pf.statement || s.manifesto || '';
   W.$('#pf-note').textContent = pf.note || '';
   W.$('#pf-roles').innerHTML = (pf.roles || []).map(function (r) {
     return '<span>' + W.t(r) + '</span>';

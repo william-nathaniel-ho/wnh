@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WNH — Design &amp; Production</title>
-<meta name="description" content="WNH is an independent design and production studio. Brand, film, motion, 3D and digital. Perth / Hong Kong.">
-<meta property="og:title" content="WNH — Design &amp; Production">
-<meta property="og:description" content="Independent design and production studio.">
-<meta property="og:type" content="website">
+<title>Work — WNH</title>
+<meta name="description" content="Selected work by WNH — brand, film, motion, 3D and digital.">
 <meta name="theme-color" content="#F1F0EC">
 <style>/* ==========================================================================
    WNH — design system
@@ -576,111 +573,37 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 .enq-send:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
-<body class="hero-dark">
-<a class="skip" href="#work">Skip to work</a>
+<body>
+<a class="skip" href="#list">Skip to list</a>
 <div id="shell-nav"></div>
 
 <main>
-  <!-- HERO — paper panel riding over full-bleed media -->
-  <section class="hero" id="top">
-    <div class="hero-media">
-      <div class="field" id="field"></div>
-      <div class="grain" aria-hidden="true"></div>
-    </div>
-    <div class="hero-top">
-      <div class="hero-cap lab lab-ink" id="hero-cap"></div>
-    </div>
-    <div class="hero-body">
-      <div class="wrap">
-        <div class="hero-panel">
-          <p class="line" id="hero-line"></p>
-          <div class="hero-meta lab" id="hero-meta"></div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-cue">
-      <span class="bar" aria-hidden="true"></span>
-      <span class="lab lab-ink">Scroll</span>
-    </div>
-  </section>
-
-  <!-- STATEMENT -->
-  <section class="sec-tight">
-    <div class="wrap two">
-      <div class="lab rv in">Statement<br>&mdash; 001</div>
-      <p class="statement rv" id="statement"></p>
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section class="sec-tight" id="work" style="padding-top:0">
+  <section class="case-hero">
     <div class="wrap">
-      <div class="sec-head rv">
-        <div>
-          <div class="lab">Selected work</div>
-          <h2 class="h-sec" style="margin-top:10px">Recent projects</h2>
-        </div>
-        <a class="pill" data-href="work/">
-          <span>All work <span id="work-count"></span></span>
-          <svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>
-        </a>
+      <div class="lab">Index &mdash; all work</div>
+      <h1 class="case-title">Work</h1>
+      <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
+      <div style="display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;padding-bottom:var(--s3)">
+        <span class="lab" id="count"></span>
+        <button class="chip" id="view" aria-pressed="false" style="margin-left:auto">List view</button>
       </div>
-      <div class="bento" id="bento"></div>
     </div>
   </section>
 
-  <!-- CAPABILITIES -->
-  <section class="sec-tight" id="capabilities" style="padding-top:0">
+  <section class="sec-tight" id="list" style="padding-top:var(--s3)">
     <div class="wrap">
-      <div class="sec-head rv">
-        <div>
-          <div class="lab">Capabilities</div>
-          <h2 class="h-sec" style="margin-top:10px">What the studio does</h2>
-        </div>
-      </div>
-      <div class="caps" id="caps"></div>
+      <div class="bento" id="cards"></div>
+      <div class="rows" id="rows" hidden></div>
+      <p class="empty" id="empty" hidden>No projects in that discipline.</p>
     </div>
   </section>
 
-  <!-- PROCESS — dark contrast panel -->
-  <section class="sec-tight" style="padding-top:0">
-    <div class="wrap">
-      <div class="panel-ink rv" style="padding:clamp(32px,5vw,72px)">
-        <div class="sec-head" style="margin-bottom:var(--s5)">
-          <div>
-            <div class="lab lab-ink">Process</div>
-            <h2 class="h-sec" style="margin-top:10px">Four steps, no theatre</h2>
-          </div>
-        </div>
-        <div class="steps" id="steps"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLIENTS -->
-  <section aria-label="Selected clients" style="margin-bottom:var(--s6)">
-    <div class="marq"><div class="marq-track" id="marq"></div></div>
-  </section>
-
-  <!-- STUDIO -->
-  <section class="sec-tight" id="studio" style="padding-top:0">
-    <div class="wrap studio">
-      <div class="portrait rv"><div class="ph"></div></div>
-      <div class="rv">
-        <div class="lab">Studio &mdash; 002</div>
-        <p class="statement" style="font-size:clamp(1.35rem,2.6vw,2.1rem);margin-top:var(--s3)" id="studio-copy"></p>
-        <div class="avail"><i aria-hidden="true"></i><span id="avail"></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
   <section id="contact" style="border-top:1px solid var(--line)">
     <div class="wrap">
       <button class="cta-link" data-contact>Start a project</button>
       <div class="cta-foot">
         <a class="pill pill-solid" data-mail data-mailto href="#"></a>
-        <span class="lab" id="cta-loc"></span>
+        <span class="lab" data-locations></span>
       </div>
     </div>
   </section>
@@ -852,8 +775,12 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
     "TTI",
     "Hong Kong Sanatorium & Hospital",
     "HKMA",
+    "Vita Green 維特健靈",
     "BananaUnder 蕉下",
     "Benoy",
+    "CAREARCH HK",
+    "和田保健貼",
+    "S.K.H. St. Christopher's Home",
     "Cellmax",
     "Acker Merrall & Condit",
     "Compass Offices",
@@ -1126,6 +1053,95 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
       "featured": true
     },
     {
+      "slug": "carearch",
+      "title": "A Mark Built From People",
+      "client": "CAREARCH HK 善延護理",
+      "year": 2023,
+      "disciplines": [
+        "Brand",
+        "Digital"
+      ],
+      "role": "Identity System, Web Design",
+      "featured": true,
+      "deep": true,
+      "tone": "hksh",
+      "summary": "A full identity for a Hong Kong nursing agency — a mark drawn from human figures arranged into a care cross, documented with construction, type and colour rules, and applied from ID badge to bilingual website.",
+      "cover": {
+        "src": "",
+        "alt": "CAREARCH HK identity system"
+      },
+      "credits": [
+        {
+          "role": "Identity & Web",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "CAREARCH HK 善延護理有限公司"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The mark is the service",
+          "body": "A nursing agency places people. So the mark is made of people — figures arranged into the plus of a care symbol, each one a different colour because the whole point is that they are individuals being matched to a family.\n\nIt reads as a medical cross at a glance and as a group of people the moment you look properly."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Primary logo and construction grid",
+          "caption": "Primary logo, and the grid it is built on",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Documented so it survives",
+          "body": "Construction and clear space on a grid. DFYuanHK for the Chinese, tracked +100; Gotham Bold for the Latin, tracked +10. A five-colour system. Three icon treatments and four secondary lockups, so there is a correct answer for a badge, a favicon, an English-only context and a stacked one.\n\nThis is the part clients skip and then quietly regret. An agency's brand gets applied by nurses, coordinators and printers — never by the designer."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Type specification"
+            },
+            {
+              "src": "",
+              "alt": "Colour system"
+            },
+            {
+              "src": "",
+              "alt": "Icon and secondary lockups"
+            }
+          ],
+          "caption": "Type, colour, and the secondary set"
+        },
+        {
+          "type": "text",
+          "heading": "Down to the lanyard",
+          "body": "Business cards, the staff ID badge on its lanyard, and a bilingual site built around the one thing a family actually arrives to do: search for care by district and service type.\n\n培育醫護專業 · 傳承愛心使命."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Business cards"
+            },
+            {
+              "src": "",
+              "alt": "Staff ID badge and lanyard"
+            },
+            {
+              "src": "",
+              "alt": "Desktop and mobile site"
+            }
+          ],
+          "caption": "Applications"
+        }
+      ]
+    },
+    {
       "slug": "milwaukee-house-builder",
       "title": "House Builder",
       "client": "Milwaukee — TTI",
@@ -1209,7 +1225,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         "Campaign"
       ],
       "role": "3D Product Visualisation",
-      "featured": true,
+      "featured": false,
       "deep": false,
       "tone": "cellmax",
       "summary": "3D product key visuals for the sun-protection brand's umbrella lines — 口袋系列, 膠囊系列 and 小黑傘系列 — each series given its own colour world while staying one family.",
@@ -1262,6 +1278,55 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "alt": "Product key visual detail",
           "caption": "Rendered, not shot",
           "size": "full"
+        }
+      ]
+    },
+    {
+      "slug": "vita-green",
+      "title": "Vita Calm",
+      "client": "Vita Green 維特健靈",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "Digital"
+      ],
+      "role": "Key Visual, Campaign Design",
+      "featured": true,
+      "deep": false,
+      "tone": "hkma",
+      "summary": "Campaign and e-commerce visuals for Hong Kong's number-one sleep supplement — a night world that carries a hard retail offer without turning into a discount banner.",
+      "cover": {
+        "src": "",
+        "alt": "Vita Green Vita Calm campaign key visual"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Vita Green 維特健靈"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A premium claim and a hard offer, in one frame",
+          "body": "寧心 is a four-year category leader with a gift-with-purchase mechanic attached — buy nine boxes and a smartwatch comes with it. Those two jobs pull in opposite directions: the first wants calm and authority, the second wants urgency.\n\nThe answer is a night sky rather than a sale colour. Deep navy and gold hold the No.1 claim; the offer sits inside the same world as gold-edged badges instead of being pasted on top of it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Vita Calm campaign banner",
+          "caption": "The banner, at full retail width",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Ingredients as evidence",
+          "body": "GABA, L-theanine, and the herbs — 靈芝, 柴胡, 酸棗仁, 當歸丹參 — floated as lit spheres beside the pack. In Hong Kong health retail the ingredient list is the argument, so it gets treated as imagery rather than as small print."
         }
       ]
     },
@@ -1325,7 +1390,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true,
+      "featured": false,
       "deep": false
     },
     {
@@ -1339,7 +1404,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         "Presentation"
       ],
       "role": "Motion Graphics, Film, Internal Comms",
-      "featured": true,
+      "featured": false,
       "deep": false,
       "tone": "compass",
       "summary": "An ongoing engagement with the architecture practice — the APAC monthly report as motion graphics, an animated argument for working from any location, project films for client presentations, and internal award banners.",
@@ -1398,6 +1463,55 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "type": "vimeo",
           "url": "",
           "caption": "Project film"
+        }
+      ]
+    },
+    {
+      "slug": "wada",
+      "title": "A Dehumidifier You Wear",
+      "client": "和田保健貼",
+      "year": 2024,
+      "disciplines": [
+        "Campaign",
+        "Retail",
+        "3D"
+      ],
+      "role": "Key Visual, Retail Design",
+      "featured": false,
+      "deep": false,
+      "tone": "cellmax",
+      "summary": "Retail campaign for a Japanese-made health patch — a celebrity endorsement, three benefit claims and two product variants, held together by one idea a shopper understands in a second.",
+      "cover": {
+        "src": "",
+        "alt": "和田保健貼 retail poster"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "和田保健貼"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "貼上身之抽濕機",
+          "body": "A patch that draws damp out of the body is a hard thing to sell in a sentence. 貼上身之抽濕機 — a dehumidifier you stick on — does it in five characters, and the whole poster is built to deliver that line rather than to list features.\n\n告別水腫 · 回復幼腿 · 改善酸痛 arrive as soft bubbles around it, so the benefits support the idea instead of competing with it."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "和田保健貼 retail poster",
+          "caption": "The poster",
+          "size": "full"
+        },
+        {
+          "type": "text",
+          "heading": "Endorsement, accreditation, and two SKUs",
+          "body": "Hong Kong health retail runs on trust markers: a celebrity user, an association accreditation, 日本製造. Each needs its own place in the hierarchy or they cancel each other out.\n\nThe two variants — 竹酢 and 唐辛子 — are shown as packs rather than as flat swatches, and the 3D foot and hand renders show where the thing actually goes. That last part matters more than it sounds: most shoppers have never used one."
         }
       ]
     },
@@ -1461,7 +1575,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
           "name": "WNH"
         }
       ],
-      "featured": true,
+      "featured": false,
       "deep": false
     },
     {
@@ -1474,7 +1588,7 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
         "Design Systems"
       ],
       "role": "Design & Build",
-      "featured": true,
+      "featured": false,
       "deep": true,
       "tone": "compass",
       "summary": "A suite of hand-built, single-file web tools that let a marketing team across nine cities produce on-brand collateral without a designer in the room.",
@@ -1532,6 +1646,50 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
               "label": "Design reviews needed"
             }
           ]
+        }
+      ]
+    },
+    {
+      "slug": "st-christophers",
+      "title": "Seventy Dollars a Month",
+      "client": "S.K.H. St. Christopher's Home 聖公會聖基道兒童院",
+      "year": 2025,
+      "disciplines": [
+        "Campaign",
+        "Social",
+        "Charity"
+      ],
+      "role": "Campaign Design",
+      "featured": false,
+      "deep": false,
+      "tone": "opera",
+      "summary": "A child sponsorship campaign for the children's home's ninetieth year — 童愛傳承, and one number the reader has to be able to say yes to.",
+      "cover": {
+        "src": "",
+        "alt": "小小助養人計劃 campaign"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "S.K.H. St. Christopher's Home"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "The number does the asking",
+          "body": "小小助養人計劃 — the Little Sponsor Programme. Charity work fails when the ask is buried under the mission statement. Here 每月70元 sits on its own card at the bottom of the frame, at a size nothing else competes with, so the reader reaches a decision rather than a feeling.\n\n童愛傳承 above it carries the ninetieth year — the argument that this is a thing being handed on, not launched."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "小小助養人計劃 campaign visual",
+          "caption": "The ask, and the year it sits in",
+          "size": "full"
         }
       ]
     },
@@ -2341,72 +2499,66 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 </script>
 <script>
 WNH.boot(function (d) {
-  var W = WNH, s = d.site || {};
-  var featured = W.projects().filter(function (p) { return p.featured !== false; });
+  var W = WNH;
+  var all = W.projects();
+  var active = new URLSearchParams(location.search).get('d') || '';
 
-  W.$('#hero-line').textContent = s.tagline || '';
-  W.$('#hero-cap').innerHTML = 'Brand &middot; Film &middot; Motion<br>3D &middot; Digital';
-  W.$('#hero-meta').innerHTML =
-    '<span>' + W.esc((s.locations || []).join(' / ')) + '</span>' +
-    '<span>Reel 2026</span>';
-  W.$('#statement').textContent = s.manifesto || '';
-  W.$('#studio-copy').textContent = s.studioCopy || '';
-  W.$('#avail').textContent = s.availability || '';
-  W.$('#work-count').textContent = '(' + W.projects().length + ')';
-  W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
+  W.$('#filters').innerHTML =
+    ['<button class="chip" data-d="" aria-pressed="' + (!active) + '">All</button>']
+    .concat(W.disciplines().map(function (x) {
+      return '<button class="chip" data-d="' + W.esc(x) + '" aria-pressed="' +
+             (active === x) + '">' + W.esc(x) + '</button>';
+    })).join('');
 
-  /* an even grid of identical cards reads as a catalogue, not a studio */
-  var spans = W.spans(featured.length);
-  W.$('#bento').innerHTML = featured.map(function (p, i) {
-    var span = spans[i];
-    return '<a class="card rv ' + span + '" href="' +
-      W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
-      '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +
-      '<div class="card-body">' +
-        '<div class="card-top"><span class="lab">' + W.t(p.client) + '</span>' +
-          '<span class="lab">' + W.esc(p.year) + '</span></div>' +
-        '<h3 class="h-card">' + W.t(p.title) + '</h3>' +
-        (span ? '<p class="card-sum">' + W.t(p.summary) + '</p>' : '') +
-        W.tags(p.disciplines) +
-      '</div></a>';
-  }).join('');
+  function draw() {
+    var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
+    W.$('#count').textContent = list.length + (list.length === 1 ? ' project' : ' projects') +
+      (active ? ' — ' + active : '');
+    W.$('#empty').hidden = list.length > 0;
 
-  W.$('#caps').innerHTML = (d.capabilities || []).map(function (c, i) {
-    return '<article class="cap rv"><span class="lab accent">' + W.pad(i + 1) + '</span>' +
-      '<h3>' + W.t(c.title) + '</h3><p>' + W.t(c.summary) + '</p><ul>' +
-      (c.items || []).map(function (x) { return '<li>' + W.t(x) + '</li>'; }).join('') + '</ul></article>';
-  }).join('');
+    var spans = W.spans(list.length);
+    W.$('#cards').innerHTML = list.map(function (p, i) {
+      return '<a class="card rv in ' + spans[i] + '" href="' +
+        W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
+        '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +
+        '<div class="card-body"><div class="card-top">' +
+          '<span class="lab">' + W.t(p.client) + '</span><span class="lab">' + W.esc(p.year) + '</span></div>' +
+        '<h3 class="h-card">' + W.t(p.title) + '</h3>' + W.tags(p.disciplines) + '</div></a>';
+    }).join('');
 
-  W.$('#steps').innerHTML = (d.process || []).map(function (p) {
-    return '<article class="step"><span class="n">' + W.esc(p.step) + '</span>' +
-      '<h3>' + W.t(p.title) + '</h3><p>' + W.t(p.body) + '</p></article>';
-  }).join('');
-
-  var names = (d.clients || []);
-  W.$('#marq').innerHTML = names.concat(names).map(function (n) {
-    return '<span class="marq-item">' + W.t(n) + '</span>';
-  }).join('');
-
-  /* showreel behind the hero: Vimeo, then a Cloudinary mp4, else the field */
-  var field = W.$('#field');
-  if (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo)) {
-    var f = document.createElement('iframe');
-    f.src = W.vimeoSrc(s.reel.vimeo, true) + '&muted=1&loop=1&background=1';
-    f.allow = 'autoplay; fullscreen';
-    f.setAttribute('aria-hidden', 'true');
-    f.title = 'Showreel';
-    f.style.cssText = 'position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;' +
-      'min-width:100%;min-height:100%;transform:translate(-50%,-50%);border:0';
-    field.replaceWith(f);
-  } else if (s.reel && W.cld.ok(s.reel.video)) {
-    var v = document.createElement('video');
-    v.src = W.cld.video(s.reel.video);
-    if (W.cld.ok(s.reel.poster)) v.poster = W.cld.poster(s.reel.poster);
-    v.muted = v.loop = v.autoplay = v.playsInline = true;
-    v.setAttribute('playsinline', '');
-    v.setAttribute('aria-hidden', 'true');
-    field.replaceWith(v);
+    W.$('#rows').innerHTML = list.map(function (p, i) {
+      return '<a class="row rv in" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
+        '<span class="row-thumb">' + W.cover(p, i, 200) + '</span>' +
+        '<h3 class="row-title"><span class="row-client">' + W.t(p.client) + '</span>' + W.t(p.title) + '</h3>' +
+        '<span class="row-meta">' + W.tags(p.disciplines) + '</span>' +
+        '<span class="row-year">' + W.esc(p.year) + '</span>' +
+        '<span class="row-arrow" aria-hidden="true"><svg width="15" height="11" viewBox="0 0 14 10" fill="none">' +
+        '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg></span></a>';
+    }).join('');
   }
+
+  W.$('#filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    active = b.dataset.d;
+    W.$$('#filters .chip').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.d === active));
+    });
+    var u = new URL(location);
+    active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
+    history.replaceState(null, '', u);
+    draw();
+  });
+
+  var listView = false;
+  W.$('#view').addEventListener('click', function () {
+    listView = !listView;
+    this.setAttribute('aria-pressed', String(listView));
+    this.textContent = listView ? 'Grid view' : 'List view';
+    W.$('#cards').hidden = listView;
+    W.$('#rows').hidden = !listView;
+  });
+
+  draw();
 });
 </script>
 </body>

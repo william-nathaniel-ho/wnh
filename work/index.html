@@ -18,9 +18,19 @@
     <div class="wrap">
       <div class="lab">Index &mdash; all work</div>
       <h1 class="case-title">Work</h1>
-      <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
-      <div style="display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;padding-bottom:var(--s3)">
+      <div class="filter-set">
+        <div class="filter-row">
+          <span class="lab filter-lab">Sector</span>
+          <div class="filters" id="sectors" role="group" aria-label="Filter by sector"></div>
+        </div>
+        <div class="filter-row">
+          <span class="lab filter-lab">Discipline</span>
+          <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;padding-block:var(--s3)">
         <span class="lab" id="count"></span>
+        <button class="chip" id="clear" hidden>Clear filters</button>
         <button class="chip" id="view" aria-pressed="false" style="margin-left:auto">List view</button>
       </div>
     </div>
@@ -36,7 +46,7 @@
 
   <section id="contact" style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <a class="cta-link" data-mailto href="#">Start a project</a>
+      <button class="cta-link" data-contact>Start a project</button>
       <div class="cta-foot">
         <a class="pill pill-solid" data-mail data-mailto href="#"></a>
         <span class="lab" data-locations></span>
@@ -51,19 +61,53 @@
 WNH.boot(function (d) {
   var W = WNH;
   var all = W.projects();
-  var active = new URLSearchParams(location.search).get('d') || '';
+  var q = new URLSearchParams(location.search);
+  var active = q.get('d') || '';
+  var sector = q.get('s') || '';
 
-  W.$('#filters').innerHTML =
-    ['<button class="chip" data-d="" aria-pressed="' + (!active) + '">All</button>']
-    .concat(W.disciplines().map(function (x) {
-      return '<button class="chip" data-d="' + W.esc(x) + '" aria-pressed="' +
-             (active === x) + '">' + W.esc(x) + '</button>';
-    })).join('');
+  /* two filters that combine, so "Health & Care" + "Brand" is one question
+     rather than two separate views of the same list */
+  function chips(host, values, current, key) {
+    W.$(host).innerHTML =
+      ['<button class="chip" data-v="" aria-pressed="' + (!current) + '">All</button>']
+      .concat(values.map(function (x) {
+        return '<button class="chip" data-v="' + W.esc(x) + '" aria-pressed="' +
+               (current === x) + '">' + W.esc(x) + '</button>';
+      })).join('');
+    W.$(host).addEventListener('click', function (e) {
+      var b = e.target.closest('.chip'); if (!b) return;
+      if (key === 's') sector = b.dataset.v; else active = b.dataset.v;
+      W.$$(host + ' .chip').forEach(function (c) {
+        c.setAttribute('aria-pressed', String(c.dataset.v === (key === 's' ? sector : active)));
+      });
+      var u = new URL(location);
+      sector ? u.searchParams.set('s', sector) : u.searchParams.delete('s');
+      active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
+      history.replaceState(null, '', u);
+      draw();
+    });
+  }
+  chips('#sectors', W.sectors(), sector, 's');
+  chips('#filters', W.disciplines(2), active, 'd');
+
+  W.$('#clear').addEventListener('click', function () {
+    sector = ''; active = '';
+    W.$$('.chip[data-v]').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(!c.dataset.v));
+    });
+    history.replaceState(null, '', location.pathname);
+    draw();
+  });
 
   function draw() {
-    var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
+    var list = all.filter(function (p) {
+      return (!sector || p.sector === sector) &&
+             (!active || (p.disciplines || []).indexOf(active) > -1);
+    });
+    var bits = [sector, active].filter(Boolean);
     W.$('#count').textContent = list.length + (list.length === 1 ? ' project' : ' projects') +
-      (active ? ' — ' + active : '');
+      (bits.length ? ' — ' + bits.join(' · ') : '');
+    W.$('#clear').hidden = !bits.length;
     W.$('#empty').hidden = list.length > 0;
 
     var spans = W.spans(list.length);
@@ -86,18 +130,6 @@ WNH.boot(function (d) {
         '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg></span></a>';
     }).join('');
   }
-
-  W.$('#filters').addEventListener('click', function (e) {
-    var b = e.target.closest('.chip'); if (!b) return;
-    active = b.dataset.d;
-    W.$$('#filters .chip').forEach(function (c) {
-      c.setAttribute('aria-pressed', String(c.dataset.d === active));
-    });
-    var u = new URL(location);
-    active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
-    history.replaceState(null, '', u);
-    draw();
-  });
 
   var listView = false;
   W.$('#view').addEventListener('click', function () {

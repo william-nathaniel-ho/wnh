@@ -138,12 +138,21 @@
   W.project = function (slug) {
     return W.projects().filter(function (p) { return p.slug === slug; })[0] || null;
   };
-  W.disciplines = function () {
+  W.sectors = function () {
     var seen = {}, out = [];
     W.projects().forEach(function (p) {
-      (p.disciplines || []).forEach(function (d) { if (!seen[d]) { seen[d] = 1; out.push(d); } });
+      if (p.sector && !seen[p.sector]) { seen[p.sector] = 1; out.push(p.sector); }
     });
-    return out.sort();
+    return out;
+  };
+  /* A filter that returns one result is not a filter. min defaults to 1 so
+     other pages are unaffected; the work index passes 2. */
+  W.disciplines = function (min) {
+    var count = {};
+    W.projects().forEach(function (p) {
+      (p.disciplines || []).forEach(function (d) { count[d] = (count[d] || 0) + 1; });
+    });
+    return Object.keys(count).filter(function (d) { return count[d] >= (min || 1); }).sort();
   };
 
   /* -------------------------------------------------------------- shell
@@ -160,7 +169,7 @@
           '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
           '<a href="' + W.url('#studio') + '">Studio</a>' +
         '</nav>' +
-        '<a class="pill nav-cta" data-mailto href="#">Start a project ' + ARROW + '</a>' +
+        '<button class="pill nav-cta" data-contact>Start a project ' + ARROW + '</button>' +
         '<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">' +
           '<i></i><i></i><i></i></button>' +
       '</div></header>' +
@@ -175,15 +184,15 @@
 
     var foot = W.$('#shell-foot');
     if (foot) foot.innerHTML =
-      '<footer><div class="wrap"><div class="foot-grid">' +
+      '<footer><div class="wrap"><div class="foot-grid foot-3">' +
         '<div class="foot-col"><h4>Studio</h4><p data-full></p><p data-locations></p></div>' +
         '<div class="foot-col"><h4>Index</h4>' +
           '<a href="' + W.url('work/') + '">Work</a>' +
           '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
-          '<a href="' + W.url('#studio') + '">Studio</a>' +
-          '<a href="' + W.url('#contact') + '">Contact</a></div>' +
-        '<div class="foot-col" data-social><h4>Elsewhere</h4></div>' +
-        '<div class="foot-col"><h4>Colophon</h4><p>Geist</p><p>Hand-built. No framework.</p></div>' +
+          '<a href="' + W.url('#studio') + '">Studio</a></div>' +
+        '<div class="foot-col"><h4>Contact</h4>' +
+          '<a data-mail data-mailto href="#"></a>' +
+          '<button class="foot-btn" data-contact>Start a project</button></div>' +
       '</div><div class="foot-bot lab">' +
         '<span>&copy; <span data-year></span> WNH</span><span data-locations></span>' +
       '</div></div></footer>';
@@ -205,13 +214,6 @@
     W.$$('[data-locations]').forEach(function (el) { el.textContent = (s.locations || []).join(' / '); });
     W.$$('[data-full]').forEach(function (el) { el.innerHTML = W.t(s.full || ''); });
     W.$$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
-
-    var social = W.$('[data-social]');
-    if (social) {
-      social.innerHTML = '<h4>Elsewhere</h4>' + (s.social || []).map(function (l) {
-        return '<a href="' + W.esc(l.url) + '" rel="noopener">' + W.esc(l.label) + '</a>';
-      }).join('');
-    }
   };
 
   /* --------------------------------------------------------------- menu */
@@ -297,6 +299,113 @@
     });
   };
 
+
+  /* ------------------------------------------------------------- enquiry
+     A real form rather than a mailto: most people never finish a mailto —
+     it opens a client they may not use. Posts to site.contact.endpoint
+     (a Formspree URL or any endpoint that accepts JSON); with no endpoint
+     set it falls back to composing the mail, so the button always works. */
+  W.contact = function (d) {
+    var s = (d && d.site) || {};
+    var c = s.contact || {};
+    var mail = s.email || '';
+
+    var dlg = document.createElement('dialog');
+    dlg.className = 'sheet-dlg';
+    dlg.innerHTML =
+      '<form method="dialog" class="enq" novalidate>' +
+        '<button class="enq-x" value="cancel" aria-label="Close">' +
+          '<svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">' +
+          '<path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.4"/></svg></button>' +
+        '<div class="lab">Start a project</div>' +
+        '<h2>Tell me what you\'re making.</h2>' +
+        '<p class="enq-note">' + W.esc(c.note || '') + '</p>' +
+        '<div class="enq-f"><label for="enq-name">Name</label>' +
+          '<input id="enq-name" name="name" type="text" autocomplete="name" required></div>' +
+        '<div class="enq-f"><label for="enq-email">Email</label>' +
+          '<input id="enq-email" name="email" type="email" autocomplete="email" required></div>' +
+        '<div class="enq-f"><label for="enq-msg">Message</label>' +
+          '<textarea id="enq-msg" name="message" rows="5" required></textarea></div>' +
+        '<div class="enq-hp" aria-hidden="true">' +
+          '<label>Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label></div>' +
+        '<div class="enq-err" role="alert"></div>' +
+        '<div class="enq-act">' +
+          '<button type="submit" class="pill pill-solid enq-send">Send</button>' +
+          '<a class="enq-alt" href="mailto:' + W.esc(mail) + '">or email directly</a>' +
+        '</div>' +
+      '</form>' +
+      '<div class="enq-done" hidden>' +
+        '<div class="lab">Sent</div>' +
+        '<h2>Thanks — I\'ll come back to you.</h2>' +
+        '<p class="enq-note">Usually within two working days.</p>' +
+        '<button class="pill enq-close">Close</button>' +
+      '</div>';
+    document.body.appendChild(dlg);
+
+    var form = dlg.querySelector('.enq');
+    var err = dlg.querySelector('.enq-err');
+    var send = dlg.querySelector('.enq-send');
+
+    var open = function () {
+      err.textContent = '';
+      if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+      var f = dlg.querySelector('#enq-name');
+      if (f) setTimeout(function () { f.focus(); }, 40);
+    };
+    var close = function () {
+      if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+    };
+
+    W.$$('[data-contact]').forEach(function (b) {
+      b.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+    dlg.querySelector('.enq-x').addEventListener('click', function (e) { e.preventDefault(); close(); });
+    dlg.querySelector('.enq-close').addEventListener('click', close);
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      err.textContent = '';
+      var data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
+      if (form.company.value) return;                    /* honeypot */
+      if (!data.name || !data.email || !data.message) {
+        err.textContent = 'Name, email and a message, please.'; return;
+      }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) {
+        err.textContent = 'That email address does not look right.'; return;
+      }
+
+      if (!c.endpoint) {
+        /* no endpoint configured — hand it to the mail client with the
+           fields already filled, so nothing the person typed is lost */
+        location.href = 'mailto:' + mail +
+          '?subject=' + encodeURIComponent('Project enquiry — ' + data.name) +
+          '&body=' + encodeURIComponent(data.message + '\n\n— ' + data.name + ' (' + data.email + ')');
+        return;
+      }
+
+      send.disabled = true; send.textContent = 'Sending…';
+      fetch(c.endpoint, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', accept: 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('Send failed (' + r.status + ')');
+        form.hidden = true;
+        dlg.querySelector('.enq-done').hidden = false;
+        dlg.querySelector('.enq-close').focus();
+      }).catch(function (e2) {
+        err.textContent = e2.message + ' — you can email directly instead.';
+      }).finally(function () {
+        send.disabled = false; send.textContent = 'Send';
+      });
+    });
+  };
+
   W.boot = function (render) {
     W.shell();
     W.links();
@@ -304,6 +413,7 @@
     W.load().then(function (d) {
       W.chrome(d);
       if (render) render(d);
+      W.contact(d);
       W.reveal();
       W.meters();
       W.facades();

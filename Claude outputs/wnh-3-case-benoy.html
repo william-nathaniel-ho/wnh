@@ -3,11 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WNH — Design &amp; Production</title>
-<meta name="description" content="WNH is an independent design and production studio. Brand, film, motion, 3D and digital. Perth / Hong Kong.">
-<meta property="og:title" content="WNH — Design &amp; Production">
-<meta property="og:description" content="Independent design and production studio.">
-<meta property="og:type" content="website">
+<title>Case study — WNH</title>
 <meta name="theme-color" content="#F1F0EC">
 <style>/* ==========================================================================
    WNH — design system
@@ -576,112 +572,58 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 .enq-send:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
-<body class="hero-dark">
-<a class="skip" href="#work">Skip to work</a>
+<body>
+<a class="skip" href="#body">Skip to case study</a>
 <div id="shell-nav"></div>
 
 <main>
-  <!-- HERO — paper panel riding over full-bleed media -->
-  <section class="hero" id="top">
-    <div class="hero-media">
-      <div class="field" id="field"></div>
-      <div class="grain" aria-hidden="true"></div>
-    </div>
-    <div class="hero-top">
-      <div class="hero-cap lab lab-ink" id="hero-cap"></div>
-    </div>
-    <div class="hero-body">
+  <article id="case" hidden>
+    <section class="case-hero">
       <div class="wrap">
-        <div class="hero-panel">
-          <p class="line" id="hero-line"></p>
-          <div class="hero-meta lab" id="hero-meta"></div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-cue">
-      <span class="bar" aria-hidden="true"></span>
-      <span class="lab lab-ink">Scroll</span>
-    </div>
-  </section>
-
-  <!-- STATEMENT -->
-  <section class="sec-tight">
-    <div class="wrap two">
-      <div class="lab rv in">Statement<br>&mdash; 001</div>
-      <p class="statement rv" id="statement"></p>
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section class="sec-tight" id="work" style="padding-top:0">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <div>
-          <div class="lab">Selected work</div>
-          <h2 class="h-sec" style="margin-top:10px">Recent projects</h2>
-        </div>
-        <a class="pill" data-href="work/">
-          <span>All work <span id="work-count"></span></span>
-          <svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg>
+        <a class="link-u" data-href="work/">
+          <svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M5 1L1 5l4 4M1 5h13" stroke="currentColor" stroke-width="1.3"/></svg>
+          <span>All work</span>
         </a>
+        <div class="lab" style="margin-top:var(--s4)" id="c-client"></div>
+        <h1 class="case-title" id="c-title"></h1>
+        <p class="case-summary" id="c-summary"></p>
+        <dl class="case-meta" id="c-meta"></dl>
       </div>
-      <div class="bento" id="bento"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CAPABILITIES -->
-  <section class="sec-tight" id="capabilities" style="padding-top:0">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <div>
-          <div class="lab">Capabilities</div>
-          <h2 class="h-sec" style="margin-top:10px">What the studio does</h2>
+    <section class="sec-tight" id="body">
+      <div class="wrap"><div class="blocks" id="c-blocks"></div></div>
+    </section>
+
+    <section class="sec-tight" style="padding-top:0" id="c-credits-wrap" hidden>
+      <div class="wrap">
+        <div class="lab" style="margin-bottom:var(--s3)">Credits</div>
+        <dl class="credits" id="c-credits"></dl>
+      </div>
+    </section>
+
+    <div class="wrap"><a class="next" id="c-next" href="#">
+      <span class="lab">Next project</span><span class="t" id="c-next-title"></span>
+    </a></div>
+
+    <section id="contact" style="border-top:1px solid var(--line)">
+      <div class="wrap">
+        <button class="cta-link" data-contact>Start a project</button>
+        <div class="cta-foot">
+          <a class="pill pill-solid" data-mail data-mailto href="#"></a>
+          <span class="lab" data-locations></span>
         </div>
       </div>
-      <div class="caps" id="caps"></div>
-    </div>
-  </section>
+    </section>
+  </article>
 
-  <!-- PROCESS — dark contrast panel -->
-  <section class="sec-tight" style="padding-top:0">
+  <section class="case-hero" id="missing" hidden>
     <div class="wrap">
-      <div class="panel-ink rv" style="padding:clamp(32px,5vw,72px)">
-        <div class="sec-head" style="margin-bottom:var(--s5)">
-          <div>
-            <div class="lab lab-ink">Process</div>
-            <h2 class="h-sec" style="margin-top:10px">Four steps, no theatre</h2>
-          </div>
-        </div>
-        <div class="steps" id="steps"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLIENTS -->
-  <section aria-label="Selected clients" style="margin-bottom:var(--s6)">
-    <div class="marq"><div class="marq-track" id="marq"></div></div>
-  </section>
-
-  <!-- STUDIO -->
-  <section class="sec-tight" id="studio" style="padding-top:0">
-    <div class="wrap studio">
-      <div class="portrait rv"><div class="ph"></div></div>
-      <div class="rv">
-        <div class="lab">Studio &mdash; 002</div>
-        <p class="statement" style="font-size:clamp(1.35rem,2.6vw,2.1rem);margin-top:var(--s3)" id="studio-copy"></p>
-        <div class="avail"><i aria-hidden="true"></i><span id="avail"></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <button class="cta-link" data-contact>Start a project</button>
-      <div class="cta-foot">
-        <a class="pill pill-solid" data-mail data-mailto href="#"></a>
-        <span class="lab" id="cta-loc"></span>
-      </div>
+      <div class="lab">Error</div>
+      <h1 class="case-title">Not found</h1>
+      <p class="case-summary">That project isn't in the index.</p>
+      <p style="margin-top:var(--s5)"><a class="pill" data-href="work/"><span>See all work</span>
+        <svg width="13" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.3"/></svg></a></p>
     </div>
   </section>
 </main>
@@ -2341,72 +2283,99 @@ figcaption,.cap-line{margin-top:12px;font-size:.8125rem;color:var(--text-2)}
 </script>
 <script>
 WNH.boot(function (d) {
-  var W = WNH, s = d.site || {};
-  var featured = W.projects().filter(function (p) { return p.featured !== false; });
+  var W = WNH;
+  var slug = 'benoy-love-work';
+  var p = slug && W.project(slug);
 
-  W.$('#hero-line').textContent = s.tagline || '';
-  W.$('#hero-cap').innerHTML = 'Brand &middot; Film &middot; Motion<br>3D &middot; Digital';
-  W.$('#hero-meta').innerHTML =
-    '<span>' + W.esc((s.locations || []).join(' / ')) + '</span>' +
-    '<span>Reel 2026</span>';
-  W.$('#statement').textContent = s.manifesto || '';
-  W.$('#studio-copy').textContent = s.studioCopy || '';
-  W.$('#avail').textContent = s.availability || '';
-  W.$('#work-count').textContent = '(' + W.projects().length + ')';
-  W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
+  if (!p) { W.$('#missing').hidden = false; return; }
+  W.$('#case').hidden = false;
 
-  /* an even grid of identical cards reads as a catalogue, not a studio */
-  var spans = W.spans(featured.length);
-  W.$('#bento').innerHTML = featured.map(function (p, i) {
-    var span = spans[i];
-    return '<a class="card rv ' + span + '" href="' +
-      W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
-      '<div class="card-media">' + W.cover(p, i, 1200) + '</div>' +
-      '<div class="card-body">' +
-        '<div class="card-top"><span class="lab">' + W.t(p.client) + '</span>' +
-          '<span class="lab">' + W.esc(p.year) + '</span></div>' +
-        '<h3 class="h-card">' + W.t(p.title) + '</h3>' +
-        (span ? '<p class="card-sum">' + W.t(p.summary) + '</p>' : '') +
-        W.tags(p.disciplines) +
-      '</div></a>';
-  }).join('');
+  document.title = p.title + ' — ' + p.client + ' — WNH';
+  W.$('#c-client').innerHTML = W.t(p.client);
+  W.$('#c-title').innerHTML = W.t(p.title);
+  W.$('#c-summary').textContent = p.summary || '';
 
-  W.$('#caps').innerHTML = (d.capabilities || []).map(function (c, i) {
-    return '<article class="cap rv"><span class="lab accent">' + W.pad(i + 1) + '</span>' +
-      '<h3>' + W.t(c.title) + '</h3><p>' + W.t(c.summary) + '</p><ul>' +
-      (c.items || []).map(function (x) { return '<li>' + W.t(x) + '</li>'; }).join('') + '</ul></article>';
-  }).join('');
+  W.$('#c-meta').innerHTML = [
+    ['Client', W.t(p.client)], ['Year', W.esc(p.year)],
+    ['Discipline', (p.disciplines || []).map(W.esc).join(', ')], ['Role', W.t(p.role || '—')]
+  ].map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('');
 
-  W.$('#steps').innerHTML = (d.process || []).map(function (p) {
-    return '<article class="step"><span class="n">' + W.esc(p.step) + '</span>' +
-      '<h3>' + W.t(p.title) + '</h3><p>' + W.t(p.body) + '</p></article>';
-  }).join('');
-
-  var names = (d.clients || []);
-  W.$('#marq').innerHTML = names.concat(names).map(function (n) {
-    return '<span class="marq-item">' + W.t(n) + '</span>';
-  }).join('');
-
-  /* showreel behind the hero: Vimeo, then a Cloudinary mp4, else the field */
-  var field = W.$('#field');
-  if (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo)) {
-    var f = document.createElement('iframe');
-    f.src = W.vimeoSrc(s.reel.vimeo, true) + '&muted=1&loop=1&background=1';
-    f.allow = 'autoplay; fullscreen';
-    f.setAttribute('aria-hidden', 'true');
-    f.title = 'Showreel';
-    f.style.cssText = 'position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;' +
-      'min-width:100%;min-height:100%;transform:translate(-50%,-50%);border:0';
-    field.replaceWith(f);
-  } else if (s.reel && W.cld.ok(s.reel.video)) {
-    var v = document.createElement('video');
-    v.src = W.cld.video(s.reel.video);
-    if (W.cld.ok(s.reel.poster)) v.poster = W.cld.poster(s.reel.poster);
-    v.muted = v.loop = v.autoplay = v.playsInline = true;
-    v.setAttribute('playsinline', '');
-    v.setAttribute('aria-hidden', 'true');
-    field.replaceWith(v);
+  function media(src, alt, ratio) {
+    if (W.cld.ok(src)) {
+      return '<img src="' + W.cld.img(src, 1920) + '" srcset="' + W.cld.srcset(src) +
+             '" sizes="100vw" alt="' + W.esc(alt || '') + '" loading="lazy" decoding="async">';
+    }
+    return '<div class="ph ratio-' + (ratio || '16x9') + '" data-tone="' + W.esc(p.tone || 'wine') + '"></div>';
   }
+  function cap(text) { return text ? '<figcaption>' + W.t(text) + '</figcaption>' : ''; }
+
+  var R = {
+    text: function (b) {
+      return '<div class="blk-text"><h2>' + W.t(b.heading || '') + '</h2><div>' +
+        String(b.body || '').split(/\n{2,}/).map(function (x) { return '<p>' + W.t(x) + '</p>'; }).join('') +
+        '</div></div>';
+    },
+    image: function (b) {
+      return '<figure class="' + (b.size === 'wide' ? 'blk-wide' : '') + '">' +
+        '<div class="media">' + media(b.src, b.alt, b.ratio) + '</div>' + cap(b.caption) + '</figure>';
+    },
+    images: function (b) {
+      var items = b.items || [];
+      return '<figure><div class="blk-images' + (items.length === 3 ? ' three' : '') + '">' +
+        items.map(function (it) { return '<div class="media">' + media(it.src, it.alt, '4x5') + '</div>'; }).join('') +
+        '</div>' + cap(b.caption) + '</figure>';
+    },
+    video: function (b) {
+      if (!W.cld.ok(b.src)) return R.image({ src: '', alt: b.caption, caption: b.caption });
+      return '<figure><div class="media"><video src="' + W.cld.video(b.src) + '"' +
+        (W.cld.ok(b.poster) ? ' poster="' + W.cld.poster(b.poster) + '"' : '') +
+        ' controls playsinline preload="metadata"></video></div>' + cap(b.caption) + '</figure>';
+    },
+    vimeo: function (b) {
+      if (!W.vimeoId(b.url)) {
+        return '<figure><div class="embed"><div class="embed-facade">' +
+          '<span class="play">Vimeo link not set yet</span></div></div>' + cap(b.caption) + '</figure>';
+      }
+      /* a facade, not a live iframe — four players on one page is a slow page */
+      return '<figure><div class="embed" data-vimeo="' + W.esc(b.url) + '" data-title="' +
+        W.esc(b.caption || p.title) + '"><div class="embed-facade" role="button" tabindex="0">' +
+        '<span class="play"><svg width="11" height="13" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true">' +
+        '<path d="M0 0l12 7-12 7z"/></svg> Play</span></div></div>' + cap(b.caption) + '</figure>';
+    },
+    quote: function (b) {
+      return '<div class="blk-quote"><blockquote>' + W.t(b.text || '') + '</blockquote>' +
+        (b.attribution ? '<cite>' + W.t(b.attribution) + '</cite>' : '') + '</div>';
+    },
+    stats: function (b) {
+      return '<div class="blk-stats">' + (b.items || []).map(function (s) {
+        return '<div class="stat"><b>' + W.t(s.value) + '</b><span>' + W.t(s.label) + '</span></div>';
+      }).join('') + '</div>';
+    }
+  };
+
+  W.$('#c-blocks').innerHTML = (p.blocks || []).map(function (b) {
+    var fn = R[b.type];
+    if (!fn) { console.warn('WNH: unknown block type', b.type); return ''; }
+    return '<div class="rv">' + fn(b) + '</div>';
+  }).join('');
+
+  if ((p.credits || []).length) {
+    W.$('#c-credits-wrap').hidden = false;
+    W.$('#c-credits').innerHTML = p.credits.map(function (c) {
+      return '<div class="credit"><dt>' + W.t(c.role) + '</dt><dd>' + W.t(c.name) + '</dd></div>';
+    }).join('');
+  }
+
+  var all = W.projects();
+  var next = all[(all.indexOf(p) + 1) % all.length];
+  W.$('#c-next').href = W.url('work/case.html?p=' + encodeURIComponent(next.slug));
+  W.$('#c-next-title').innerHTML = W.t(next.title);
+
+  W.$$('.embed-facade').forEach(function (f) {
+    f.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); }
+    });
+  });
 });
 </script>
 </body>
