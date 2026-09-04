@@ -6,84 +6,78 @@
 <title>Portfolio — WNH</title>
 <meta name="description" content="Selected work and capabilities — design direction, brand, film, motion, 3D and digital build.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#08090A">
+<meta name="theme-color" content="#F1F0EC">
 <link rel="stylesheet" href="../assets/css/site.css">
-<style>
-  /* This page is sent directly to a person, not found by search.
-     It runs its own quieter chrome: no marquee, no timecode theatre. */
-  .pf-reel{margin-top:var(--s5)}
-  .pf-sticky{position:sticky;top:64px;z-index:20;background:var(--ink);border-bottom:1px solid var(--line)}
-  .pf-sticky .wrap{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;padding-block:10px}
-  .pf-sticky .mono{white-space:nowrap}
-</style>
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
 <a class="skip" href="#work">Skip to work</a>
 <div id="shell-nav"></div>
 
 <main>
-  <!-- 1 — reel first: the fastest possible answer to "can they do it" -->
-  <section class="pf-hero">
+  <!-- 1 — reel first -->
+  <section class="case-hero">
     <div class="wrap">
-      <div class="mono muted">Portfolio &mdash; <span data-year></span></div>
-      <h1 class="case-title" style="max-width:20ch">Design<br><span class="accent amp">&amp;</span> Production</h1>
-      <p class="pf-lead" id="pf-lead"></p>
-      <div class="pf-role" id="pf-roles"></div>
-      <div class="pf-reel" id="pf-reel"></div>
+      <div class="lab">Portfolio &mdash; <span data-year></span></div>
+      <h1 class="case-title" style="max-width:14ch">Design <br>&amp; Production</h1>
+      <p class="case-summary" id="pf-lead"></p>
+      <div class="pf-roles" id="pf-roles"></div>
+      <div id="pf-reel" style="margin-top:var(--s5)"></div>
     </div>
   </section>
 
-  <!-- 2 — the statement, in the studio's own voice -->
-  <section class="sec">
-    <div class="wrap two-col">
-      <div class="mono muted">Approach<br>&mdash; 001</div>
-      <div>
-        <p style="font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3vw,2.4rem);line-height:1.28;margin:0;max-width:24ch" id="pf-manifesto"></p>
-      </div>
+  <!-- 2 — approach -->
+  <section class="sec-tight">
+    <div class="wrap two">
+      <div class="lab">Approach<br>&mdash; 001</div>
+      <p class="statement" id="pf-statement"></p>
     </div>
   </section>
 
-  <!-- 3 — deep case studies: the thinking, not just the picture -->
-  <section class="sec" id="work" style="padding-top:0">
+  <!-- 3 — deep dives -->
+  <section class="sec-tight" id="work" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head rv">
-        <h2 class="sec-title">Selected <span class="n">Work</span></h2>
-        <span class="mono muted">In depth</span>
+        <div><div class="lab">Selected work</div>
+          <h2 class="h-sec" style="margin-top:10px">In depth</h2></div>
       </div>
       <div class="deep" id="deep"></div>
     </div>
   </section>
 
-  <!-- 4 — the dense wall: breadth, filterable by discipline -->
-  <section class="sec" style="padding-top:0">
+  <!-- 4 — everything -->
+  <section class="sec-tight" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head rv">
-        <h2 class="sec-title">Every<span class="n">thing</span></h2>
-        <span class="mono muted" id="pf-count"></span>
+        <div><div class="lab">Archive</div>
+          <h2 class="h-sec" style="margin-top:10px">Everything</h2></div>
+        <span class="lab" id="pf-count"></span>
       </div>
       <div class="filters" id="pf-filters" role="group" aria-label="Filter by discipline"></div>
-      <div class="cards" id="pf-cards" style="margin-top:var(--s4)"></div>
+      <div class="bento" id="pf-cards" style="margin-top:var(--s3)"></div>
     </div>
   </section>
 
-  <!-- 5 — what I lead, and what I run it in -->
-  <section class="sec" style="padding-top:0">
+  <!-- 5 — capabilities + toolkit -->
+  <section class="sec-tight" style="padding-top:0">
     <div class="wrap">
-      <div class="sec-head rv"><h2 class="sec-title">Capa<span class="n">bilities</span></h2></div>
-      <div class="caps-grid" id="pf-caps"></div>
-      <div class="sec-head rv" style="margin-top:var(--s6)"><h2 class="sec-title">Tool<span class="n">kit</span></h2></div>
-      <div class="tool-grid" id="pf-tools"></div>
+      <div class="sec-head rv"><div><div class="lab">Capabilities</div>
+        <h2 class="h-sec" style="margin-top:10px">What I lead</h2></div></div>
+      <div class="caps" id="pf-caps"></div>
+      <div class="sec-head rv" style="margin-top:var(--s6)"><div><div class="lab">Toolkit</div>
+        <h2 class="h-sec" style="margin-top:10px">What I run it in</h2></div></div>
+      <div class="tools" id="pf-tools"></div>
     </div>
   </section>
 
   <!-- 6 — contact -->
-  <section class="cta">
+  <section style="border-top:1px solid var(--line)">
     <div class="wrap">
-      <a class="cta-link" data-mailto href="#">Get in<br><em>touch</em></a>
+      <a class="cta-link" data-mailto href="#">Get in touch</a>
       <div class="cta-foot">
-        <a class="cta-mail" data-mail href="#"></a>
-        <span class="mono muted" data-locations></span>
-        <span class="mono muted" id="pf-note"></span>
+        <a class="pill pill-solid" data-mail data-mailto href="#"></a>
+        <span class="lab" data-locations></span>
+        <span class="lab" id="pf-note"></span>
       </div>
     </div>
   </section>
@@ -97,50 +91,44 @@ WNH.boot(function (d) {
   var all = W.projects();
 
   W.$('#pf-lead').textContent = pf.lead || s.tagline || '';
-  W.$('#pf-manifesto').textContent = s.manifesto || '';
+  W.$('#pf-statement').textContent = s.manifesto || '';
   W.$('#pf-note').textContent = pf.note || '';
   W.$('#pf-roles').innerHTML = (pf.roles || []).map(function (r) {
     return '<span>' + W.t(r) + '</span>';
   }).join('');
 
-  /* reel — Vimeo if there is one, otherwise the section simply isn't there */
   var reel = W.$('#pf-reel');
-  if (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo)) {
-    reel.innerHTML = '<div class="embed" data-vimeo="' + W.esc(s.reel.vimeo) + '" data-title="Showreel">' +
+  reel.innerHTML = (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo))
+    ? '<div class="embed" data-vimeo="' + W.esc(s.reel.vimeo) + '" data-title="Showreel">' +
       '<div class="embed-facade" role="button" tabindex="0"><span class="play">' +
-      '<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0l12 7-12 7z"/></svg>' +
-      ' Play reel</span></div></div>';
-  } else {
-    reel.innerHTML = '<div class="embed"><div class="embed-facade">' +
+      '<svg width="11" height="13" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0l12 7-12 7z"/></svg>' +
+      ' Play reel</span></div></div>'
+    : '<div class="embed"><div class="embed-facade">' +
       '<span class="play">Reel — add a Vimeo link in /admin</span></div></div>';
-  }
 
-  /* deep dives: alternating sides, so the eye zig-zags instead of scanning */
   var deep = all.filter(function (p) { return p.deep; });
   W.$('#deep').innerHTML = deep.map(function (p, i) {
+    var href = W.url('work/case.html?p=' + encodeURIComponent(p.slug));
     return '<article class="deep-item rv">' +
-      '<a class="deep-media" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
-        W.cover(p, i, 1440) + '</a>' +
+      '<a class="deep-media" href="' + href + '">' + W.cover(p, i, 1440) + '</a>' +
       '<div class="deep-body">' +
-        '<span class="mono muted">' + W.pad(i + 1) + ' &mdash; ' + W.t(p.client) + ' &middot; ' + W.esc(p.year) + '</span>' +
-        '<h3><a href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' + W.t(p.title) + '</a></h3>' +
+        '<span class="lab">' + W.pad(i + 1) + ' &mdash; ' + W.t(p.client) + ' &middot; ' + W.esc(p.year) + '</span>' +
+        '<h3><a href="' + href + '">' + W.t(p.title) + '</a></h3>' +
         '<p>' + W.t(p.summary) + '</p>' +
-        '<div class="role">' + W.t(p.role || '') + '</div>' +
-        W.tags(p.disciplines) +
+        '<div style="margin-top:var(--s3)">' + W.tags(p.disciplines) + '</div>' +
       '</div></article>';
   }).join('');
 
-  /* the wall */
   var active = '';
   function drawCards() {
     var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
     W.$('#pf-count').textContent = list.length + ' projects' + (active ? ' — ' + active : '');
     W.$('#pf-cards').innerHTML = list.map(function (p, i) {
-      return '<a class="card rv in" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
-        '<span class="card-media">' + W.cover(p, i, 960) + '</span>' +
-        '<span class="card-body"><span><span class="c">' + W.t(p.client) + '</span>' +
-        '<h3>' + W.t(p.title) + '</h3></span><span class="y">' + W.esc(p.year) + '</span></span>' +
-        W.tags(p.disciplines) + '</a>';
+      return '<a class="card rv in ' + W.span(i) + '" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
+        '<div class="card-media">' + W.cover(p, i, 960) + '</div>' +
+        '<div class="card-body"><div class="card-top">' +
+          '<span class="lab">' + W.t(p.client) + '</span><span class="lab">' + W.esc(p.year) + '</span></div>' +
+        '<h3 class="h-card">' + W.t(p.title) + '</h3>' + W.tags(p.disciplines) + '</div></a>';
     }).join('');
   }
   W.$('#pf-filters').innerHTML =
@@ -159,7 +147,7 @@ WNH.boot(function (d) {
   drawCards();
 
   W.$('#pf-caps').innerHTML = (d.capabilities || []).map(function (c, i) {
-    return '<article class="cap rv"><span class="mono accent">' + W.pad(i + 1) + '</span>' +
+    return '<article class="cap rv"><span class="lab accent">' + W.pad(i + 1) + '</span>' +
       '<h3>' + W.t(c.title) + '</h3><p>' + W.t(c.summary) + '</p><ul>' +
       (c.items || []).map(function (x) { return '<li>' + W.t(x) + '</li>'; }).join('') + '</ul></article>';
   }).join('');

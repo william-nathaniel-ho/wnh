@@ -169,22 +169,19 @@ The reasoning: for a production house, the *work* has to be the loudest thing on
 
 | Token | Value | Use |
 |---|---|---|
-| `--ink` | `#08090A` | Page ground |
-| `--ink-2` | `#101113` | Raised surfaces, cards |
-| `--paper` | `#EDEBE6` | Primary text, inverted sections |
-| `--muted` | `#9A9A94` | Metadata, captions — 5.6:1 on ink |
-| `--accent` | `#FF4326` | Signal red. Index numerals, REC dot, links, hover — 5.7:1 on ink |
-| `--line` | `rgba(237,235,230,.14)` | Hairlines, the grid made visible |
-
-One accent. It appears maybe eight times per page. That restraint is what reads expensive.
+| `--bg` | `#F1F0EC` | Warm paper ground |
+| `--surface` | `#FFFFFF` | Cards, panels |
+| `--ink` | `#0B0D14` | Text, and dark contrast panels |
+| `--text-2` | `#6B6D74` | Secondary — 4.5:1 on paper |
+| `--accent` | `#FF4326` | Marks, fills, large type |
+| `--accent-2` | `#C4321B` | The same red for small text on paper — 4.9:1 |
 
 ### Type
 
-- **Display — Archivo** (variable, 400–900). Set at 800–900, `letter-spacing: -0.04em`, `line-height: 0.85`. Headlines are set tight enough to become shapes.
-- **Mono — IBM Plex Mono** 400/500. All metadata: indices, years, disciplines, timecode, labels. `0.6875rem`, `letter-spacing: .16em`, uppercase.
-- **Editorial — Instrument Serif** italic. Used *only* for the director voice — the manifesto line, pull quotes, the byline. This is the "hybrid" made visible: the studio speaks in grotesk, Will speaks in serif.
-
-Scale: `clamp(3.5rem, 11vw, 11rem)` display / `clamp(2rem, 5vw, 4rem)` section / `1.0625rem × 1.65` body, capped at 62ch.
+**One family — Geist** (variable, self-hosted, 29KB). Display at weight 500 with
+tight tracking; micro labels in the same face, uppercase, `.15em`. No mono and
+no serif: the reference studios all run a single grotesk, and the technical feel
+comes from tracking and case rather than a borrowed genre.
 
 ### Grid & space
 

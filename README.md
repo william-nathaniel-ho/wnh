@@ -17,7 +17,8 @@ admin/index.html        The editor
 content.json            All copy + media references. The single source of truth.
 assets/css/site.css     The whole design system
 assets/js/site.js       Shared runtime: nav, footer, Cloudinary, Vimeo, reveals
-assets/fonts/           Self-hosted woff2, 121KB, latin subsets
+assets/fonts/           Geist variable, self-hosted, 29KB
+assets/logo.svg         The WNH mark
 
 functions/_shared.js    Session signing, env guards
 functions/api/          login · logout · session · save · upload-signature
@@ -68,8 +69,16 @@ python3 -m http.server 8000
 
 ## Design system
 
-Near-black `#08090A`, bone `#EDEBE6`, one signal red `#FF4326` used sparingly.
-Archivo for display, IBM Plex Mono for all metadata, Instrument Serif italic
-for the studio's own voice. Every ampersand is swapped to a plain one, which is why
-`.amp` exists. All text pairs pass WCAG AA. Motion is disabled wholesale under
-`prefers-reduced-motion`.
+Warm paper `#F1F0EC`, white cards, near-black `#0B0D14` with a blue cast, one
+red used sparingly — `#FF4326` for marks and fills, `#C4321B` where the same
+red has to carry small text on a light ground and clear 4.5:1.
+
+**One typeface: Geist.** No mono, no serif, no ampersand substitution. Micro
+labels are the same family, uppercase and tracked. Tokens are semantic
+(`--bg` / `--surface` / `--text`) so the editor inherits the theme rather than
+carrying its own.
+
+Layout devices: a paper panel riding over full-bleed hero media; a six-column
+bento whose span pattern has period six so rows always fill; dark panels as
+contrast breaks; pills for every control. All text pairs pass WCAG AA. Motion
+is disabled wholesale under `prefers-reduced-motion`.
