@@ -407,6 +407,43 @@ body.menu{overflow:hidden}
 .studio{display:grid;grid-template-columns:1fr;gap:var(--s4)}
 @media(min-width:900px){.studio{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:var(--s6);align-items:center}}
 .portrait{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+/* ------------------------------------------------------------- preloaders
+
+   Both use the WNH mark itself, as a CSS mask over a moving gradient, so the
+   loading state is the logo rather than a generic spinner. One SVG, no extra
+   request — the browser already has it for the nav. */
+.preload{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:var(--bg);transition:opacity .45s ease,visibility .45s;
+  animation:pl-failsafe 1s 8s forwards}
+.preload.done{opacity:0;visibility:hidden;pointer-events:none}
+.pl-mark{width:76px;height:76px;
+  -webkit-mask:url('../logo.svg') center/contain no-repeat;
+          mask:url('../logo.svg') center/contain no-repeat;
+  background:linear-gradient(100deg,var(--ink) 0 42%,var(--accent) 50%,var(--ink) 58% 100%);
+  background-size:280% 100%;animation:pl-sweep 1.35s linear infinite}
+@keyframes pl-sweep{from{background-position:180% 0}to{background-position:-80% 0}}
+/* if the script never runs, the overlay must not sit there forever */
+@keyframes pl-failsafe{to{opacity:0;visibility:hidden}}
+
+/* the same mark, quiet, holding an image box until the picture arrives */
+.media,.card-media{position:relative}
+.media::before,.card-media::before{content:'';position:absolute;left:50%;top:50%;
+  width:clamp(22px,13%,60px);aspect-ratio:1;transform:translate(-50%,-50%);
+  -webkit-mask:url('../logo.svg') center/contain no-repeat;
+          mask:url('../logo.svg') center/contain no-repeat;
+  background:var(--ink);opacity:.10;transition:opacity .35s ease;
+  animation:pl-breathe 1.9s ease-in-out infinite}
+.media.is-loaded::before,.card-media.is-loaded::before{opacity:0;animation:none}
+@keyframes pl-breathe{0%,100%{opacity:.10}50%{opacity:.22}}
+html.js .media img,html.js .card-media img{opacity:0;transition:opacity .5s ease}
+html.js .media.is-loaded img,html.js .card-media.is-loaded img{opacity:1}
+/* video and the studio loop bring their own holding frame */
+.media:has(video)::before,.portrait::before{content:none}
+@media(prefers-reduced-motion:reduce){
+  .pl-mark,.media::before,.card-media::before{animation:none}
+  .preload,html.js .media img,html.js .card-media img{transition:none}
+}
+
 /* the mark holds the frame until the motion is ready to take over */
 .portrait.is-loop{background:var(--loop-bg,var(--surface-2))}
 .loop-still{position:absolute;inset:0;z-index:2;display:grid;place-items:center;

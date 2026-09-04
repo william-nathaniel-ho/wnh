@@ -26,6 +26,10 @@
   W.$  = function (s, r) { return (r || document).querySelector(s); };
   W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  /* The rule that fades an image in is gated on this class: if the script
+     never runs, images simply show, rather than staying invisible forever. */
+  document.documentElement.className += ' js';
+
   W.esc = function (s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -412,6 +416,31 @@
     });
   };
 
+  /* Hold each image box with the quiet mark until its picture has decoded,
+     then fade the picture in. Runs over whatever is on the page now and can be
+     called again after a re-render. */
+  W.imgloads = function (root) {
+    W.$$('.media, .card-media', root).forEach(function (box) {
+      if (box.dataset.plWatched) return;
+      var img = box.querySelector('img');
+      if (!img) { box.classList.add('is-loaded'); return; }
+      box.dataset.plWatched = '1';
+      var done = function () { box.classList.add('is-loaded'); };
+      if (img.complete && img.naturalWidth) return done();
+      img.addEventListener('load', done, { once: true });
+      /* a broken or blocked image must not leave the box stuck loading */
+      img.addEventListener('error', done, { once: true });
+    });
+  };
+
+  /* the page overlay comes down once the content is on screen */
+  W.unveil = function () {
+    var el = W.$('#preload');
+    if (!el) return;
+    el.classList.add('done');
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 600);
+  };
+
   /* click-to-load Vimeo, so one page never pulls four players at once */
   W.facades = function () {
     W.$$('.embed[data-vimeo]').forEach(function (box) {
@@ -547,10 +576,13 @@
       W.reveal();
       W.meters();
       W.facades();
+      W.imgloads();
       document.body.classList.add('loaded');
+      W.unveil();
     }).catch(function (err) {
       console.error('WNH: could not load content.json', err);
       document.body.classList.add('loaded');
+      W.unveil();
     });
   };
 
