@@ -1,0 +1,198 @@
+{
+  "site": {
+    "name": "WNH",
+    "full": "WNH — Design & Production",
+    "tagline": "Independent design and production studio.",
+    "manifesto": "Most studios can make a thing look good in a grid. Fewer can make it hold up in motion, at 4 a.m., on a phone, in a language you don't speak. That's the part we care about.",
+    "studioCopy": "WNH is a small studio with a long reach — brand, film, motion, 3D and the web builds that carry them. You talk to the people doing the work, so nothing gets diluted on its way to you.",
+    "locations": ["Perth", "Hong Kong"],
+    "email": "hello@wnhdesign.io",
+    "domain": "wnhdesign.io",
+    "availability": "Taking on two projects for Q1 2027.",
+    "cloudinary": { "cloud": "", "folder": "wnh" },
+    "reel": { "vimeo": "", "video": "", "poster": "" },
+    "social": [
+      { "label": "Instagram", "url": "#" },
+      { "label": "Vimeo", "url": "#" },
+      { "label": "LinkedIn", "url": "#" }
+    ],
+    "portfolio": {
+      "lead": "Fifteen years of brand, film and 3D work, and the web builds that put it in front of people. Available for design direction, and for the kind of role where making and leading are the same job.",
+      "roles": ["Design Direction", "Brand & Identity", "Film & Motion", "3D & Character", "Digital Build", "AI Production"],
+      "note": "Full case studies and references on request."
+    }
+  },
+
+  "capabilities": [
+    { "id": "brand",   "title": "Brand & Identity",   "summary": "Systems built to survive contact with the real world — not just the deck.",            "items": ["Naming & positioning", "Identity systems", "Type & colour systems", "Guidelines & toolkits"] },
+    { "id": "film",    "title": "Film & Direction",   "summary": "From treatment to grade. Brand films, campaign cutdowns, event coverage, documentary.", "items": ["Treatment & storyboard", "Direction", "Edit & grade", "Sound"] },
+    { "id": "motion",  "title": "Motion & 3D",        "summary": "Idents, product animation, character work, and the 3D worlds that hold them.",         "items": ["Idents & titles", "3D character design", "Product animation", "Look development"] },
+    { "id": "digital", "title": "Digital & Web",      "summary": "Sites and tools that ship. Hand-built, fast, and editable by the people who own them.", "items": ["Design systems", "Front-end build", "Internal tools", "Deployment & handover"] },
+    { "id": "ai",      "title": "AI Production",      "summary": "AI-assisted pipelines for volume work — used where it earns its place, and nowhere else.", "items": ["Generative image & video", "Character consistency", "Pipeline design", "Team training"] },
+    { "id": "social",  "title": "Social & Campaign",  "summary": "Always-on content that stays on-brand across markets and platforms.",                  "items": ["Content systems", "Platform-native edits", "Bilingual copy", "Reporting"] }
+  ],
+
+  "process": [
+    { "step": "01", "title": "Brief",    "body": "One call, then a written brief you approve. If the brief is wrong, everything after it is decoration." },
+    { "step": "02", "title": "Direction","body": "Two routes, not ten. Each with a reason it exists and a reason to kill it." },
+    { "step": "03", "title": "Production","body": "Shoot, build, animate. Weekly cuts, no surprises at the end." },
+    { "step": "04", "title": "Handover", "body": "Master files, source files, and a system your team can run without us." }
+  ],
+
+  "tools": [
+    { "id": "design", "title": "Design",     "body": "Figma, Illustrator, Photoshop, InDesign" },
+    { "id": "motion", "title": "Motion & 3D","body": "After Effects, Cinema 4D, Blender, Redshift" },
+    { "id": "film",   "title": "Film",       "body": "Premiere, DaVinci Resolve, Sony / RED bodies" },
+    { "id": "build",  "title": "Build",      "body": "HTML, CSS, JavaScript, WordPress, Apps Script, Cloudflare" }
+  ],
+
+  "clients": [
+    "Acker Merrall & Condit",
+    "Compass Offices",
+    "iMACE 醫卓所",
+    "Acker Asia",
+    "Cantonese Opera Association",
+    "Independent"
+  ],
+
+  "projects": [
+    {
+      "slug": "acker-social-system",
+      "title": "A Voice for Fine Wine",
+      "client": "Acker Merrall & Condit",
+      "year": 2026,
+      "disciplines": ["Brand", "Social", "Copy"],
+      "role": "Creative Direction, Copy, Design",
+      "featured": true,
+      "deep": true,
+      "tone": "wine",
+      "summary": "A bilingual content system for the oldest fine-wine house in America — one voice across Instagram and RedNote, in two languages, without sounding translated.",
+      "cover": { "src": "", "alt": "Acker fine wine content system", "ratio": "4x5" },
+      "credits": [
+        { "role": "Creative Direction", "name": "WNH" },
+        { "role": "Copy — EN / 中文", "name": "WNH" },
+        { "role": "Client", "name": "Acker Merrall & Condit Asia" }
+      ],
+      "blocks": [
+        { "type": "text", "heading": "The problem", "body": "Fine wine copy defaults to two failure modes: auction-catalogue dryness, or the kind of florid tasting-note prose nobody under fifty reads. Acker needed to sound like a two-hundred-year-old house that still goes to dinner.\n\nAnd it needed to work twice — English on Instagram, Chinese on RedNote — where a straight translation reads as a straight translation." },
+        { "type": "image", "src": "", "alt": "Grid of Instagram posts", "size": "full", "caption": "Instagram grid — one voice, three post shapes" },
+        { "type": "quote", "text": "Say the wine, say why it matters, stop.", "attribution": "The rule the whole system runs on" },
+        { "type": "images", "items": [
+          { "src": "", "alt": "RedNote post layout" },
+          { "src": "", "alt": "Bottle detail" }
+        ], "caption": "RedNote posts are written natively, not translated" },
+        { "type": "stats", "items": [
+          { "value": "2", "label": "Languages" },
+          { "value": "3", "label": "Post shapes" },
+          { "value": "0", "label": "Translated captions" },
+          { "value": "Weekly", "label": "Publishing cadence" }
+        ]}
+      ]
+    },
+    {
+      "slug": "compass-web-tools",
+      "title": "The Tool Suite",
+      "client": "Compass Offices",
+      "year": 2026,
+      "disciplines": ["Digital", "Design Systems"],
+      "role": "Design & Build",
+      "featured": true,
+      "deep": true,
+      "tone": "compass",
+      "summary": "A suite of hand-built, single-file web tools that let a marketing team across nine cities produce on-brand collateral without a designer in the room.",
+      "cover": { "src": "", "alt": "Compass Offices web tool suite", "ratio": "16x9" },
+      "credits": [
+        { "role": "Design & Build", "name": "WNH" },
+        { "role": "Client", "name": "Compass Offices" }
+      ],
+      "blocks": [
+        { "type": "text", "heading": "The problem", "body": "Nine cities, one brand, and a marketing team that needed a one-pager by Thursday. Every request routed through a designer, so every request waited.\n\nThe fix was not a template library. It was a set of tools that make the brand the path of least resistance." },
+        { "type": "image", "src": "", "alt": "One-pager builder interface", "size": "full", "caption": "One-Pager Builder — brand rules enforced by the tool, not by review" },
+        { "type": "stats", "items": [
+          { "value": "9", "label": "Cities served" },
+          { "value": "1 file", "label": "Per tool, no build step" },
+          { "value": "0", "label": "Design reviews needed" }
+        ]}
+      ]
+    },
+    {
+      "slug": "imace-character-system",
+      "title": "醫卓所 — A Cast of Characters",
+      "client": "iMACE",
+      "year": 2025,
+      "disciplines": ["3D", "Motion", "Brand"],
+      "role": "Direction, 3D, Animation",
+      "featured": true,
+      "deep": true,
+      "tone": "imace",
+      "summary": "A 3D character canon and animated content system built to make clinical expertise feel human — locked scale, locked look, infinitely extendable.",
+      "cover": { "src": "", "alt": "iMACE 3D character system", "ratio": "4x5" },
+      "credits": [
+        { "role": "Direction", "name": "WNH" },
+        { "role": "3D & Animation", "name": "WNH" },
+        { "role": "Client", "name": "iMACE 醫卓所" }
+      ],
+      "blocks": [
+        { "type": "vimeo", "url": "", "caption": "Character system — 60s overview" },
+        { "type": "text", "heading": "Locked canon", "body": "The hard part of a character system is not the first character. It's the fortieth, made eight months later by someone else, still looking like it belongs.\n\nSo the canon locks first: proportion, scale relationships, material response, camera language. Everything after that is assembly." },
+        { "type": "images", "items": [
+          { "src": "", "alt": "Character turnaround" },
+          { "src": "", "alt": "Expression sheet" },
+          { "src": "", "alt": "Scale comparison" }
+        ], "caption": "Turnaround, expressions, scale canon" }
+      ]
+    },
+    {
+      "slug": "wnh-scroll-world",
+      "title": "Seven Scenes",
+      "client": "WNH",
+      "year": 2025,
+      "disciplines": ["Digital", "3D", "Film"],
+      "role": "Direction, Build",
+      "featured": true,
+      "deep": true,
+      "tone": "scroll",
+      "summary": "A scroll-driven cinematic where the page scrub drives a single continuous camera through seven worlds — each one rebuilt from a real project.",
+      "cover": { "src": "", "alt": "Scroll-driven cinematic portfolio", "ratio": "16x9" },
+      "credits": [
+        { "role": "Direction & Build", "name": "WNH" }
+      ],
+      "blocks": [
+        { "type": "vimeo", "url": "", "caption": "Seven Scenes — continuous camera, no cuts" },
+        { "type": "text", "heading": "One camera, no cuts", "body": "Scroll position drives video currentTime. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you can't cut, every transition has to be designed." }
+      ]
+    },
+    {
+      "slug": "compass-tokyo",
+      "title": "Landing in Tokyo",
+      "client": "Compass Offices",
+      "year": 2026,
+      "disciplines": ["Brand", "Digital", "Copy"],
+      "role": "Design, Build, Copy",
+      "featured": true,
+      "tone": "tokyo",
+      "summary": "Market-entry collateral for two new Tokyo centres — drawn network maps, bilingual one-pagers, and a launch page built in a week.",
+      "cover": { "src": "", "alt": "Compass Offices Tokyo launch", "ratio": "16x9" },
+      "credits": [{ "role": "Design, Build, Copy", "name": "WNH" }],
+      "blocks": [
+        { "type": "text", "heading": "One week", "body": "Two centres, a launch date that had already been announced, and no photography yet. The drawn network map became the hero because it was the one asset that didn't depend on a shoot." }
+      ]
+    },
+    {
+      "slug": "cantonese-opera",
+      "title": "Keeping the Songs",
+      "client": "Cantonese Opera Association",
+      "year": 2025,
+      "disciplines": ["Brand", "Film"],
+      "role": "Design, Film",
+      "featured": true,
+      "tone": "opera",
+      "summary": "Identity and film support for a London association making the case to Arts Council England that a four-hundred-year-old art form still has an audience.",
+      "cover": { "src": "", "alt": "Cantonese opera identity and film", "ratio": "4x5" },
+      "credits": [{ "role": "Design & Film", "name": "WNH" }],
+      "blocks": [
+        { "type": "text", "heading": "The case", "body": "Funding bodies do not respond to heritage claims. They respond to evidence of an audience. The work had to show a living art form, not an archive." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Work — WNH</title>
+<meta name="description" content="Selected work by WNH — brand, film, motion, 3D and digital.">
+<meta name="theme-color" content="#08090A">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#list">Skip to list</a>
+<div id="shell-nav"></div>
+
+<main>
+  <section class="case-hero" style="border:0">
+    <div class="wrap">
+      <div class="mono muted">Index &mdash; all work</div>
+      <h1 class="case-title">Work</h1>
+      <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
+      <div class="filters" style="border:0;padding-bottom:0">
+        <span class="mono muted" id="count"></span>
+        <button class="chip" id="view" aria-pressed="false" style="margin-left:auto">Grid view</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="list" style="padding-top:var(--s4)">
+    <div class="wrap">
+      <div class="rows" id="rows"></div>
+      <div class="cards" id="cards" hidden></div>
+      <p class="empty" id="empty" hidden>No projects in that discipline.</p>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <a class="cta-link" data-mailto href="#">Start<br><em>a</em> Project</a>
+      <div class="cta-foot"><a class="cta-mail" data-mail href="#"></a>
+        <span class="mono muted" data-locations></span></div>
+    </div>
+  </section>
+</main>
+
+<div id="shell-foot"></div>
+<script src="/assets/js/site.js"></script>
+<script>
+WNH.boot(function (d) {
+  var W = WNH;
+  var all = W.projects();
+  var active = new URLSearchParams(location.search).get('d') || '';
+
+  /* filter chips are generated from the data, so a new discipline in
+     content.json creates its own filter with no code change */
+  var discs = W.disciplines();
+  W.$('#filters').innerHTML =
+    ['<button class="chip" data-d="" aria-pressed="' + (!active) + '">All</button>']
+    .concat(discs.map(function (x) {
+      return '<button class="chip" data-d="' + W.esc(x) + '" aria-pressed="' +
+             (active === x) + '">' + W.esc(x) + '</button>';
+    })).join('');
+
+  function visible() {
+    return all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
+  }
+
+  function draw() {
+    var list = visible();
+    W.$('#count').textContent = list.length + (list.length === 1 ? ' project' : ' projects') +
+      (active ? ' — ' + active : '');
+    W.$('#empty').hidden = list.length > 0;
+
+    W.$('#rows').innerHTML = list.map(function (p, i) {
+      return '<a class="row rv in" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+        '<span class="row-idx">' + W.pad(i + 1) + '</span>' +
+        '<span class="row-thumb">' + W.cover(p, i, 200) + '</span>' +
+        '<h3 class="row-title"><span class="row-client">' + W.t(p.client) + '</span>' + W.t(p.title) + '</h3>' +
+        '<span class="row-meta">' + W.tags(p.disciplines) + '<span class="row-year">' + W.esc(p.year) + '</span></span>' +
+        '<span class="row-year" aria-hidden="true">' + W.esc(p.year) + '</span>' +
+        '<span class="row-arrow" aria-hidden="true"><svg width="16" height="12" viewBox="0 0 14 10" fill="none">' +
+        '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.4"/></svg></span></a>';
+    }).join('');
+
+    W.$('#cards').innerHTML = list.map(function (p, i) {
+      return '<a class="card rv in" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+        '<span class="card-media">' + W.cover(p, i, 960) + '</span>' +
+        '<span class="card-body"><span><span class="c">' + W.t(p.client) + '</span>' +
+        '<h3>' + W.t(p.title) + '</h3></span><span class="y">' + W.esc(p.year) + '</span></span>' +
+        W.tags(p.disciplines) + '</a>';
+    }).join('');
+  }
+
+  W.$('#filters').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    active = b.dataset.d;
+    W.$$('#filters .chip').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.d === active));
+    });
+    /* keep the filter in the URL so a filtered view is shareable */
+    var u = new URL(location); active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
+    history.replaceState(null, '', u);
+    draw();
+  });
+
+  var grid = false;
+  W.$('#view').addEventListener('click', function () {
+    grid = !grid;
+    this.setAttribute('aria-pressed', String(grid));
+    this.textContent = grid ? 'List view' : 'Grid view';
+    W.$('#rows').hidden = grid;
+    W.$('#cards').hidden = !grid;
+  });
+
+  draw();
+});
+</script>
+</body>
+</html>

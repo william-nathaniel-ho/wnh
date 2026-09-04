@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WNH — Design &amp; Production</title>
+<meta name="description" content="WNH is an independent design and production studio. Brand, film, motion, 3D and digital. Perth / Hong Kong.">
+<meta property="og:title" content="WNH — Design &amp; Production">
+<meta property="og:description" content="Independent design and production studio.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wnhdesign.io/">
+<meta name="theme-color" content="#08090A">
+<link rel="preload" href="/assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#work">Skip to work</a>
+<div id="shell-nav"></div>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-media">
+      <div class="field" id="field"></div>
+      <div class="scan" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+    </div>
+    <div class="hero-top mono muted">
+      <span>Reel &mdash; 2026</span>
+      <span class="rec"><i></i>Rec</span>
+    </div>
+    <div class="hero-body wrap">
+      <h1 class="hero-title">
+        <span class="l"><span>Design</span></span>
+        <span class="l"><span class="accent amp">&amp;</span></span>
+        <span class="l"><span>Production</span></span>
+      </h1>
+      <p class="hero-sub" id="hero-sub"></p>
+      <div class="hero-meta mono muted" id="hero-meta"></div>
+      <div class="hero-cue"><span class="bar" aria-hidden="true"></span><span class="mono muted">Scroll</span></div>
+    </div>
+  </section>
+
+  <section class="manifesto sec">
+    <div class="wrap manifesto-in">
+      <div class="mono">Statement<br>&mdash; 001</div>
+      <div>
+        <p id="manifesto"></p>
+        <div class="sig"><span>Studio</span><b>WNH</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2 class="sec-title">Selected <span class="n">Work</span></h2>
+        <a class="link-arrow" href="/work/"><span>All work <span id="work-count"></span></span>
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.4"/></svg></a>
+      </div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="capabilities" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2 class="sec-title">Capa<span class="n">bilities</span></h2>
+        <span class="mono muted">What the studio does</span>
+      </div>
+      <div class="caps-grid" id="caps"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2 class="sec-title">Pro<span class="n">cess</span></h2>
+        <span class="mono muted">Four steps, no theatre</span>
+      </div>
+      <div class="proc" id="proc"></div>
+    </div>
+  </section>
+
+  <section aria-label="Selected clients">
+    <div class="marq"><div class="marq-track" id="marq1"></div></div>
+    <div class="marq rev" aria-hidden="true" style="border-top:0"><div class="marq-track" id="marq2"></div></div>
+  </section>
+
+  <section class="sec" id="studio">
+    <div class="wrap studio">
+      <div class="portrait rv"><div class="ph"><span class="num">WNH</span></div></div>
+      <div class="studio-body rv">
+        <div class="mono muted">Studio &mdash; 002</div>
+        <p id="studio-copy"></p>
+        <div class="avail"><i aria-hidden="true"></i><span id="avail"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <a class="cta-link" data-mailto href="#">Start<br><em>a</em> Project</a>
+      <div class="cta-foot">
+        <a class="cta-mail" data-mail href="#"></a>
+        <span class="mono muted" id="cta-loc"></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="shell-foot"></div>
+<div class="peek" id="peek" aria-hidden="true"></div>
+
+<script src="/assets/js/site.js"></script>
+<script>
+WNH.boot(function (d) {
+  var W = WNH, s = d.site || {};
+  var featured = W.projects().filter(function (p) { return p.featured !== false; });
+
+  W.$('#hero-sub').innerHTML = W.t(s.tagline || '');
+  W.$('#hero-meta').innerHTML =
+    '<span>' + W.esc((s.locations || []).join(' / ')) + '</span>' +
+    '<span>Brand &middot; Film &middot; Motion &middot; 3D &middot; Digital</span>';
+  W.$('#manifesto').textContent = s.manifesto || '';
+  W.$('#studio-copy').textContent = s.studioCopy || '';
+  W.$('#avail').textContent = s.availability || '';
+  W.$('#work-count').textContent = '(' + W.projects().length + ')';
+  W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
+
+  W.$('#rows').innerHTML = featured.map(function (p, i) {
+    return '<a class="row rv" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '" data-i="' + i + '">' +
+      '<span class="row-idx">' + W.pad(i + 1) + '</span>' +
+      '<span class="row-thumb">' + W.cover(p, i, 200) + '</span>' +
+      '<h3 class="row-title"><span class="row-client">' + W.t(p.client) + '</span>' + W.t(p.title) + '</h3>' +
+      '<span class="row-meta">' + W.tags(p.disciplines) + '<span class="row-year">' + W.esc(p.year) + '</span></span>' +
+      '<span class="row-year" aria-hidden="true">' + W.esc(p.year) + '</span>' +
+      '<span class="row-arrow" aria-hidden="true"><svg width="16" height="12" viewBox="0 0 14 10" fill="none">' +
+      '<path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.4"/></svg></span></a>';
+  }).join('');
+
+  W.$('#caps').innerHTML = (d.capabilities || []).map(function (c, i) {
+    return '<article class="cap rv"><span class="mono accent">' + W.pad(i + 1) + '</span>' +
+      '<h3>' + W.t(c.title) + '</h3><p>' + W.t(c.summary) + '</p><ul>' +
+      (c.items || []).map(function (x) { return '<li>' + W.t(x) + '</li>'; }).join('') + '</ul></article>';
+  }).join('');
+
+  W.$('#proc').innerHTML = (d.process || []).map(function (p) {
+    return '<article class="step rv"><span class="n" aria-hidden="true">' + W.esc(p.step) + '</span>' +
+      '<h3>' + W.t(p.title) + '</h3><p>' + W.t(p.body) + '</p></article>';
+  }).join('');
+
+  var names = (d.clients || []);
+  var strip = names.concat(names).map(function (n) { return '<span class="marq-item">' + W.t(n) + '</span>'; }).join('');
+  W.$('#marq1').innerHTML = strip; W.$('#marq2').innerHTML = strip;
+
+  /* showreel: Vimeo wins, then a Cloudinary mp4, else the generated field */
+  var field = W.$('#field');
+  if (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo)) {
+    var f = document.createElement('iframe');
+    f.src = W.vimeoSrc(s.reel.vimeo, true) + '&muted=1&loop=1&background=1';
+    f.allow = 'autoplay; fullscreen'; f.setAttribute('aria-hidden', 'true'); f.title = 'Showreel';
+    f.style.cssText = 'position:absolute;top:50%;left:50%;width:177.78vh;height:56.25vw;min-width:100%;min-height:100%;transform:translate(-50%,-50%);border:0';
+    field.replaceWith(f);
+  } else if (s.reel && W.cld.ok(s.reel.video)) {
+    var v = document.createElement('video');
+    v.src = W.cld.video(s.reel.video);
+    if (W.cld.ok(s.reel.poster)) v.poster = W.cld.poster(s.reel.poster);
+    v.muted = v.loop = v.autoplay = v.playsInline = true;
+    v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+    field.replaceWith(v);
+  }
+
+  /* cursor-following preview on the work index */
+  var peek = W.$('#peek');
+  if (peek && !W.reduce && matchMedia('(min-width:900px) and (hover:hover)').matches) {
+    var tx = 0, ty = 0, cx = 0, cy = 0, running = false;
+    var loop = function () {
+      cx += (tx - cx) * 0.14; cy += (ty - cy) * 0.14;
+      peek.style.left = cx + 'px'; peek.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    };
+    W.$$('.row').forEach(function (row) {
+      row.addEventListener('mouseenter', function () {
+        var p = featured[+row.dataset.i]; if (!p) return;
+        peek.innerHTML = W.cover(p, +row.dataset.i, 640) +
+          '<span class="cap">' + W.t(p.client) + ' &mdash; ' + W.esc(p.year) + '</span>';
+        peek.classList.add('on');
+        if (!running) { running = true; requestAnimationFrame(loop); }
+      });
+      row.addEventListener('mouseleave', function () { peek.classList.remove('on'); });
+    });
+    addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!cx && !cy) { cx = tx; cy = ty; }
+    }, { passive: true });
+  }
+});
+</script>
+</body>
+</html>

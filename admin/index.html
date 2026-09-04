@@ -1,0 +1,1347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WNH — Editor</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08090A">
+<link rel="stylesheet" href="/assets/css/site.css">
+<style>
+/* The editor is a tool, not a page. Denser spacing, controls always visible,
+   nothing that animates or moves while you are typing. */
+body{font-size:15px}
+
+.bar{position:sticky;top:0;z-index:60;background:rgba(8,9,10,.96);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:14px;padding:11px clamp(14px,3vw,28px);flex-wrap:wrap}
+.bar b.wm{font-weight:900;letter-spacing:-.02em;font-size:1.05rem}
+.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:11px 12px;min-height:44px;color:var(--muted);border:1px solid transparent;position:relative}
+.tab:hover{color:var(--paper)}
+.tab[aria-selected="true"]{color:var(--ink);background:var(--paper)}
+.tab .warn{position:absolute;top:6px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.bar-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.btn{font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--line-strong);padding:12px 15px;min-height:44px;color:var(--paper);
+  transition:background .2s,border-color .2s,color .2s,opacity .2s;white-space:nowrap}
+.btn:hover:not(:disabled){border-color:var(--paper)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--ink);font-weight:500}
+.btn.pri:hover:not(:disabled){filter:brightness(1.12)}
+.btn.dim{color:var(--muted);border-color:var(--line)}
+.btn.dim:hover:not(:disabled){color:var(--paper);border-color:var(--line-strong)}
+.btn:disabled{opacity:.32;cursor:not-allowed}
+.btn.sm{padding:0 9px;min-height:32px;min-width:32px;font-size:.5625rem;display:inline-flex;align-items:center;justify-content:center}
+/* the bar's icon buttons match the rest of the bar's height, or the row
+   reads as two misaligned rows of controls */
+.bar-right .btn.sm{min-height:44px;min-width:44px;font-size:1rem;line-height:1}
+.btn.danger{border-color:var(--accent);color:var(--accent)}
+
+.state{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.5625rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.state i{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex:none}
+.state.dirty i{background:var(--accent)}
+
+.pane{padding:clamp(14px,3vw,30px);max-width:1080px}
+.pane.wide{max-width:1560px}
+
+/* --- banners --------------------------------------------------------- */
+.note{border:1px solid var(--line);border-left:2px solid var(--accent);padding:14px 16px;
+  margin-bottom:20px;font-size:.92rem;line-height:1.55;color:#C9C7C1;background:var(--ink-2)}
+.note b{color:var(--paper)}
+.note ul{margin:8px 0 0;padding-left:18px}
+.note li{margin-bottom:4px}
+.note a{border-bottom:1px solid var(--accent);color:var(--accent)}
+
+/* --- fields ---------------------------------------------------------- */
+.fld{margin-bottom:16px}
+.fld label,.lbl{display:block;margin-bottom:6px;font-family:var(--mono);font-size:.5625rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.fld input[type=text],.fld input[type=number],.fld input[type=password],.fld textarea,.fld select{
+  width:100%;background:var(--ink-2);border:1px solid var(--line);color:var(--paper);
+  padding:11px 13px;font:inherit;font-size:.95rem;border-radius:0}
+.fld textarea{min-height:46px;line-height:1.6;resize:none;overflow:hidden}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.fld.bad input,.fld.bad textarea{border-color:var(--accent)}
+.fld .hint{margin-top:6px;font-size:.78rem;color:var(--muted);line-height:1.5}
+.fld .hint.bad{color:var(--accent)}
+.chk{display:flex;gap:9px;align-items:center;min-height:36px;font-size:.95rem;color:var(--paper);
+  text-transform:none;letter-spacing:0;font-family:var(--display);margin-bottom:4px;cursor:pointer}
+.chk input{width:16px;height:16px;accent-color:var(--accent);flex:none}
+.row2{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media(min-width:700px){.row2{grid-template-columns:1fr 1fr}}
+.row3{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media(min-width:700px){.row3{grid-template-columns:2fr 1fr 1fr}}
+.sub-h{margin:26px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+.sub-h .lbl{margin:0}
+.sub-h p{margin:6px 0 0;font-size:.85rem;color:var(--muted);max-width:56ch;line-height:1.5}
+
+/* --- repeatable items ------------------------------------------------ */
+.item{border:1px solid var(--line);padding:14px;margin-bottom:10px;background:var(--ink-2)}
+.item-head{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.item-head .n{font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;color:var(--accent);flex:none}
+.item-head .t{font-weight:700;letter-spacing:-.01em;flex:1;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;font-size:.95rem}
+.item-tools{display:flex;gap:3px;flex:none}
+
+/* --- projects split -------------------------------------------------- */
+.split{display:grid;grid-template-columns:1fr;gap:18px}
+/* grid items default to min-width:auto, so one long nowrap project title
+   was widening the whole column and scrolling the page sideways */
+.split>*{min-width:0}
+@media(min-width:1040px){.split{grid-template-columns:300px minmax(0,1fr);gap:26px;align-items:start}}
+.side{position:sticky;top:78px;min-width:0}
+@media(max-width:1039px){.side{position:static}}
+.search{width:100%;background:var(--ink-2);border:1px solid var(--line);color:var(--paper);
+  padding:10px 12px;font:inherit;font-size:.9rem;margin-bottom:8px}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px}
+.plist{border:1px solid var(--line);max-height:58vh;overflow:auto;min-width:0}
+.pitem{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:10px 12px;
+  border-bottom:1px solid var(--line);transition:background .15s}
+.pitem:hover{background:var(--ink-3)}
+.pitem[aria-current="true"]{background:var(--paper);color:var(--ink)}
+.pitem .txt{flex:1;min-width:0;text-align:left;padding:0;background:none;border:0;color:inherit;font:inherit}
+.pitem b{display:block;font-size:.88rem;font-weight:700;letter-spacing:-.01em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pitem em{display:block;font-style:normal;font-family:var(--mono);font-size:.5625rem;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.62;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pitem .ord{display:flex;flex-direction:column;gap:1px;flex:none;opacity:0;transition:opacity .15s}
+.pitem:hover .ord,.pitem[aria-current="true"] .ord{opacity:1}
+.pitem .ord button{font-size:9px;line-height:1;padding:3px 5px;color:inherit;opacity:.7}
+.pitem .ord button:hover:not(:disabled){opacity:1}
+.pitem .ord button:disabled{opacity:.18;cursor:not-allowed}
+.pitem .flag{flex:none;font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;opacity:.55}
+
+/* --- image field ----------------------------------------------------- */
+.imgf{display:grid;grid-template-columns:72px minmax(0,1fr);gap:11px;align-items:start}
+.imgf .prev{width:72px;height:72px;border:1px solid var(--line);background:var(--ink-3);
+  overflow:hidden;position:relative;flex:none}
+.imgf .prev img{width:100%;height:100%;object-fit:cover}
+.imgf .prev .none{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;color:var(--muted);text-align:center;padding:4px}
+.imgf .acts{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.drop{border:1px dashed var(--line-strong);padding:10px 12px;font-family:var(--mono);
+  font-size:.5625rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  cursor:pointer;transition:.15s;flex:1;min-width:180px;min-height:38px;display:flex;align-items:center}
+.drop:hover,.drop.over{border-color:var(--accent);color:var(--accent)}
+.drop.busy{border-style:solid;color:var(--paper);border-color:var(--paper)}
+.folder{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;color:var(--muted);
+  text-transform:none;margin-top:6px}
+
+/* --- toast + gate ---------------------------------------------------- */
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(150%);
+  background:var(--paper);color:var(--ink);padding:13px 19px;z-index:200;max-width:92vw;
+  font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  transition:transform .35s var(--ease);display:flex;align-items:center;gap:14px}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--accent);color:var(--ink)}
+.toast a{border-bottom:1px solid currentColor}
+
+.gate{min-height:100vh;display:grid;place-items:center;padding:24px}
+.gate form{width:100%;max-width:360px}
+.gate h1{font-size:clamp(2.4rem,7vw,4rem);font-weight:900;letter-spacing:-.04em;line-height:.9;
+  margin:0 0 6px;text-transform:uppercase}
+.gate .mono{margin-bottom:26px}
+.err{color:var(--accent);font-family:var(--mono);font-size:.625rem;letter-spacing:.12em;
+  text-transform:uppercase;margin-top:12px;min-height:18px;line-height:1.5}
+
+/* re-auth over the top of the editor, so edits are never lost to a timeout */
+.relock{position:fixed;inset:0;z-index:300;background:rgba(8,9,10,.93);backdrop-filter:blur(8px);
+  display:grid;place-items:center;padding:24px}
+.relock .box{width:100%;max-width:380px;border:1px solid var(--line-strong);background:var(--ink);padding:26px}
+.relock h2{margin:0 0 6px;font-size:1.5rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase}
+.relock p{margin:0 0 20px;color:var(--muted);font-size:.9rem;line-height:1.55}
+
+kbd{font-family:var(--mono);font-size:.9em;border:1px solid var(--line-strong);padding:1px 5px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <form id="login">
+    <h1>WNH<br><span class="accent">Editor</span></h1>
+    <div class="mono muted">Sign in to edit the site</div>
+    <div class="fld">
+      <label for="pw">Password</label>
+      <input type="password" id="pw" autocomplete="current-password" required>
+    </div>
+    <button class="btn pri" type="submit" id="go" style="width:100%">Sign in</button>
+    <p class="err" id="loginerr" role="alert"></p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <div class="bar">
+    <div class="bar-in">
+      <b class="wm">WNH</b>
+      <div class="tabs" role="tablist" aria-label="Sections" id="tabs"></div>
+      <div class="bar-right">
+        <span class="state" id="state"><i></i><span>Published</span></span>
+        <button class="btn sm dim" id="undo" title="Undo (Ctrl/Cmd+Z)" aria-label="Undo">↶</button>
+        <button class="btn sm dim" id="redo" title="Redo (Ctrl/Cmd+Shift+Z)" aria-label="Redo">↷</button>
+        <button class="btn dim" id="download">Download</button>
+        <button class="btn dim" id="signout">Sign out</button>
+        <button class="btn pri" id="publish">Publish</button>
+      </div>
+    </div>
+  </div>
+  <div id="pane" class="pane" role="tabpanel" tabindex="-1"></div>
+</div>
+
+<div class="relock" id="relock" hidden>
+  <div class="box">
+    <h2>Signed out</h2>
+    <p>Your session expired. Sign in again — <b>your edits are still here</b> and nothing has been lost.</p>
+    <form id="relogin">
+      <div class="fld">
+        <label for="pw2">Password</label>
+        <input type="password" id="pw2" autocomplete="current-password" required>
+      </div>
+      <button class="btn pri" type="submit" style="width:100%">Unlock</button>
+      <p class="err" id="relockerr" role="alert"></p>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/js/site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var W = WNH, $ = W.$, $$ = W.$$, esc = W.esc;
+
+  var S = {
+    data: null, sha: null, dirty: false, tab: 'site', pi: 0, cfg: {},
+    q: '', past: [], future: [], focusSnap: null, wantFocus: null, publishing: false
+  };
+
+  /* =====================================================================
+     PATHS
+     Every control addresses its value by a string path into S.data
+     ("projects.2.blocks.4.heading"). That is what lets focus, caret and
+     scroll survive a re-render — the old editor rebuilt the DOM and the
+     browser dropped you back at the top of the page with nothing focused.
+     ===================================================================== */
+  function get(path) {
+    return path.split('.').reduce(function (o, k) { return (o == null) ? undefined : o[k]; }, S.data);
+  }
+  function set(path, v) {
+    var keys = path.split('.'), last = keys.pop();
+    var host = keys.reduce(function (o, k) {
+      if (o[k] == null) o[k] = /^\d+$/.test(k) ? [] : {};
+      return o[k];
+    }, S.data);
+    host[last] = v;
+  }
+
+  /* =====================================================================
+     UNDO
+     A snapshot stack. Structural changes push before they act; text fields
+     push the state they found on focus, but only if something changed.
+     ===================================================================== */
+  function snap() {
+    S.past.push(JSON.stringify(S.data));
+    if (S.past.length > 40) S.past.shift();
+    S.future.length = 0;
+    syncUndo();
+  }
+  function pushPast(json) {
+    /* an undo/redo re-focuses a control, which fires blur on the old one —
+       without this guard that stale snapshot would wipe the redo stack */
+    if (S.restoring) return;
+    if (json === JSON.stringify(S.data)) return;
+    S.past.push(json);
+    if (S.past.length > 40) S.past.shift();
+    S.future.length = 0;
+    syncUndo();
+  }
+  function restore(fromStack, toStack, label) {
+    if (!fromStack.length) return;
+    S.restoring = true;
+    S.focusSnap = null;
+    toStack.push(JSON.stringify(S.data));
+    S.data = JSON.parse(fromStack.pop());
+    clampSelection(); dirty(true); rerender(); syncUndo();
+    S.restoring = false;
+    toast(label);
+  }
+  function undo() { restore(S.past, S.future, 'Undone'); }
+  function redo() { restore(S.future, S.past, 'Redone'); }
+  function syncUndo() {
+    $('#undo').disabled = !S.past.length;
+    $('#redo').disabled = !S.future.length;
+  }
+  function clampSelection() {
+    var n = (S.data.projects || []).length;
+    S.pi = Math.max(0, Math.min(S.pi, n - 1));
+  }
+
+  /* =====================================================================
+     RENDER + FOCUS PRESERVATION
+     ===================================================================== */
+  function rerender() {
+    var a = document.activeElement;
+    var keep = (a && a.dataset && a.dataset.path)
+      ? { path: a.dataset.path, s: a.selectionStart, e: a.selectionEnd } : null;
+    var y = window.scrollY;
+
+    render();
+
+    window.scrollTo(0, y);
+
+    var target = S.wantFocus
+      ? document.querySelector('[data-path="' + cssEsc(S.wantFocus) + '"]')
+      : (keep && document.querySelector('[data-path="' + cssEsc(keep.path) + '"]'));
+
+    if (target) {
+      target.focus({ preventScroll: !S.wantFocus });
+      if (S.wantFocus) {
+        target.scrollIntoView({ block: 'center', behavior: W.reduce ? 'auto' : 'smooth' });
+      } else if (keep && target.setSelectionRange) {
+        try { target.setSelectionRange(keep.s, keep.e); } catch (err) { /* type has no range */ }
+      }
+    }
+    S.wantFocus = null;
+  }
+  function cssEsc(s) {
+    return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&');
+  }
+
+  /* =====================================================================
+     SMALL UI
+     ===================================================================== */
+  function toast(msg, isErr, link) {
+    var t = $('#toast');
+    t.innerHTML = esc(msg) + (link ? ' <a href="' + esc(link) + '" target="_blank" rel="noopener">View commit</a>' : '');
+    t.classList.toggle('err', !!isErr);
+    t.classList.add('on');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.classList.remove('on'); }, isErr ? 7000 : 2800);
+  }
+  function dirty(on) {
+    S.dirty = on;
+    var el = $('#state');
+    el.classList.toggle('dirty', on);
+    el.querySelector('span').textContent = on ? 'Unpublished changes' : 'Published';
+  }
+  function api(path, opts) {
+    return fetch('/api/' + path, Object.assign({ credentials: 'same-origin' }, opts || {}))
+      .then(function (r) {
+        return r.json().catch(function () { return { ok: false, error: 'Server error ' + r.status }; })
+          .then(function (j) {
+            if (r.status === 401) { var e = new Error('SESSION'); e.session = true; throw e; }
+            if (!r.ok || j.ok === false) throw new Error(j.error || ('Error ' + r.status));
+            return j;
+          });
+      });
+  }
+  function autosize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.max(46, el.scrollHeight + 2) + 'px';
+  }
+  function move(arr, i, d) {
+    var j = i + d;
+    if (j < 0 || j >= arr.length) return false;
+    arr.splice(j, 0, arr.splice(i, 1)[0]);
+    return true;
+  }
+  var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
+
+  /* The Cloudinary cloud name has ONE source of truth: content.json, which is
+     what the live site reads. The server env value is only a fallback for a
+     brand-new file, otherwise the editor would show broken thumbnails for a
+     site that renders images perfectly. */
+  function cloudName() {
+    return (S.data && S.data.site && S.data.site.cloudinary && S.data.site.cloudinary.cloud) || S.cfg.cloud || '';
+  }
+
+  /* =====================================================================
+     CONTROLS  — all path-addressed
+     ===================================================================== */
+  function bindText(el, path, opts) {
+    opts = opts || {};
+    el.dataset.path = path;
+    var v = get(path);
+    el.value = (v == null) ? '' : v;
+    if (el.tagName === 'TEXTAREA') requestAnimationFrame(function () { autosize(el); });
+
+    el.addEventListener('focus', function () { S.focusSnap = JSON.stringify(S.data); });
+    el.addEventListener('blur', function () {
+      if (S.focusSnap) pushPast(S.focusSnap);
+      S.focusSnap = null;
+    });
+    el.addEventListener('input', function () {
+      set(path, opts.type === 'number' ? (el.value === '' ? '' : Number(el.value)) : el.value);
+      if (el.tagName === 'TEXTAREA') autosize(el);
+      dirty(true);
+      if (opts.onInput) opts.onInput(el);
+      syncLabels();
+      syncValidity();
+    });
+  }
+
+  function field(label, path, opts) {
+    opts = opts || {};
+    var el = document.createElement('div');
+    el.className = 'fld';
+    var id = 'f' + Math.random().toString(36).slice(2, 8);
+    el.innerHTML = '<label for="' + id + '">' + esc(label) + '</label>' +
+      (opts.multiline ? '<textarea id="' + id + '"></textarea>'
+                      : '<input type="' + (opts.type || 'text') + '" id="' + id + '">') +
+      '<div class="hint">' + esc(opts.hint || '') + '</div>';
+    if (!opts.hint) el.querySelector('.hint').remove();
+    bindText(el.querySelector('#' + id), path, opts);
+    return el;
+  }
+
+  function lines(label, path, hint) {
+    var el = document.createElement('div');
+    el.className = 'fld';
+    var id = 'l' + Math.random().toString(36).slice(2, 8);
+    el.innerHTML = '<label for="' + id + '">' + esc(label) + '</label><textarea id="' + id + '"></textarea>' +
+      '<div class="hint">' + esc(hint || 'One per line.') + '</div>';
+    var f = el.querySelector('#' + id);
+    f.dataset.path = path;
+    f.value = (get(path) || []).join('\n');
+    requestAnimationFrame(function () { autosize(f); });
+    f.addEventListener('focus', function () { S.focusSnap = JSON.stringify(S.data); });
+    f.addEventListener('blur', function () { if (S.focusSnap) pushPast(S.focusSnap); S.focusSnap = null; });
+    f.addEventListener('input', function () {
+      set(path, f.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean));
+      autosize(f); dirty(true); syncValidity();
+    });
+    return el;
+  }
+
+  function select(label, path, options, onChange) {
+    var el = document.createElement('div');
+    el.className = 'fld';
+    var id = 's' + Math.random().toString(36).slice(2, 8);
+    var cur = get(path);
+    el.innerHTML = '<label for="' + id + '">' + esc(label) + '</label><select id="' + id + '">' +
+      options.map(function (o) {
+        var val = o.value !== undefined ? o.value : o;
+        var lab = o.label !== undefined ? o.label : o;
+        return '<option value="' + esc(val) + '"' + (cur === val ? ' selected' : '') + '>' + esc(lab) + '</option>';
+      }).join('') + '</select>';
+    var sel = el.querySelector('select');
+    sel.dataset.path = path;
+    sel.addEventListener('change', function () {
+      snap();
+      set(path, sel.value);
+      dirty(true);
+      if (onChange) onChange(sel.value);
+    });
+    return el;
+  }
+
+  function check(label, path, hint) {
+    var el = document.createElement('div');
+    el.className = 'fld';
+    var id = 'c' + Math.random().toString(36).slice(2, 8);
+    el.innerHTML = '<label class="chk" for="' + id + '"><input type="checkbox" id="' + id + '">' +
+      '<span>' + esc(label) + '</span></label>' + (hint ? '<div class="hint">' + esc(hint) + '</div>' : '');
+    var box = el.querySelector('input');
+    box.checked = !!get(path);
+    box.addEventListener('change', function () {
+      snap(); set(path, box.checked); dirty(true); syncLabels();
+    });
+    return el;
+  }
+
+  /* ------------------------------------------------------------- images */
+  function imageField(label, path, folder, altPath) {
+    var el = document.createElement('div');
+    el.className = 'fld';
+    el.innerHTML = '<label>' + esc(label) + '</label><div class="imgf">' +
+      '<div class="prev"></div><div>' +
+      '<input type="text" placeholder="cloudinary public id">' +
+      '<div class="acts"><div class="drop" tabindex="0" role="button">Click or drop a file to upload</div>' +
+      '<button class="btn sm dim" type="button" data-clear>Clear</button></div>' +
+      '<div class="folder"></div></div></div>';
+
+    var prev = el.querySelector('.prev');
+    var text = el.querySelector('input');
+    var drop = el.querySelector('.drop');
+    var clear = el.querySelector('[data-clear]');
+    var fold = el.querySelector('.folder');
+
+    var root = (S.data.site && S.data.site.cloudinary && S.data.site.cloudinary.folder) || S.cfg.folder || 'wnh';
+    fold.textContent = 'Uploads to ' + root + (folder ? '/' + folder : '') + '/';
+
+    function paint() {
+      var id = get(path), cn = cloudName();
+      var isVideo = /\.(mp4|mov|webm)$/i.test(id || '') || (id || '').indexOf('/video/') > -1;
+      if (id && cn) {
+        var url = isVideo
+          ? 'https://res.cloudinary.com/' + cn + '/video/upload/so_1,w_200,h_200,c_fill,f_jpg/' + encodeURI(id) + '.jpg'
+          : 'https://res.cloudinary.com/' + cn + '/image/upload/f_auto,q_auto,w_200,h_200,c_fill/' + encodeURI(id);
+        prev.innerHTML = '<img src="' + esc(url) + '" alt="">';
+      } else {
+        prev.innerHTML = '<div class="none">' + (id ? 'Set the cloud name' : 'Empty') + '</div>';
+      }
+      clear.disabled = !id;
+    }
+    bindText(text, path, { onInput: paint });
+    paint();
+
+    clear.addEventListener('click', function () {
+      snap(); set(path, ''); text.value = ''; dirty(true); paint();
+    });
+
+    var MAX = 100 * 1024 * 1024;
+    function upload(file) {
+      if (!file) return;
+      if (file.size > MAX) {
+        toast('That file is ' + Math.round(file.size / 1048576) + 'MB — the limit is 100MB. Put video on Vimeo.', true);
+        return;
+      }
+      drop.classList.add('busy');
+      drop.textContent = 'Uploading… 0%';
+
+      api('upload-signature', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ folder: folder || '' })
+      }).then(function (sig) {
+        return new Promise(function (resolve, reject) {
+          var fd = new FormData();
+          fd.append('file', file);
+          fd.append('api_key', sig.apiKey);
+          fd.append('timestamp', sig.timestamp);
+          fd.append('folder', sig.folder);
+          fd.append('signature', sig.signature);
+          /* XHR rather than fetch, purely so there is a progress event —
+             a 40MB upload with no feedback feels like a hung editor */
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', sig.endpoint);
+          xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable) drop.textContent = 'Uploading… ' + Math.round(e.loaded / e.total * 100) + '%';
+          };
+          xhr.onload = function () {
+            try {
+              var res = JSON.parse(xhr.responseText);
+              if (!res.public_id) return reject(new Error(res.error ? res.error.message : 'Upload failed'));
+              resolve(res);
+            } catch (err) { reject(new Error('Cloudinary returned something unexpected')); }
+          };
+          xhr.onerror = function () { reject(new Error('Network error during upload')); };
+          xhr.send(fd);
+        });
+      }).then(function (res) {
+        snap();
+        set(path, res.public_id);
+        text.value = res.public_id;
+        if (altPath && !get(altPath)) {
+          set(altPath, file.name.replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' '));
+          var altEl = document.querySelector('[data-path="' + cssEsc(altPath) + '"]');
+          if (altEl) altEl.value = get(altPath);
+        }
+        dirty(true); paint();
+        toast('Uploaded — ' + res.public_id);
+      }).catch(function (e) {
+        if (e.session) return relock();
+        toast(e.message, true);
+      }).finally(function () {
+        drop.classList.remove('busy', 'over');
+        drop.textContent = 'Click or drop a file to upload';
+      });
+    }
+
+    var picker = document.createElement('input');
+    picker.type = 'file';
+    picker.accept = 'image/*,video/*';
+    picker.hidden = true;
+    picker.addEventListener('change', function () { upload(picker.files[0]); picker.value = ''; });
+    el.appendChild(picker);
+
+    drop.addEventListener('click', function () { picker.click(); });
+    drop.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); picker.click(); }
+    });
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); });
+    });
+    drop.addEventListener('drop', function (e) { upload(e.dataTransfer.files[0]); });
+
+    return el;
+  }
+
+  /* ------------------------------------------------- repeatable wrapper */
+  function itemBox(opts) {
+    /* opts: {index, title, arr, dup, focusAfter} */
+    var box = document.createElement('div');
+    box.className = 'item';
+    box.dataset.itemArr = opts.arrPath;
+    box.dataset.itemIndex = opts.index;
+    box.innerHTML =
+      '<div class="item-head"><span class="n">' + W.pad(opts.index + 1) + '</span>' +
+      '<span class="t" data-title-for="' + esc(opts.arrPath + '.' + opts.index) + '">' + esc(opts.title) + '</span>' +
+      '<span class="item-tools">' +
+        (opts.dup ? '<button class="btn sm dim" type="button" data-a="dup" title="Duplicate" aria-label="Duplicate">⧉</button>' : '') +
+        '<button class="btn sm dim" type="button" data-a="up" title="Move up" aria-label="Move up">↑</button>' +
+        '<button class="btn sm dim" type="button" data-a="down" title="Move down" aria-label="Move down">↓</button>' +
+        '<button class="btn sm dim" type="button" data-a="del" title="Delete" aria-label="Delete">✕</button>' +
+      '</span></div>';
+
+    var arr = get(opts.arrPath) || [];
+    var up = box.querySelector('[data-a="up"]');
+    var down = box.querySelector('[data-a="down"]');
+    /* bounds are disabled, not silently ignored — the old buttons looked
+       live and did nothing on the first and last item */
+    up.disabled = opts.index === 0;
+    down.disabled = opts.index === arr.length - 1;
+
+    box.querySelector('.item-tools').addEventListener('click', function (e) {
+      var btn = e.target.closest('button');
+      if (!btn || btn.disabled) return;
+      var a = btn.dataset.a;
+      var list = get(opts.arrPath);
+
+      if (a === 'del') {
+        /* two-step, in place. A blocking confirm() steals focus and, in
+           some embedded contexts, never returns. */
+        if (btn.dataset.armed !== '1') {
+          btn.dataset.armed = '1';
+          btn.textContent = 'Delete?';
+          btn.classList.add('danger');
+          clearTimeout(btn._t);
+          btn._t = setTimeout(function () {
+            btn.dataset.armed = '0'; btn.textContent = '✕'; btn.classList.remove('danger');
+          }, 3500);
+          return;
+        }
+        snap(); list.splice(opts.index, 1);
+      } else if (a === 'dup') {
+        snap();
+        var copy = clone(list[opts.index]);
+        if (copy.slug) copy.slug = copy.slug + '-copy';
+        if (copy.title) copy.title = copy.title + ' (copy)';
+        list.splice(opts.index + 1, 0, copy);
+      } else {
+        snap();
+        if (!move(list, opts.index, a === 'up' ? -1 : 1)) return;
+      }
+      dirty(true);
+      if (opts.after) opts.after(a);
+      rerender();
+    });
+    return box;
+  }
+
+  function addBtn(label, fn, focusPath) {
+    var b = document.createElement('button');
+    b.className = 'btn';
+    b.type = 'button';
+    b.textContent = '+ ' + label;
+    b.addEventListener('click', function () {
+      snap();
+      var p = fn();
+      dirty(true);
+      S.wantFocus = p || focusPath || null;
+      rerender();
+    });
+    return b;
+  }
+
+  function subHead(title, note) {
+    var d = document.createElement('div');
+    d.className = 'sub-h';
+    d.innerHTML = '<div class="lbl">' + esc(title) + '</div>' + (note ? '<p>' + esc(note) + '</p>' : '');
+    return d;
+  }
+
+  /* =====================================================================
+     LIVE LABELS
+     Item headers and the project list track what you type, without a
+     re-render. The old editor only updated them on a full rebuild, so a
+     renamed project kept its old name in the list until you clicked away.
+     ===================================================================== */
+  function syncLabels() {
+    $$('.pitem').forEach(function (el) {
+      var p = (S.data.projects || [])[+el.dataset.i];
+      if (!p) return;
+      el.querySelector('b').textContent = p.title || '(untitled)';
+      el.querySelector('em').textContent = (p.client || 'No client') + ' · ' + (p.year || '—');
+      var flag = el.querySelector('.flag');
+      if (flag) flag.textContent = (p.featured !== false ? 'H' : '') + (p.deep ? 'P' : '');
+    });
+    $$('[data-title-for]').forEach(function (el) {
+      var v = get(el.dataset.titleFor);
+      if (!v) return;
+      el.textContent = v.type ? blockTitle(v) : (v.title || v.role || v.label || v.step || '(untitled)');
+    });
+  }
+
+  /* =====================================================================
+     VALIDATION
+     Publishing a duplicate or empty slug silently breaks a URL you may
+     already have sent someone, so it is blocked rather than warned about.
+     ===================================================================== */
+  function validate() {
+    var out = [];
+    var d = S.data;
+    if (!d) return out;
+
+    if (!(d.site && d.site.cloudinary && d.site.cloudinary.cloud)) {
+      out.push({ level: 'warn', tab: 'site', msg: 'No Cloudinary cloud name set — every image on the site will stay blank.' });
+    }
+    if (!(d.site && d.site.email)) {
+      out.push({ level: 'error', tab: 'site', msg: 'No contact email. Every "Start a project" link would be dead.' });
+    }
+
+    var seen = {};
+    (d.projects || []).forEach(function (p, i) {
+      var where = '"' + (p.title || 'project ' + (i + 1)) + '"';
+      if (!p.title) out.push({ level: 'error', tab: 'projects', pi: i, msg: 'Project ' + (i + 1) + ' has no title.' });
+      if (!p.slug) {
+        out.push({ level: 'error', tab: 'projects', pi: i, msg: where + ' has no URL slug.' });
+      } else {
+        if (!/^[a-z0-9-]+$/.test(p.slug)) {
+          out.push({ level: 'error', tab: 'projects', pi: i, msg: where + ' has an invalid slug — lowercase letters, numbers and hyphens only.' });
+        }
+        if (seen[p.slug] !== undefined) {
+          out.push({ level: 'error', tab: 'projects', pi: i, msg: 'Two projects share the slug "' + p.slug + '" — one of them would be unreachable.' });
+        }
+        seen[p.slug] = i;
+      }
+      (p.blocks || []).forEach(function (b, bi) {
+        if (b.type === 'vimeo' && b.url && !W.vimeoId(b.url)) {
+          out.push({ level: 'error', tab: 'projects', pi: i, msg: where + ' block ' + (bi + 1) + ': that is not a Vimeo URL.' });
+        }
+      });
+    });
+    return out;
+  }
+
+  function paintBanner(problems) {
+    var pane = $('#pane');
+    if (!pane) return;
+    var old = pane.querySelector('[data-problems]');
+    var next = problemBanner(problems);
+    if (old && next) { pane.replaceChild(next, old); }
+    else if (old) { old.remove(); }
+    else if (next) { pane.insertBefore(next, pane.firstChild); }
+  }
+
+  function syncValidity() {
+    var problems = validate();
+    var errors = problems.filter(function (p) { return p.level === 'error'; });
+    $('#publish').disabled = errors.length > 0 || S.publishing;
+    $('#publish').title = errors.length ? errors.length + ' problem(s) must be fixed first' : 'Publish (Ctrl/Cmd+S)';
+    paintBanner(problems);
+    $$('#tabs .tab').forEach(function (t) {
+      var bad = problems.some(function (p) { return p.tab === t.dataset.t; });
+      var dot = t.querySelector('.warn');
+      if (bad && !dot) { var s = document.createElement('span'); s.className = 'warn'; t.appendChild(s); }
+      if (!bad && dot) dot.remove();
+    });
+    return problems;
+  }
+
+  function problemBanner(problems) {
+    var mine = problems.filter(function (p) { return p.tab === S.tab; });
+    if (!mine.length) return null;
+    var el = document.createElement('div');
+    el.className = 'note';
+    el.setAttribute('data-problems', '');
+    el.setAttribute('role', 'alert');
+    el.innerHTML = '<b>' + (mine.some(function (p) { return p.level === 'error'; })
+      ? 'Fix before publishing' : 'Worth knowing') + '</b><ul>' +
+      mine.map(function (p) {
+        return '<li>' + esc(p.msg) + (p.pi !== undefined ? ' <a href="#" data-goto="' + p.pi + '">Open</a>' : '') + '</li>';
+      }).join('') + '</ul>';
+    el.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-goto]');
+      if (!a) return;
+      e.preventDefault();
+      S.pi = +a.dataset.goto; S.tab = 'projects'; rerender();
+    });
+    return el;
+  }
+
+  /* =====================================================================
+     PANES
+     ===================================================================== */
+  var TABS = [
+    ['site', 'Site'], ['clients', 'Rolling names'], ['capabilities', 'Capabilities'],
+    ['process', 'Process'], ['tools', 'Toolkit'], ['projects', 'Projects']
+  ];
+
+  function paneSite() {
+    var f = document.createDocumentFragment();
+    var s = S.data.site = S.data.site || {};
+    s.portfolio = s.portfolio || {};
+    s.reel = s.reel || {};
+    s.cloudinary = s.cloudinary || {};
+    s.social = s.social || [];
+
+    f.appendChild(field('Studio name', 'site.name'));
+    f.appendChild(field('Full name (browser title, footer)', 'site.full'));
+    f.appendChild(field('Tagline (homepage hero)', 'site.tagline'));
+    f.appendChild(field('Manifesto', 'site.manifesto', { multiline: true }));
+    f.appendChild(field('Studio paragraph', 'site.studioCopy', { multiline: true }));
+    f.appendChild(field('Availability line', 'site.availability'));
+
+    var r = document.createElement('div'); r.className = 'row2';
+    r.appendChild(field('Email', 'site.email'));
+    r.appendChild(field('Domain', 'site.domain'));
+    f.appendChild(r);
+    f.appendChild(lines('Locations', 'site.locations'));
+
+    f.appendChild(subHead('Media', 'The cloud name is the single value that makes every image on the site work. Anything moving belongs on Vimeo.'));
+    f.appendChild(field('Cloudinary cloud name', 'site.cloudinary.cloud',
+      { hint: 'From your Cloudinary dashboard.', onInput: function () { rerenderSoon(); } }));
+    f.appendChild(field('Cloudinary root folder', 'site.cloudinary.folder', { hint: 'Default: wnh' }));
+    f.appendChild(field('Showreel — Vimeo URL', 'site.reel.vimeo',
+      { hint: 'Background of the homepage hero, and the reel at the top of /portfolio.' }));
+
+    f.appendChild(subHead('/portfolio page', 'The job-application page. Not linked in the nav and excluded from search — you send the URL directly.'));
+    f.appendChild(field('Lead paragraph', 'site.portfolio.lead', { multiline: true }));
+    f.appendChild(lines('Role tags', 'site.portfolio.roles'));
+    f.appendChild(field('Footer note', 'site.portfolio.note'));
+
+    f.appendChild(subHead('Social links'));
+    s.social.forEach(function (l, i) {
+      var box = itemBox({ index: i, title: l.label || 'Link', arrPath: 'site.social' });
+      var rr = document.createElement('div'); rr.className = 'row2';
+      rr.appendChild(field('Label', 'site.social.' + i + '.label'));
+      rr.appendChild(field('URL', 'site.social.' + i + '.url'));
+      box.appendChild(rr);
+      f.appendChild(box);
+    });
+    f.appendChild(addBtn('Add social link', function () {
+      s.social.push({ label: '', url: '' });
+      return 'site.social.' + (s.social.length - 1) + '.label';
+    }));
+    return f;
+  }
+
+  function paneClients() {
+    var f = document.createDocumentFragment();
+    var n = document.createElement('div');
+    n.className = 'note';
+    n.innerHTML = '<b>The two scrolling bands on the homepage.</b> The list is duplicated ' +
+      'automatically so the loop is seamless — enter each name once. Order is the order they scroll in.';
+    f.appendChild(n);
+    f.appendChild(lines('Client names', 'clients', 'One per line.'));
+    return f;
+  }
+
+  function paneList(key, spec, titleKey, make) {
+    var arr = S.data[key] = S.data[key] || [];
+    var f = document.createDocumentFragment();
+    if (!arr.length) {
+      var e = document.createElement('p');
+      e.className = 'hint'; e.style.color = 'var(--muted)';
+      e.textContent = 'Nothing here yet.';
+      f.appendChild(e);
+    }
+    arr.forEach(function (it, i) {
+      var box = itemBox({ index: i, title: it[titleKey] || '(untitled)', arrPath: key, dup: true });
+      spec.forEach(function (sp) {
+        var path = key + '.' + i + '.' + sp[0];
+        box.appendChild(sp[2] === 'list' ? lines(sp[1], path)
+          : field(sp[1], path, { multiline: sp[2] === 'multi' }));
+      });
+      f.appendChild(box);
+    });
+    f.appendChild(addBtn('Add', function () {
+      arr.push(make());
+      return key + '.' + (arr.length - 1) + '.' + titleKey;
+    }));
+    return f;
+  }
+
+  /* -------------------------------------------------------- projects */
+  var BLOCK_TYPES = [
+    { value: 'text',   label: 'Text' },
+    { value: 'image',  label: 'Image' },
+    { value: 'images', label: 'Image row' },
+    { value: 'vimeo',  label: 'Vimeo' },
+    { value: 'video',  label: 'Video file' },
+    { value: 'quote',  label: 'Quote' },
+    { value: 'stats',  label: 'Stats' }
+  ];
+  var BLOCK_KEEP = {
+    text: ['type', 'heading', 'body'],
+    image: ['type', 'src', 'alt', 'caption', 'size'],
+    images: ['type', 'items', 'caption'],
+    vimeo: ['type', 'url', 'caption'],
+    video: ['type', 'src', 'poster', 'caption'],
+    quote: ['type', 'text', 'attribution'],
+    stats: ['type', 'items']
+  };
+  function blockTitle(b) {
+    var name = (BLOCK_TYPES.filter(function (t) { return t.value === b.type; })[0] || {}).label || b.type;
+    var detail = b.heading || b.caption || b.text || b.url || '';
+    return name + (detail ? ' — ' + String(detail).slice(0, 46) : '');
+  }
+
+  function blockFields(bPath, b, slug) {
+    var f = document.createDocumentFragment();
+    if (b.type === 'text') {
+      f.appendChild(field('Heading', bPath + '.heading'));
+      f.appendChild(field('Body', bPath + '.body', { multiline: true, hint: 'Leave a blank line between paragraphs.' }));
+    } else if (b.type === 'image') {
+      f.appendChild(imageField('Image', bPath + '.src', slug, bPath + '.alt'));
+      f.appendChild(field('Alt text', bPath + '.alt', { hint: 'Describe the image — screen readers and search both use this.' }));
+      f.appendChild(field('Caption', bPath + '.caption'));
+      f.appendChild(select('Width', bPath + '.size', [
+        { value: 'full', label: 'Full width' }, { value: 'wide', label: 'Contained' }
+      ]));
+    } else if (b.type === 'images') {
+      b.items = b.items || [];
+      b.items.forEach(function (it, i) {
+        var box = itemBox({ index: i, title: it.alt || ('Image ' + (i + 1)), arrPath: bPath + '.items', dup: true });
+        box.appendChild(imageField('Image', bPath + '.items.' + i + '.src', slug, bPath + '.items.' + i + '.alt'));
+        box.appendChild(field('Alt text', bPath + '.items.' + i + '.alt'));
+        f.appendChild(box);
+      });
+      f.appendChild(addBtn('Add image to row', function () {
+        b.items.push({ src: '', alt: '' });
+        return bPath + '.items.' + (b.items.length - 1) + '.alt';
+      }));
+      f.appendChild(field('Caption', bPath + '.caption'));
+    } else if (b.type === 'vimeo') {
+      var bad = b.url && !W.vimeoId(b.url);
+      var vf = field('Vimeo URL', bPath + '.url', {
+        hint: bad ? 'That does not look like a Vimeo link.' : 'e.g. https://vimeo.com/123456789 — private links with a hash work too.'
+      });
+      if (bad) { vf.classList.add('bad'); vf.querySelector('.hint').classList.add('bad'); }
+      f.appendChild(vf);
+      f.appendChild(field('Caption', bPath + '.caption'));
+    } else if (b.type === 'video') {
+      f.appendChild(imageField('Video file', bPath + '.src', slug));
+      f.appendChild(field('Poster public id', bPath + '.poster'));
+      f.appendChild(field('Caption', bPath + '.caption'));
+    } else if (b.type === 'quote') {
+      f.appendChild(field('Quote', bPath + '.text', { multiline: true }));
+      f.appendChild(field('Attribution', bPath + '.attribution'));
+    } else if (b.type === 'stats') {
+      b.items = b.items || [];
+      b.items.forEach(function (it, i) {
+        var box = itemBox({ index: i, title: it.label || ('Stat ' + (i + 1)), arrPath: bPath + '.items', dup: true });
+        var r = document.createElement('div'); r.className = 'row2';
+        r.appendChild(field('Value', bPath + '.items.' + i + '.value'));
+        r.appendChild(field('Label', bPath + '.items.' + i + '.label'));
+        box.appendChild(r);
+        f.appendChild(box);
+      });
+      f.appendChild(addBtn('Add stat', function () {
+        b.items.push({ value: '', label: '' });
+        return bPath + '.items.' + (b.items.length - 1) + '.value';
+      }));
+    }
+    return f;
+  }
+
+  function paneProjects() {
+    var arr = S.data.projects = S.data.projects || [];
+    var wrap = document.createElement('div');
+    wrap.className = 'split';
+
+    /* ---- list ---- */
+    var side = document.createElement('div');
+    side.className = 'side';
+
+    var search = document.createElement('input');
+    search.className = 'search';
+    search.type = 'text';
+    search.placeholder = 'Search projects…';
+    search.value = S.q;
+    search.addEventListener('input', function () {
+      S.q = search.value;
+      drawList();
+    });
+    side.appendChild(search);
+
+    var list = document.createElement('div');
+    list.className = 'plist';
+    side.appendChild(list);
+
+    function drawList() {
+      var q = S.q.trim().toLowerCase();
+      list.innerHTML = arr.map(function (p, i) {
+        var hay = ((p.title || '') + ' ' + (p.client || '') + ' ' + (p.disciplines || []).join(' ')).toLowerCase();
+        if (q && hay.indexOf(q) === -1) return '';
+        return '<div class="pitem" data-i="' + i + '" aria-current="' + (i === S.pi) + '">' +
+          '<button class="txt" type="button" data-pick="' + i + '">' +
+            '<b>' + esc(p.title || '(untitled)') + '</b>' +
+            '<em>' + esc((p.client || 'No client') + ' · ' + (p.year || '—')) + '</em>' +
+          '</button>' +
+          '<span class="flag">' + (p.featured !== false ? 'H' : '') + (p.deep ? 'P' : '') + '</span>' +
+          '<span class="ord">' +
+            '<button type="button" data-mv="up" data-i="' + i + '" aria-label="Move up"' + (i === 0 ? ' disabled' : '') + '>▲</button>' +
+            '<button type="button" data-mv="down" data-i="' + i + '" aria-label="Move down"' + (i === arr.length - 1 ? ' disabled' : '') + '>▼</button>' +
+          '</span></div>';
+      }).join('') || '<p class="hint" style="padding:14px;color:var(--muted)">No match.</p>';
+
+      var cur = list.querySelector('[aria-current="true"]');
+      if (cur) cur.scrollIntoView({ block: 'nearest' });
+    }
+    drawList();
+
+    list.addEventListener('click', function (e) {
+      var mv = e.target.closest('[data-mv]');
+      if (mv && !mv.disabled) {
+        var i = +mv.dataset.i;
+        snap();
+        if (move(arr, i, mv.dataset.mv === 'up' ? -1 : 1)) {
+          if (S.pi === i) S.pi += (mv.dataset.mv === 'up' ? -1 : 1);
+          else if (S.pi === i + (mv.dataset.mv === 'up' ? -1 : 1)) S.pi = i;
+          dirty(true); rerender();
+        }
+        return;
+      }
+      var pick = e.target.closest('[data-pick]');
+      if (pick) { S.pi = +pick.dataset.pick; rerender(); }
+    });
+
+    var tools = document.createElement('div');
+    tools.style.cssText = 'display:flex;gap:6px;margin-top:8px;flex-wrap:wrap';
+    tools.appendChild(addBtn('New project', function () {
+      arr.unshift({
+        slug: '', title: '', client: '', year: new Date().getFullYear(),
+        disciplines: [], role: '', featured: true, deep: false, tone: 'wine',
+        summary: '', cover: { src: '', alt: '' }, credits: [], blocks: []
+      });
+      S.pi = 0;
+      return 'projects.0.title';
+    }));
+    side.appendChild(tools);
+    wrap.appendChild(side);
+
+    /* ---- editor ---- */
+    var main = document.createElement('div');
+    var p = arr[S.pi];
+    if (!p) {
+      main.innerHTML = '<p class="hint" style="color:var(--muted)">No projects yet. Add one on the left.</p>';
+      wrap.appendChild(main);
+      return wrap;
+    }
+    var P = 'projects.' + S.pi;
+
+    var head = document.createElement('div');
+    head.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap';
+    head.innerHTML =
+      '<span class="lbl" style="margin:0">Editing ' + W.pad(S.pi + 1) + ' of ' + W.pad(arr.length) + '</span>' +
+      '<button class="btn dim" type="button" id="dupproj">Duplicate</button>' +
+      '<button class="btn dim" type="button" id="delproj">Delete project</button>' +
+      (p.slug ? '<a class="btn dim" href="/work/case.html?p=' + encodeURIComponent(p.slug) +
+        '" target="_blank" rel="noopener" title="Opens the published version, not your unsaved edits">Open published ↗</a>' : '');
+    main.appendChild(head);
+
+    head.querySelector('#dupproj').addEventListener('click', function () {
+      snap();
+      var copy = clone(p);
+      copy.slug = (copy.slug || 'project') + '-copy';
+      copy.title = (copy.title || 'Untitled') + ' (copy)';
+      arr.splice(S.pi + 1, 0, copy);
+      S.pi += 1;
+      dirty(true); rerender();
+    });
+    var del = head.querySelector('#delproj');
+    del.addEventListener('click', function () {
+      if (del.dataset.armed !== '1') {
+        del.dataset.armed = '1';
+        del.textContent = 'Delete for real?';
+        del.classList.add('danger');
+        clearTimeout(del._t);
+        del._t = setTimeout(function () {
+          del.dataset.armed = '0'; del.textContent = 'Delete project'; del.classList.remove('danger');
+        }, 4000);
+        return;
+      }
+      snap(); arr.splice(S.pi, 1); clampSelection(); dirty(true); rerender();
+      toast('Project deleted — Ctrl+Z to undo');
+    });
+
+    var r1 = document.createElement('div'); r1.className = 'row2';
+    /* the slug follows the title until you touch it yourself; after that it
+       is yours, because changing a slug breaks a URL you may have sent */
+    r1.appendChild(field('Title', P + '.title', {
+      onInput: function () {
+        if (!p._slugLocked && (!p.slug || p.slug === W.slugify(p._lastTitle || ''))) {
+          p.slug = W.slugify(p.title);
+          var sl = document.querySelector('[data-path="' + cssEsc(P + '.slug') + '"]');
+          if (sl) sl.value = p.slug;
+        }
+        p._lastTitle = p.title;
+      }
+    }));
+    r1.appendChild(field('Client', P + '.client'));
+    main.appendChild(r1);
+
+    var r2 = document.createElement('div'); r2.className = 'row3';
+    var slugField = field('URL slug', P + '.slug', {
+      hint: 'Permanent. /work/case.html?p=' + (p.slug || '…'),
+      onInput: function (el) {
+        p._slugLocked = true;
+        var clean = W.slugify(el.value);
+        if (clean !== el.value) { var pos = el.selectionStart; el.value = clean; set(P + '.slug', clean); try { el.setSelectionRange(pos, pos); } catch (e) {} }
+      }
+    });
+    r2.appendChild(slugField);
+    r2.appendChild(field('Year', P + '.year', { type: 'number' }));
+    r2.appendChild(select('Placeholder tint', P + '.tone',
+      ['wine', 'compass', 'imace', 'scroll', 'tokyo', 'opera']));
+    main.appendChild(r2);
+
+    main.appendChild(field('Role', P + '.role'));
+    main.appendChild(lines('Disciplines', P + '.disciplines', 'One per line. These generate the filter chips across the site.'));
+    main.appendChild(field('Summary', P + '.summary', {
+      multiline: true, hint: 'One or two sentences. Used on the work index and at the top of the case study.'
+    }));
+
+    var flags = document.createElement('div');
+    flags.appendChild(check('Show on the homepage index', P + '.featured'));
+    flags.appendChild(check('Deep dive on /portfolio', P + '.deep'));
+    main.appendChild(flags);
+
+    p.cover = p.cover || {};
+    main.appendChild(imageField('Cover image', P + '.cover.src', p.slug, P + '.cover.alt'));
+    main.appendChild(field('Cover alt text', P + '.cover.alt'));
+
+    main.appendChild(subHead('Credits'));
+    p.credits = p.credits || [];
+    p.credits.forEach(function (c, i) {
+      var box = itemBox({ index: i, title: c.role || 'Credit', arrPath: P + '.credits', dup: true });
+      var rr = document.createElement('div'); rr.className = 'row2';
+      rr.appendChild(field('Role', P + '.credits.' + i + '.role'));
+      rr.appendChild(field('Name', P + '.credits.' + i + '.name'));
+      box.appendChild(rr);
+      main.appendChild(box);
+    });
+    main.appendChild(addBtn('Add credit', function () {
+      p.credits.push({ role: '', name: '' });
+      return P + '.credits.' + (p.credits.length - 1) + '.role';
+    }));
+
+    main.appendChild(subHead('Case study blocks',
+      'These render in order down the case study page. Use Vimeo for anything moving.'));
+    p.blocks = p.blocks || [];
+    p.blocks.forEach(function (b, i) {
+      var bPath = P + '.blocks.' + i;
+      var box = itemBox({ index: i, title: blockTitle(b), arrPath: P + '.blocks', dup: true });
+      box.appendChild(select('Block type', bPath + '.type', BLOCK_TYPES, function (newType) {
+        /* drop fields the new type does not use, so the JSON does not
+           accumulate orphaned keys from every type you tried */
+        var keep = BLOCK_KEEP[newType] || ['type'];
+        Object.keys(b).forEach(function (k) { if (keep.indexOf(k) === -1) delete b[k]; });
+        rerender();
+      }));
+      box.appendChild(blockFields(bPath, b, p.slug));
+      main.appendChild(box);
+    });
+
+    var addRow = document.createElement('div');
+    addRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:10px';
+    BLOCK_TYPES.forEach(function (t) {
+      addRow.appendChild(addBtn(t.label, function () {
+        var b = { type: t.value };
+        if (t.value === 'images' || t.value === 'stats') b.items = [];
+        if (t.value === 'image') b.size = 'full';
+        p.blocks.push(b);
+        var last = P + '.blocks.' + (p.blocks.length - 1);
+        return t.value === 'text' ? last + '.heading'
+          : t.value === 'vimeo' ? last + '.url'
+          : t.value === 'quote' ? last + '.text' : last + '.caption';
+      }));
+    });
+    main.appendChild(addRow);
+
+    wrap.appendChild(main);
+    return wrap;
+  }
+
+  /* =====================================================================
+     RENDER
+     ===================================================================== */
+  function render() {
+    $('#tabs').innerHTML = TABS.map(function (t) {
+      return '<button class="tab" type="button" role="tab" id="tab-' + t[0] + '" aria-controls="pane" data-t="' + t[0] +
+        '" aria-selected="' + (S.tab === t[0]) + '" tabindex="' + (S.tab === t[0] ? '0' : '-1') + '">' + t[1] + '</button>';
+    }).join('');
+    $('#pane').setAttribute('aria-labelledby', 'tab-' + S.tab);
+
+    var pane = $('#pane');
+    pane.innerHTML = '';
+    pane.classList.toggle('wide', S.tab === 'projects');
+
+    pane.appendChild(
+      S.tab === 'site' ? paneSite() :
+      S.tab === 'clients' ? paneClients() :
+      S.tab === 'capabilities' ? paneList('capabilities',
+        [['title', 'Title'], ['summary', 'Summary', 'multi'], ['items', 'Items', 'list']], 'title',
+        function () { return { id: '', title: '', summary: '', items: [] }; }) :
+      S.tab === 'process' ? paneList('process',
+        [['step', 'Step number'], ['title', 'Title'], ['body', 'Body', 'multi']], 'title',
+        function () { return { step: W.pad((S.data.process || []).length + 1), title: '', body: '' }; }) :
+      S.tab === 'tools' ? paneList('tools',
+        [['title', 'Group'], ['body', 'Tools', 'multi']], 'title',
+        function () { return { id: '', title: '', body: '' }; }) :
+      paneProjects()
+    );
+
+    syncValidity();
+    syncUndo();
+  }
+
+  var soonT = null;
+  function rerenderSoon() { clearTimeout(soonT); soonT = setTimeout(rerender, 500); }
+
+  /* tabs: click and arrow keys */
+  $('#tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('.tab');
+    if (!b) return;
+    S.tab = b.dataset.t; S.wantFocus = null; window.scrollTo(0, 0); render();
+  });
+  $('#tabs').addEventListener('keydown', function (e) {
+    var keys = { ArrowRight: 1, ArrowLeft: -1, Home: 'first', End: 'last' };
+    if (!(e.key in keys)) return;
+    e.preventDefault();
+    var i = TABS.findIndex(function (t) { return t[0] === S.tab; });
+    var n = keys[e.key] === 'first' ? 0 : keys[e.key] === 'last' ? TABS.length - 1
+      : (i + keys[e.key] + TABS.length) % TABS.length;
+    S.tab = TABS[n][0];
+    window.scrollTo(0, 0); render();
+    $('#tabs .tab[aria-selected="true"]').focus();
+  });
+
+  /* =====================================================================
+     PUBLISH
+     ===================================================================== */
+  function publish() {
+    if (S.publishing) return;
+    var problems = validate().filter(function (p) { return p.level === 'error'; });
+    if (problems.length) {
+      toast(problems.length + ' problem(s) to fix first', true);
+      rerender();
+      return;
+    }
+    /* strip the editor's own bookkeeping keys before they reach the repo */
+    var payload = JSON.parse(JSON.stringify(S.data, function (k, v) {
+      return (k === '_slugLocked' || k === '_lastTitle') ? undefined : v;
+    }));
+
+    S.publishing = true;
+    var btn = $('#publish');
+    btn.disabled = true;
+    btn.textContent = 'Publishing…';
+    api('save', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ content: payload, sha: S.sha, message: 'Update content via /admin' })
+    }).then(function (r) {
+      S.sha = r.sha;
+      dirty(false);
+      toast('Published — live in about a minute', false, r.commit);
+    }).catch(function (e) {
+      if (e.session) return relock();
+      toast(e.message, true);
+    }).finally(function () {
+      S.publishing = false;
+      btn.textContent = 'Publish';
+      syncValidity();
+    });
+  }
+
+  $('#publish').addEventListener('click', publish);
+  $('#undo').addEventListener('click', undo);
+  $('#redo').addEventListener('click', redo);
+
+  document.addEventListener('keydown', function (e) {
+    var mod = e.metaKey || e.ctrlKey;
+    if (!mod) return;
+    var k = e.key.toLowerCase();
+    if (k === 's') { e.preventDefault(); publish(); }
+    else if (k === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+    else if ((k === 'z' && e.shiftKey) || k === 'y') { e.preventDefault(); redo(); }
+  });
+
+  $('#download').addEventListener('click', function () {
+    var clean = JSON.stringify(S.data, function (k, v) {
+      return (k === '_slugLocked' || k === '_lastTitle') ? undefined : v;
+    }, 2);
+    var blob = new Blob([clean + '\n'], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'content.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  $('#signout').addEventListener('click', function () {
+    if (S.dirty && !window.confirm('You have unpublished changes. Sign out anyway?')) return;
+    api('logout', { method: 'POST' }).finally(function () { location.reload(); });
+  });
+
+  addEventListener('beforeunload', function (e) {
+    if (S.dirty) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  /* =====================================================================
+     AUTH
+     ===================================================================== */
+  function relock() {
+    $('#relock').hidden = false;
+    $('#pw2').focus();
+  }
+  $('#relogin').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('#relockerr').textContent = '';
+    api('login', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ password: $('#pw2').value })
+    }).then(function () {
+      $('#relock').hidden = true;
+      $('#pw2').value = '';
+      toast('Signed back in — publish when ready');
+    }).catch(function (err) { $('#relockerr').textContent = err.message; });
+  });
+
+  function start() {
+    return api('save').then(function (r) {
+      S.data = r.content;
+      S.sha = r.sha;
+      S.data.projects = S.data.projects || [];
+      $('#gate').hidden = true;
+      $('#app').hidden = false;
+      dirty(false);
+      render();
+    });
+  }
+
+  $('#login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = $('#go');
+    btn.disabled = true; btn.textContent = 'Checking…';
+    $('#loginerr').textContent = '';
+    api('login', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ password: $('#pw').value })
+    }).then(start)
+      .catch(function (err) { $('#loginerr').textContent = err.session ? 'Wrong password' : err.message; })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Sign in'; });
+  });
+
+  api('session').then(function (s) {
+    S.cfg = s;
+    if (s.signedIn) return start();
+    $('#gate').hidden = false;
+    $('#pw').focus();
+  }).catch(function () {
+    $('#gate').hidden = false;
+    $('#loginerr').textContent = 'Backend not reachable — is this running on Cloudflare Pages?';
+  });
+})();
+</script>
+</body>
+</html>
