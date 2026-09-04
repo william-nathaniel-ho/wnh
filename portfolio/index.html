@@ -7,7 +7,7 @@
 <meta name="description" content="Selected work and capabilities — design direction, brand, film, motion, 3D and digital build.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#08090A">
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/site.css">
 <style>
   /* This page is sent directly to a person, not found by search.
      It runs its own quieter chrome: no marquee, no timecode theatre. */
@@ -90,7 +90,7 @@
 </main>
 
 <div id="shell-foot"></div>
-<script src="/assets/js/site.js"></script>
+<script src="../assets/js/site.js"></script>
 <script>
 WNH.boot(function (d) {
   var W = WNH, s = d.site || {}, pf = s.portfolio || {};
@@ -119,11 +119,11 @@ WNH.boot(function (d) {
   var deep = all.filter(function (p) { return p.deep; });
   W.$('#deep').innerHTML = deep.map(function (p, i) {
     return '<article class="deep-item rv">' +
-      '<a class="deep-media" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+      '<a class="deep-media" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         W.cover(p, i, 1440) + '</a>' +
       '<div class="deep-body">' +
         '<span class="mono muted">' + W.pad(i + 1) + ' &mdash; ' + W.t(p.client) + ' &middot; ' + W.esc(p.year) + '</span>' +
-        '<h3><a href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' + W.t(p.title) + '</a></h3>' +
+        '<h3><a href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' + W.t(p.title) + '</a></h3>' +
         '<p>' + W.t(p.summary) + '</p>' +
         '<div class="role">' + W.t(p.role || '') + '</div>' +
         W.tags(p.disciplines) +
@@ -136,7 +136,7 @@ WNH.boot(function (d) {
     var list = all.filter(function (p) { return !active || (p.disciplines || []).indexOf(active) > -1; });
     W.$('#pf-count').textContent = list.length + ' projects' + (active ? ' — ' + active : '');
     W.$('#pf-cards').innerHTML = list.map(function (p, i) {
-      return '<a class="card rv in" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+      return '<a class="card rv in" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         '<span class="card-media">' + W.cover(p, i, 960) + '</span>' +
         '<span class="card-body"><span><span class="c">' + W.t(p.client) + '</span>' +
         '<h3>' + W.t(p.title) + '</h3></span><span class="y">' + W.esc(p.year) + '</span></span>' +

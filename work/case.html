@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Case study — WNH</title>
 <meta name="theme-color" content="#08090A">
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
 <body>
 <a class="skip" href="#body">Skip to case study</a>
@@ -15,7 +15,7 @@
   <article id="case" hidden>
     <section class="case-hero">
       <div class="wrap">
-        <a class="case-back" href="/work/">
+        <a class="case-back" data-href="work/">
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M5 1L1 5l4 4M1 5h13" stroke="currentColor" stroke-width="1.4"/></svg>
           <span>All work</span>
         </a>
@@ -54,14 +54,14 @@
     <div class="wrap">
       <h1 class="case-title">Not<br><span class="accent">found</span></h1>
       <p class="case-summary">That project isn't in the index.</p>
-      <p style="margin-top:var(--s4)"><a class="link-arrow" href="/work/"><span>See all work</span>
+      <p style="margin-top:var(--s4)"><a class="link-arrow" data-href="work/"><span>See all work</span>
         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.4"/></svg></a></p>
     </div>
   </section>
 </main>
 
 <div id="shell-foot"></div>
-<script src="/assets/js/site.js"></script>
+<script src="../assets/js/site.js"></script>
 <script>
 WNH.boot(function (d) {
   var W = WNH;
@@ -160,7 +160,7 @@ WNH.boot(function (d) {
   /* next project wraps round the index, so the page never dead-ends */
   var all = W.projects();
   var next = all[(all.indexOf(p) + 1) % all.length];
-  W.$('#c-next').href = '/work/case.html?p=' + encodeURIComponent(next.slug);
+  W.$('#c-next').href = W.url('work/case.html?p=' + encodeURIComponent(next.slug));
   W.$('#c-next-title').innerHTML = W.t(next.title);
 
   /* keyboard parity for the video facades */

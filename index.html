@@ -10,9 +10,9 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wnhdesign.io/">
 <meta name="theme-color" content="#08090A">
-<link rel="preload" href="/assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <a class="skip" href="#work">Skip to work</a>
@@ -55,7 +55,7 @@
     <div class="wrap">
       <div class="sec-head rv">
         <h2 class="sec-title">Selected <span class="n">Work</span></h2>
-        <a class="link-arrow" href="/work/"><span>All work <span id="work-count"></span></span>
+        <a class="link-arrow" data-href="work/"><span>All work <span id="work-count"></span></span>
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H0" stroke="currentColor" stroke-width="1.4"/></svg></a>
       </div>
       <div class="rows" id="rows"></div>
@@ -112,7 +112,7 @@
 <div id="shell-foot"></div>
 <div class="peek" id="peek" aria-hidden="true"></div>
 
-<script src="/assets/js/site.js"></script>
+<script src="assets/js/site.js"></script>
 <script>
 WNH.boot(function (d) {
   var W = WNH, s = d.site || {};
@@ -129,7 +129,7 @@ WNH.boot(function (d) {
   W.$('#cta-loc').textContent = (s.locations || []).join(' / ') + ' — reply within 2 working days';
 
   W.$('#rows').innerHTML = featured.map(function (p, i) {
-    return '<a class="row rv" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '" data-i="' + i + '">' +
+    return '<a class="row rv" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '" data-i="' + i + '">' +
       '<span class="row-idx">' + W.pad(i + 1) + '</span>' +
       '<span class="row-thumb">' + W.cover(p, i, 200) + '</span>' +
       '<h3 class="row-title"><span class="row-client">' + W.t(p.client) + '</span>' + W.t(p.title) + '</h3>' +

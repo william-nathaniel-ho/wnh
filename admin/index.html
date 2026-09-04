@@ -6,7 +6,7 @@
 <title>WNH — Editor</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#08090A">
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/site.css">
 <style>
 /* The editor is a tool, not a page. Denser spacing, controls always visible,
    nothing that animates or moves while you are typing. */
@@ -207,7 +207,7 @@ kbd{font-family:var(--mono);font-size:.9em;border:1px solid var(--line-strong);p
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="/assets/js/site.js"></script>
+<script src="../assets/js/site.js"></script>
 <script>
 (function () {
   'use strict';
@@ -328,7 +328,9 @@ kbd{font-family:var(--mono);font-size:.9em;border:1px solid var(--line-strong);p
     el.querySelector('span').textContent = on ? 'Unpublished changes' : 'Published';
   }
   function api(path, opts) {
-    return fetch('/api/' + path, Object.assign({ credentials: 'same-origin' }, opts || {}))
+    /* W.url so the editor also works if the site is ever served from a
+       subpath; on Cloudflare at the domain root this is just /api/… */
+    return fetch(W.url('api/' + path), Object.assign({ credentials: 'same-origin' }, opts || {}))
       .then(function (r) {
         return r.json().catch(function () { return { ok: false, error: 'Server error ' + r.status }; })
           .then(function (j) {
@@ -1034,7 +1036,7 @@ kbd{font-family:var(--mono);font-size:.9em;border:1px solid var(--line-strong);p
       '<span class="lbl" style="margin:0">Editing ' + W.pad(S.pi + 1) + ' of ' + W.pad(arr.length) + '</span>' +
       '<button class="btn dim" type="button" id="dupproj">Duplicate</button>' +
       '<button class="btn dim" type="button" id="delproj">Delete project</button>' +
-      (p.slug ? '<a class="btn dim" href="/work/case.html?p=' + encodeURIComponent(p.slug) +
+      (p.slug ? '<a class="btn dim" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) +
         '" target="_blank" rel="noopener" title="Opens the published version, not your unsaved edits">Open published ↗</a>' : '');
     main.appendChild(head);
 

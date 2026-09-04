@@ -6,7 +6,7 @@
 <title>Work — WNH</title>
 <meta name="description" content="Selected work by WNH — brand, film, motion, 3D and digital.">
 <meta name="theme-color" content="#08090A">
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/site.css">
 </head>
 <body>
 <a class="skip" href="#list">Skip to list</a>
@@ -43,7 +43,7 @@
 </main>
 
 <div id="shell-foot"></div>
-<script src="/assets/js/site.js"></script>
+<script src="../assets/js/site.js"></script>
 <script>
 WNH.boot(function (d) {
   var W = WNH;
@@ -71,7 +71,7 @@ WNH.boot(function (d) {
     W.$('#empty').hidden = list.length > 0;
 
     W.$('#rows').innerHTML = list.map(function (p, i) {
-      return '<a class="row rv in" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+      return '<a class="row rv in" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         '<span class="row-idx">' + W.pad(i + 1) + '</span>' +
         '<span class="row-thumb">' + W.cover(p, i, 200) + '</span>' +
         '<h3 class="row-title"><span class="row-client">' + W.t(p.client) + '</span>' + W.t(p.title) + '</h3>' +
@@ -82,7 +82,7 @@ WNH.boot(function (d) {
     }).join('');
 
     W.$('#cards').innerHTML = list.map(function (p, i) {
-      return '<a class="card rv in" href="/work/case.html?p=' + encodeURIComponent(p.slug) + '">' +
+      return '<a class="card rv in" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) + '">' +
         '<span class="card-media">' + W.cover(p, i, 960) + '</span>' +
         '<span class="card-body"><span><span class="c">' + W.t(p.client) + '</span>' +
         '<h3>' + W.t(p.title) + '</h3></span><span class="y">' + W.esc(p.year) + '</span></span>' +

@@ -31,10 +31,28 @@ The browser never receives them. That is the whole reason we are not on GitHub P
 
 ---
 
+## Already on GitHub Pages?
+
+If you've pushed the repo and turned on GitHub Pages, the site is live at
+`https://YOURNAME.github.io/wnh/` — a **project page served from a subpath**, not
+from the domain root. Every asset path in the build now resolves relative to
+wherever the site is served from, so that works. Two things still to know:
+
+- **`/admin` will not work on GitHub Pages.** There is no server there to check a
+  password or hold your GitHub token, so the editor loads and tells you the
+  backend is unreachable. That is expected, not a bug.
+- **Keep `.nojekyll` in the repo root.** Without it GitHub runs Jekyll over the
+  site and silently drops anything whose name starts with an underscore.
+
+Point Cloudflare Pages at the same repo (step 3) and you get the editor plus a
+domain root, and you can leave GitHub Pages on as a mirror or switch it off.
+
+---
+
 ## Step 1 — GitHub (5 min)
 
 1. **github.com → New repository**
-   - Name: `wnhdesign`
+   - Name: `wnh` (or anything — the build does not care what it is called)
    - **Private** is fine — Cloudflare can read a private repo.
    - Do not add a README (the zip already has one).
 2. Upload the contents of the zip to the repo root. Either drag the files into
@@ -43,7 +61,7 @@ The browser never receives them. That is the whole reason we are not on GitHub P
    cd wnh
    git init && git add . && git commit -m "WNH site"
    git branch -M main
-   git remote add origin https://github.com/YOURNAME/wnhdesign.git
+   git remote add origin https://github.com/YOURNAME/wnh.git
    git push -u origin main
    ```
    The root of the repo must contain `index.html`, `content.json`, `functions/`, `assets/`.
@@ -53,7 +71,7 @@ The browser never receives them. That is the whole reason we are not on GitHub P
      → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**
    - Token name: `wnh-admin`
    - Expiration: 1 year (put a reminder in your calendar — it will stop working silently otherwise)
-   - **Repository access** → *Only select repositories* → `wnhdesign`
+   - **Repository access** → *Only select repositories* → your repo
    - **Permissions** → *Repository permissions* → **Contents: Read and write**
      (Metadata read-only gets added automatically. Nothing else is needed.)
    - Generate, then **copy the token now** — GitHub shows it once.
@@ -92,7 +110,7 @@ player, better compression, no bandwidth billing surprises.
 ## Step 3 — Cloudflare Pages (10 min)
 
 1. **dash.cloudflare.com** → **Workers & Pages** → **Create** → **Pages**
-   → **Connect to Git** → authorise GitHub → pick `wnhdesign`.
+   → **Connect to Git** → authorise GitHub → pick your repo.
 2. Build settings:
    - Framework preset: **None**
    - Build command: **leave empty**
@@ -110,7 +128,7 @@ player, better compression, no bandwidth billing surprises.
    | `ADMIN_PASSWORD` | a password you choose — long, and not one you use elsewhere |
    | `SESSION_SECRET` | a long random string (see below) |
    | `GITHUB_TOKEN` | the fine-grained token from step 1 |
-   | `GITHUB_REPO` | `YOURNAME/wnhdesign` |
+   | `GITHUB_REPO` | `YOURNAME/wnh` — exactly `owner/repo`, not a URL |
    | `GITHUB_BRANCH` | `main` |
    | `CLOUDINARY_CLOUD_NAME` | your cloud name |
    | `CLOUDINARY_API_KEY` | your API key |
@@ -202,6 +220,22 @@ line; the list is duplicated automatically so the loop is seamless.
 
 `/portfolio` and `/admin` both carry `noindex` and are excluded in `robots.txt`,
 so neither turns up in a search for the studio.
+
+---
+
+## Where the site can live
+
+| | GitHub Pages | Cloudflare Pages |
+|---|---|---|
+| The public site | works | works |
+| Served from | `/wnh/` subpath | domain root |
+| `/admin` editor | **no** — no server | yes |
+| Custom domain | yes | yes |
+| Cost | free | free |
+
+Both can run off the same repo at the same time. The build is path-agnostic — it
+works out where it is from its own script URL — so nothing needs changing to move
+between them.
 
 ---
 

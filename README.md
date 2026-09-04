@@ -38,6 +38,21 @@ Media references are **Cloudinary public IDs**, never URLs — the site builds t
 URL with `f_auto,q_auto` and a five-width `srcset`, so delivery strategy is one
 line, not a thousand hand-written links. Anything moving is a **Vimeo link**.
 
+## Paths
+
+Nothing is hard-coded to a domain. `assets/js/site.js` works out the site root
+from its own `src`, and everything — `content.json`, internal links, the API —
+is resolved against that. So the same files work at `wnhdesign.io/` and at
+`user.github.io/wnh/` with no build flag. Font URLs inside `site.css` are
+relative to the stylesheet, which resolves correctly at any depth.
+
+`404.html` is deliberately self-contained (its own inline CSS, no JS dependency)
+because a 404 is served for missing paths at any depth, where relative asset
+links would resolve differently every time.
+
+Keep `.nojekyll` in the repo root or GitHub Pages will run Jekyll and drop
+underscore-prefixed files.
+
 ## Local preview
 
 The pages fetch `/content.json` from the site root, so opening the files

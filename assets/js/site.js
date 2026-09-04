@@ -7,6 +7,21 @@
 
   var W = {};
 
+  /* ---------------------------------------------------------------- base
+     The site has to work both at a domain root (wnhdesign.io/) and under a
+     repo subpath (user.github.io/wnh/). Root-absolute paths break the second
+     case, so the base is derived from this script's own URL instead. */
+  var BASE = (function () {
+    var s = document.currentScript;
+    if (!s) { var all = document.getElementsByTagName('script'); s = all[all.length - 1]; }
+    var src = (s && s.src) || '';
+    var i = src.indexOf('assets/js/site.js');
+    if (i > -1) return src.slice(0, i);
+    return location.pathname.replace(/[^/]*$/, '');
+  })();
+  W.base = BASE;
+  W.url = function (p) { return BASE + String(p == null ? '' : p).replace(/^\//, ''); };
+
   /* ---------------------------------------------------------------- helpers */
   W.$  = function (s, r) { return (r || document).querySelector(s); };
   W.$$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -91,7 +106,7 @@
 
   /* ------------------------------------------------------------------- data */
   W.load = function () {
-    return fetch('/content.json', { cache: 'no-cache' })
+    return fetch(W.url('content.json'), { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('content.json ' + r.status); return r.json(); })
       .then(function (d) {
         W.data = d;
@@ -243,7 +258,7 @@
     var nav = W.$('#shell-nav');
     if (nav) nav.innerHTML =
       '<header class="nav"><div class="nav-in">' +
-        '<a class="brand" href="/" aria-label="WNH — home">' +
+        '<a class="brand" href="' + W.url('') + '" aria-label="WNH — home">' +
           '<span class="dot" aria-hidden="true"></span><b>WNH</b>' +
           '<span class="mono muted" style="letter-spacing:.18em">Design <span class="amp">&amp;</span> Production</span>' +
         '</a>' +
@@ -252,15 +267,20 @@
           '<span id="loc">PER --:-- / HKG --:--</span>' +
         '</div>' +
         '<nav class="nav-links mono" aria-label="Primary">' +
-          '<a href="/work/">Work</a><a href="/#capabilities">Capabilities</a>' +
-          '<a href="/#studio">Studio</a><a href="/#contact">Contact</a>' +
+          '<a href="' + W.url('work/') + '">Work</a>' +
+          '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
+          '<a href="' + W.url('#studio') + '">Studio</a>' +
+          '<a href="' + W.url('#contact') + '">Contact</a>' +
         '</nav>' +
         '<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">' +
           '<i></i><i></i><i></i></button>' +
       '</div></header>' +
       '<div class="sheet" id="sheet">' +
-        '<nav aria-label="Mobile"><a href="/work/">Work</a><a href="/#capabilities">Capabilities</a>' +
-        '<a href="/#studio">Studio</a><a href="/#contact">Contact</a></nav>' +
+        '<nav aria-label="Mobile">' +
+          '<a href="' + W.url('work/') + '">Work</a>' +
+          '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
+          '<a href="' + W.url('#studio') + '">Studio</a>' +
+          '<a href="' + W.url('#contact') + '">Contact</a></nav>' +
         '<div class="sheet-foot mono muted"><span data-mail></span><span data-locations></span></div>' +
       '</div>';
 
@@ -268,8 +288,11 @@
     if (foot) foot.innerHTML =
       '<footer><div class="wrap"><div class="foot-grid">' +
         '<div class="foot-col"><h4>Studio</h4><p data-full></p><p data-locations></p></div>' +
-        '<div class="foot-col"><h4>Index</h4><a href="/work/">Work</a><a href="/#capabilities">Capabilities</a>' +
-          '<a href="/#studio">Studio</a><a href="/#contact">Contact</a></div>' +
+        '<div class="foot-col"><h4>Index</h4>' +
+          '<a href="' + W.url('work/') + '">Work</a>' +
+          '<a href="' + W.url('#capabilities') + '">Capabilities</a>' +
+          '<a href="' + W.url('#studio') + '">Studio</a>' +
+          '<a href="' + W.url('#contact') + '">Contact</a></div>' +
         '<div class="foot-col" data-social><h4>Elsewhere</h4></div>' +
         '<div class="foot-col"><h4>Colophon</h4><p>Archivo / IBM Plex Mono</p><p>Instrument Serif</p>' +
           '<p>Hand-built. No framework.</p></div>' +
@@ -278,8 +301,14 @@
       '</div></div></footer>';
   };
 
+  /* any static link written as data-href="work/" is resolved against the base */
+  W.links = function () {
+    W.$$('[data-href]').forEach(function (a) { a.href = W.url(a.dataset.href); });
+  };
+
   W.boot = function (render) {
     W.shell();
+    W.links();
     W.menu();
     W.load().then(function (d) {
       W.chrome(d);
