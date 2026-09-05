@@ -715,12 +715,14 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "The four-up lineup — the canonical reference render"
+              "src": "wnh/hksh-walk-for-a-vision/yfffj0vm3h9woukkpwsl",
+              "alt": "The four-up lineup — the canonical reference render",
+              "ar": 0.8571
             },
             {
-              "src": "",
-              "alt": "Character A-poses, isolated on the studio ground"
+              "src": "wnh/hksh-walk-for-a-vision/anpjat5cw4ukcdvpgrvi",
+              "alt": "Character A-poses, isolated on the studio ground",
+              "ar": 1.7686
             }
           ],
           "caption": "The cast, in fixed order"
@@ -734,20 +736,24 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Character one — side-swept fringe"
+              "src": "wnh/hksh-walk-for-a-vision/kabu1lmuokup8mhw0pqq",
+              "alt": "Character one — side-swept fringe",
+              "ar": 2.1004
             },
             {
-              "src": "",
-              "alt": "Character two — glasses"
+              "src": "wnh/hksh-walk-for-a-vision/o2xlzhmvu8pdmvx3n4r3",
+              "alt": "Character two — glasses",
+              "ar": 0.997
             },
             {
-              "src": "",
-              "alt": "Character three — high ponytail and lime scrunchie"
+              "src": "wnh/hksh-walk-for-a-vision/ylb4rjjo2yy30r1dpykd",
+              "alt": "Character three — high ponytail and lime scrunchie",
+              "ar": 0.9096
             },
             {
-              "src": "",
-              "alt": "Character four — shoulder-length waves"
+              "src": "wnh/hksh-walk-for-a-vision/eeoeppsgwcmkknhv1ske",
+              "alt": "Character four — shoulder-length waves",
+              "ar": 0.8458
             }
           ],
           "caption": "One feature each — enough to tell them apart at thumbnail size"
