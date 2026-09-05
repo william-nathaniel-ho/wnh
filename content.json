@@ -1061,8 +1061,9 @@
       "tone": "opera",
       "summary": "A child sponsorship campaign for the children's home's ninetieth year — 童愛傳承, and one number the reader has to be able to say yes to.",
       "cover": {
-        "src": "",
-        "alt": "小小助養人計劃 campaign"
+        "src": "wnh/st-christophers/trnacbkmyp2eputxkrx8",
+        "alt": "小小助養人計劃 campaign",
+        "ar": 1.3333
       },
       "credits": [
         {
@@ -1082,10 +1083,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/st-christophers/n2azlxandruy9meyxahk",
           "alt": "小小助養人計劃 campaign visual",
           "caption": "The ask, and the year it sits in",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         }
       ],
       "sector": "Culture & Non-profit"
