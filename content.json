@@ -801,6 +801,11 @@
           "caption": "Model sheets — four views each, so nothing has to be guessed later"
         },
         {
+          "type": "video",
+          "src": "wnh/hksh-walk-for-a-vision/tud6bk2o44lowbmgrz7n",
+          "ar": 1.7778
+        },
+        {
           "type": "stats",
           "items": [
             {
@@ -815,7 +820,9 @@
               "value": "2023",
               "label": "Built to be reused since"
             }
-          ]
+          ],
+          "src": "wnh/hksh-walk-for-a-vision/p0frdxqasiddzxqrr0th",
+          "ar": 1.7778
         }
       ]
     },
