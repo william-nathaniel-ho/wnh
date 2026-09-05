@@ -323,16 +323,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Centenary mark, front view"
+              "src": "wnh/hksh-centenary/bf9mevcmivwvblpuaqhq",
+              "alt": "Centenary mark, front view",
+              "ar": 1
             },
             {
-              "src": "",
-              "alt": "Centenary mark, side view"
+              "src": "wnh/hksh-centenary/o47bxqdvfoeatjqywugd",
+              "alt": "Centenary mark, side view",
+              "ar": 1.6205
             },
             {
-              "src": "",
-              "alt": "Stage sculpture in place"
+              "src": "wnh/hksh-centenary/jv8jyt9yojjovwlipgol",
+              "alt": "Stage sculpture in place",
+              "ar": 1.4991
             }
           ],
           "caption": "Front, side, and as built"
@@ -346,16 +349,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Exhibition framework in 3D"
+              "src": "wnh/hksh-centenary/gktasqevw9dpvrhuyjl9",
+              "alt": "Exhibition framework in 3D",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Wall graphics and archive vitrines"
+              "src": "wnh/hksh-centenary/p1xzjfyh9xu2fiysai6r",
+              "alt": "Wall graphics and archive vitrines",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Uniform display and showcase items"
+              "src": "wnh/hksh-centenary/o1vuaqxr4y2oudsypeti",
+              "alt": "Uniform display and showcase items",
+              "ar": 1.4988
             }
           ],
           "caption": "3D framework, wall graphics, showcase"
