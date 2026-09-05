@@ -498,16 +498,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Type specification"
+              "src": "wnh/carearch/vlu4smpea8wxy2cofj8f",
+              "alt": "Type specification",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Colour system"
+              "src": "wnh/carearch/mnf6eefi0bgng6aw1trn",
+              "alt": "Colour system",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Icon and secondary lockups"
+              "src": "wnh/carearch/lqzvf7u1cfzydqliux5m",
+              "alt": "Icon and secondary lockups",
+              "ar": 1.7778
             }
           ],
           "caption": "Type, colour, and the secondary set"
