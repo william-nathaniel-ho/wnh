@@ -117,7 +117,9 @@ WNH.boot(function (d) {
     },
     video: function (b) {
       if (!W.cld.ok(b.src)) return R.image({ src: '', alt: b.caption, caption: b.caption });
-      return '<figure><div class="vp" data-player="file" data-src="' + W.esc(W.cld.video(b.src)) + '"' +
+      /* film sits inside the column rather than across it, unless asked otherwise */
+      return '<figure class="' + (b.size === 'full' ? '' : 'blk-wide') + '">' +
+        '<div class="vp" data-player="file" data-src="' + W.esc(W.cld.video(b.src)) + '"' +
         (W.cld.ok(b.poster) ? ' data-poster="' + W.esc(W.cld.poster(b.poster)) + '"' : '') +
         '></div>' + cap(b.caption) + '</figure>';
     },
@@ -127,7 +129,8 @@ WNH.boot(function (d) {
         return '<figure><div class="embed"><div class="embed-facade">' +
           '<span class="play">Video link not set yet</span></div></div>' + cap(b.caption) + '</figure>';
       }
-      return '<figure><div class="vp" data-player="embed" data-url="' + W.esc(b.url) +
+      return '<figure class="' + (b.size === 'full' ? '' : 'blk-wide') + '">' +
+        '<div class="vp" data-player="embed" data-url="' + W.esc(b.url) +
         '" data-title="' + W.esc(b.caption || p.title) + '"></div>' + cap(b.caption) + '</figure>';
     },
     quote: function (b) {

@@ -1047,8 +1047,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     text: ['type', 'heading', 'body'],
     image: ['type', 'src', 'alt', 'caption', 'size'],
     images: ['type', 'items', 'caption'],
-    vimeo: ['type', 'url', 'caption'],
-    video: ['type', 'src', 'poster', 'caption'],
+    vimeo: ['type', 'url', 'caption', 'size'],
+    video: ['type', 'src', 'poster', 'caption', 'size'],
     quote: ['type', 'text', 'attribution'],
     stats: ['type', 'items']
   };
@@ -1092,10 +1092,16 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       if (bad) { vf.classList.add('bad'); vf.querySelector('.hint').classList.add('bad'); }
       f.appendChild(vf);
       f.appendChild(field('Caption', bPath + '.caption'));
+      f.appendChild(select('Width', bPath + '.size', [
+        { value: 'wide', label: 'Contained' }, { value: 'full', label: 'Full width' }
+      ]));
     } else if (b.type === 'video') {
       f.appendChild(imageField('Video file', bPath + '.src', slug));
       f.appendChild(field('Poster public id', bPath + '.poster'));
       f.appendChild(field('Caption', bPath + '.caption'));
+      f.appendChild(select('Width', bPath + '.size', [
+        { value: 'wide', label: 'Contained' }, { value: 'full', label: 'Full width' }
+      ]));
     } else if (b.type === 'quote') {
       f.appendChild(field('Quote', bPath + '.text', { multiline: true }));
       f.appendChild(field('Attribution', bPath + '.attribution'));
