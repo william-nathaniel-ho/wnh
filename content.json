@@ -842,8 +842,9 @@
       "tone": "hkma",
       "summary": "Campaign and e-commerce visuals for Hong Kong's number-one sleep supplement — a night world that carries a hard retail offer without turning into a discount banner.",
       "cover": {
-        "src": "",
-        "alt": "Vita Green Vita Calm campaign key visual"
+        "src": "wnh/vita-green/uc9pgxix7xldcar5msbk",
+        "alt": "Vita Green Vita Calm campaign key visual",
+        "ar": 1.7681
       },
       "credits": [
         {
@@ -863,7 +864,17 @@
         },
         {
           "type": "image",
-          "caption": "The banner, at full retail width"
+          "caption": "The banner, at full retail width",
+          "src": "wnh/vita-green/xph6cvzuos3xn5mptgpe",
+          "ar": 1.7778,
+          "alt": "Vita Green 10"
+        },
+        {
+          "type": "image",
+          "caption": "The banner, at full retail width",
+          "src": "wnh/vita-green/atnenawsgvhra9ld55yl",
+          "ar": 1.7778,
+          "alt": "Vita Green 10"
         },
         {
           "type": "text",
