@@ -1253,10 +1253,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/sing-ping-opera/eljz040fophmysufnigm",
           "alt": "昇平粵苑 logo lockups, Chinese and English",
           "caption": "Bilingual lockups",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -1267,16 +1268,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Stage performance"
+              "src": "wnh/sing-ping-opera/ylzg7p7t8paonnujnksh",
+              "alt": "Stage performance",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Performance film still"
+              "src": "wnh/sing-ping-opera/vn4ptxln0dvgpunsv7jt",
+              "alt": "Performance film still",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Instagram content set"
+              "src": "wnh/sing-ping-opera/bsrqjkhgd9fcxqhly50c",
+              "alt": "Instagram content set",
+              "ar": 1.7778
             }
           ],
           "caption": "Stage, film, social"
@@ -1288,8 +1292,9 @@
         }
       ],
       "cover": {
-        "src": "",
-        "alt": "Keeping the Songs"
+        "src": "wnh/sing-ping-opera/rbd3uepna6eyepjh8hv6",
+        "alt": "Keeping the Songs",
+        "ar": 1.7778
       },
       "credits": [
         {
