@@ -365,16 +365,6 @@
             }
           ],
           "caption": "3D framework, wall graphics, showcase"
-        },
-        {
-          "type": "text",
-          "heading": "Filmed where the work happens",
-          "body": "A film series shot inside working theatres, labs and consultation rooms rather than on a set. Hospitals are difficult places to film in and impossible to fake, which is the reason to do it."
-        },
-        {
-          "type": "vimeo",
-          "url": "",
-          "caption": "A Century of Clinical Excellence — film series"
         }
       ],
       "cover": {
