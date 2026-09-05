@@ -828,23 +828,25 @@
     },
     {
       "slug": "vita-green",
-      "title": "Vita Calm",
+      "title": "Always-On",
       "client": "Vita Green 維特健靈",
       "year": 2025,
+      "sector": "Health & Care",
       "disciplines": [
         "Campaign",
+        "Social",
+        "Motion",
         "Retail",
         "Digital"
       ],
-      "role": "Key Visual, Campaign Design",
+      "role": "Key Visual, Social & Campaign Design, Video Edit",
       "featured": true,
       "deep": false,
       "tone": "hkma",
-      "summary": "Campaign and e-commerce visuals for Hong Kong's number-one sleep supplement — a night world that carries a hard retail offer without turning into a discount banner.",
+      "summary": "An always-on design partnership with one of Hong Kong's largest health brands — social ads, offer posts, EDMs and TVC cutdowns produced week after week across several product lines, held together by one visual system.",
       "cover": {
         "src": "wnh/vita-green/n0sofpwfdm13a0vwleqk",
-        "alt": "Vita Green Vita Calm campaign key visual",
-        "ar": 1.7778
+        "alt": "更年一身輕 key visual for Vita Green Menopause 更年輕"
       },
       "credits": [
         {
@@ -859,30 +861,32 @@
       "blocks": [
         {
           "type": "text",
-          "heading": "A premium claim and a hard offer, in one frame",
-          "body": "寧心 is a four-year category leader with a gift-with-purchase mechanic attached — buy nine boxes and a smartwatch comes with it. Those two jobs pull in opposite directions: the first wants calm and authority, the second wants urgency.\n\nThe answer is a night sky rather than a sale colour. Deep navy and gold hold the No.1 claim; the offer sits inside the same world as gold-edged badges instead of being pasted on top of it."
+          "heading": "Not one campaign — a production line",
+          "body": "Vita Green runs a large stable of products, and each one needs a steady stream of work: key visuals, Facebook and Instagram offer posts, carousel ads, EDMs and newsletters, omnichat offer images, e-shop and shopping-mall banners, tent cards and print ads, plus TVC edits and the 15s / 5s cutdowns that follow them.\n\nThe brief is rarely \"make a campaign\". It is closer to: this product, this offer, this week, in eleven placements. Across 2024 and 2025 that has meant a continuous run of jobs rather than a single launch — including the 2025 social media guideline the ongoing work is now built on."
         },
         {
           "type": "image",
-          "caption": "The banner, at full retail width",
           "src": "wnh/vita-green/xph6cvzuos3xn5mptgpe",
-          "ar": 1.7778,
-          "alt": "Vita Green 10"
-        },
-        {
-          "type": "image",
-          "caption": "The banner, at full retail width",
-          "src": "wnh/vita-green/atnenawsgvhra9ld55yl",
-          "ar": 1.7778,
-          "alt": "Vita Green 10"
+          "alt": "Menopause 更年輕 poster, offer banner and video still",
+          "caption": "更年輕 — key visual, offer banner and TVC still"
         },
         {
           "type": "text",
-          "heading": "Ingredients as evidence",
-          "body": "GABA, L-theanine, and the herbs — 靈芝, 柴胡, 酸棗仁, 當歸丹參 — floated as lit spheres beside the pack. In Hong Kong health retail the ingredient list is the argument, so it gets treated as imagery rather than as small print."
+          "heading": "One system, two very different rooms",
+          "body": "更年輕 speaks to women managing menopause, so it is warm and daylit — pink-lavender, soft cream, two women who look like each other's friends. 寧心 is about sleep, so it lives at night: deep navy, gold, a moon.\n\nWhat holds them together is not colour but structure. The claim sits top-left at a fixed weight, the pack sits at the same optical size in every format, the offer badge is a gold-edged component rather than a red sticker, and the retailer strip closes the frame. Once that grid is settled, a new offer post is a swap, not a redesign — which is the only way a weekly cadence survives."
+        },
+        {
+          "type": "image",
+          "src": "wnh/vita-green/atnenawsgvhra9ld55yl",
+          "alt": "Three Vita Calm social posts including the smartwatch gift-with-purchase",
+          "caption": "寧心 Vita Calm — social posts, from clinical claim to the gift-with-purchase"
+        },
+        {
+          "type": "text",
+          "heading": "Evidence, offer, and something to recognise",
+          "body": "Hong Kong health retail argues with numbers — 近90% 醫護用家見證, 3星期, 10天, No.1 — and every post has to carry one without becoming a spec sheet. The number gets the largest type; the ingredient story and the pack sit under it as support; the price and the gift-with-purchase are given their own component so they can change weekly without disturbing anything above them.\n\nThe third register is human: a mother and son at the kitchen table, a woman who has stopped fanning herself. In a feed of white-background supplement ads, the recognisable moment is what stops the thumb — the claim is what closes it."
         }
-      ],
-      "sector": "Health & Care"
+      ]
     },
     {
       "slug": "dsa-52",
