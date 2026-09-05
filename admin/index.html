@@ -660,7 +660,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       if (file.size > MAX) {
         drop.classList.remove('busy');
         drop.textContent = 'Click or drop a file to upload';
-        toast('That file is ' + Math.round(file.size / 1048576) + 'MB — the limit is 100MB. Put video on Vimeo.', true);
+        toast('That file is ' + Math.round(file.size / 1048576) + 'MB — the limit is 100MB. Put long video on Vimeo or YouTube.', true);
         return;
       }
       drop.textContent = 'Uploading… 0%';
@@ -884,8 +884,9 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
         seen[p.slug] = i;
       }
       (p.blocks || []).forEach(function (b, bi) {
-        if (b.type === 'vimeo' && b.url && !W.vimeoId(b.url)) {
-          out.push({ level: 'error', tab: 'projects', pi: i, msg: where + ' block ' + (bi + 1) + ': that is not a Vimeo URL.' });
+        if (b.type === 'vimeo' && b.url && !W.videoKind(b.url)) {
+          out.push({ level: 'error', tab: 'projects', pi: i,
+                     msg: where + ' block ' + (bi + 1) + ': that is not a Vimeo or YouTube link.' });
         }
       });
     });
@@ -973,11 +974,11 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       { hint: 'e.g. https://formspree.io/f/xxxxxxx — leave empty to fall back to email.' }));
     f.appendChild(field('Form intro line', 'site.contact.note'));
 
-    f.appendChild(subHead('Media', 'The cloud name is the single value that makes every image on the site work. Anything moving belongs on Vimeo.'));
+    f.appendChild(subHead('Media', 'The cloud name is the single value that makes every image on the site work. Anything moving belongs on Vimeo or YouTube.'));
     f.appendChild(field('Cloudinary cloud name', 'site.cloudinary.cloud',
       { hint: 'From your Cloudinary dashboard.', onInput: function () { rerenderSoon(); } }));
     f.appendChild(field('Cloudinary root folder', 'site.cloudinary.folder', { hint: 'Default: wnh' }));
-    f.appendChild(field('Showreel — Vimeo URL', 'site.reel.vimeo',
+    f.appendChild(field('Showreel — Vimeo or YouTube link', 'site.reel.vimeo',
       { hint: 'Background of the homepage hero, and the reel at the top of /portfolio.' }));
     f.appendChild(field('Logo animation — file or Vimeo URL', 'site.studioLoop.src',
       { hint: 'Loops silently in the Studio panel. An MP4 in the repo (assets/motion/wnh-mark.mp4) or a Cloudinary video id starts far faster than a Vimeo embed. Empty leaves a plain block.' }));
@@ -1037,7 +1038,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     { value: 'text',   label: 'Text' },
     { value: 'image',  label: 'Image' },
     { value: 'images', label: 'Image row' },
-    { value: 'vimeo',  label: 'Vimeo' },
+    { value: 'vimeo',  label: 'Video link' },
     { value: 'video',  label: 'Video file' },
     { value: 'quote',  label: 'Quote' },
     { value: 'stats',  label: 'Stats' }
@@ -1083,9 +1084,10 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       }));
       f.appendChild(field('Caption', bPath + '.caption'));
     } else if (b.type === 'vimeo') {
-      var bad = b.url && !W.vimeoId(b.url);
-      var vf = field('Vimeo URL', bPath + '.url', {
-        hint: bad ? 'That does not look like a Vimeo link.' : 'e.g. https://vimeo.com/123456789 — private links with a hash work too.'
+      var bad = b.url && !W.videoKind(b.url);
+      var vf = field('Video link — Vimeo or YouTube', bPath + '.url', {
+        hint: bad ? 'That does not look like a Vimeo or YouTube link.'
+                  : 'vimeo.com/123456789 (private hash links work too) or youtu.be/xxxxxxxxxxx — both play in the WNH player.'
       });
       if (bad) { vf.classList.add('bad'); vf.querySelector('.hint').classList.add('bad'); }
       f.appendChild(vf);
@@ -1302,7 +1304,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     }));
 
     main.appendChild(subHead('Case study blocks',
-      'These render in order down the case study page. Use Vimeo for anything moving.'));
+      'These render in order down the case study page. Anything moving goes in a Video link block — Vimeo or YouTube.'));
     p.blocks = p.blocks || [];
     p.blocks.forEach(function (b, i) {
       var bPath = P + '.blocks.' + i;

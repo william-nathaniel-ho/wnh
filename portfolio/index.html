@@ -101,10 +101,10 @@ WNH.boot(function (d) {
   }).join('');
 
   var reel = W.$('#pf-reel');
-  reel.innerHTML = (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo))
-    ? '<div class="vp" data-player="vimeo" data-url="' + W.esc(s.reel.vimeo) + '" data-title="Showreel"></div>'
+  reel.innerHTML = (s.reel && s.reel.vimeo && W.videoKind(s.reel.vimeo))
+    ? '<div class="vp" data-player="embed" data-url="' + W.esc(s.reel.vimeo) + '" data-title="Showreel"></div>'
     : '<div class="embed"><div class="embed-facade">' +
-      '<span class="play">Reel — add a Vimeo link in /admin</span></div></div>';
+      '<span class="play">Reel — add a Vimeo or YouTube link in /admin</span></div></div>';
 
   var deep = all.filter(function (p) { return p.deep; });
   W.$('#deep').innerHTML = deep.map(function (p, i) {

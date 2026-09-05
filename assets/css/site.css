@@ -467,6 +467,113 @@ body.menu{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.fsheet-in{animation:none}}
 
 /* ------------------------------------------------------------- the player
+   One skin over three engines. The big button is the whole affordance until
+   the film runs, then it leaves at once and the thin bar takes over. */
+.vp{position:relative;overflow:hidden;border-radius:var(--r-lg);background:var(--ink);
+  aspect-ratio:16/9}
+.vp-media{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;display:block}
+.vp-ui{position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(to top,rgba(11,13,20,.5),transparent 40%)}
+.vp-big{width:78px;height:78px;border-radius:50%;border:0;cursor:pointer;
+  display:grid;place-items:center;color:var(--ink);background:var(--bg);
+  box-shadow:0 6px 30px rgba(0,0,0,.28);
+  transition:transform .12s var(--ease),opacity .12s var(--ease),background .3s}
+.vp-big:hover{background:var(--accent);color:var(--on-ink);transform:scale(1.06)}
+/* while it plays the big button is gone, and stays gone under the pointer —
+   the bottom bar is the control surface from then on */
+.vp.is-playing .vp-big{opacity:0;transform:scale(.9);pointer-events:none;visibility:hidden}
+.vp-bottom{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;
+  gap:12px;padding:10px 14px 12px;opacity:0;transform:translateY(6px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.vp.is-playing .vp-bottom,.vp:hover .vp-bottom,.vp:focus-within .vp-bottom,
+.vp.is-scrubbing .vp-bottom{opacity:1;transform:none}
+.vp-toggle,.vp-sound{border:0;background:none;color:#fff;cursor:pointer;padding:6px;
+  min-width:34px;min-height:34px;display:grid;place-items:center;opacity:.85}
+.vp-toggle:hover,.vp-sound:hover{opacity:1;color:var(--accent)}
+/* a 3px rail, but a 22px target — a hairline is impossible to hit on a phone */
+.vp-track{position:relative;flex:1;height:22px;cursor:pointer;touch-action:none}
+.vp-seek,.vp-fill{position:absolute;top:50%;transform:translateY(-50%);height:3px;border-radius:2px}
+.vp-seek{left:0;right:0;background:rgba(255,255,255,.28)}
+.vp-fill{left:0;width:0;background:var(--accent)}
+.vp-knob{position:absolute;top:50%;left:0;width:12px;height:12px;border-radius:50%;
+  background:var(--accent);transform:translate(-50%,-50%) scale(0);
+  transition:transform .15s var(--ease)}
+.vp:hover .vp-knob,.vp:focus-within .vp-knob,.vp.is-scrubbing .vp-knob{transform:translate(-50%,-50%) scale(1)}
+.vp.is-scrubbing .vp-fill,.vp.is-scrubbing .vp-knob{transition:none}
+.vp-track:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.vp-time{color:#fff;font-size:.6875rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;opacity:.8;
+  min-width:74px;text-align:right}
+.vp.is-loud .vp-sound{color:var(--accent);opacity:1}
+@media(pointer:coarse){
+  .vp-bottom{opacity:1;transform:none}
+  .vp-toggle,.vp-sound{min-width:44px;min-height:44px}
+  .vp-track{height:30px}
+  .vp-knob{transform:translate(-50%,-50%) scale(1)}
+  .vp-big{width:64px;height:64px}
+}
+@media(prefers-reduced-motion:reduce){
+  .vp-big,.vp-bottom,.vp-knob{transition:none}
+}
+
+/* -------------------------------------------------- filters, on a phone
+   Nineteen chips down a phone screen means two full screens of controls
+   before the first project. On narrow screens the same two questions become
+   one sticky row, and the options open in a sheet from the bottom — the
+   pattern every app uses, because it keeps the work on screen. */
+.fbar{display:none}
+@media(max-width:899px){
+  .filter-set{display:none}
+  .fbar{display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:40;
+    margin-inline:calc(var(--pad) * -1);padding:10px var(--pad);
+    background:color-mix(in srgb,var(--bg) 92%,transparent);
+    backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  .fbar::-webkit-scrollbar{display:none}
+}
+.fpill{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;padding:8px 15px;border-radius:var(--pill);
+  border:1px solid var(--line-2);background:none;color:var(--text-2);
+  font-size:.8125rem;font-weight:500;cursor:pointer}
+.fpill-k{color:var(--text-2)}
+.fpill-v{color:var(--ink);font-weight:500}
+.fpill::after{content:'';width:7px;height:7px;border-right:1.4px solid currentColor;
+  border-bottom:1.4px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);opacity:.55}
+.fpill.on{background:var(--ink);border-color:var(--ink)}
+.fpill.on .fpill-k,.fpill.on .fpill-v{color:var(--on-ink)}
+.fpill-i{margin-left:auto;padding:8px 12px}
+.fpill-i::after{content:none}
+
+.fsheet{border:0;padding:0;background:none;width:100%;max-width:none;max-height:100%;
+  margin:0;position:fixed;inset:auto 0 0 0}
+.fsheet::backdrop{background:rgba(11,13,20,.5);backdrop-filter:blur(4px)}
+.fsheet-in{background:var(--bg);border-radius:var(--r-lg) var(--r-lg) 0 0;
+  padding:var(--s3) var(--pad) calc(var(--s3) + env(safe-area-inset-bottom));
+  max-height:82vh;display:flex;flex-direction:column;
+  animation:fsheet-up .3s var(--ease)}
+@keyframes fsheet-up{from{transform:translateY(16px)}to{transform:none}}
+.fsheet-grab{width:38px;height:4px;border-radius:2px;background:var(--line-2);
+  margin:2px auto var(--s3)}
+.fsheet-in header{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);
+  padding-bottom:var(--s2)}
+.fsheet-in h2{margin:0;font-size:1.15rem;font-weight:500;letter-spacing:-.02em}
+.fsheet-x{border:0;background:none;color:var(--text-2);font-size:1.3rem;line-height:1;
+  min-width:44px;min-height:44px;cursor:pointer}
+.fsheet-list{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad)}
+.fopt{display:flex;align-items:center;gap:var(--s3);width:100%;min-height:54px;
+  padding:12px 0;border:0;border-bottom:1px solid var(--line);background:none;
+  color:var(--text);font-size:1rem;text-align:left;cursor:pointer}
+.fopt:last-child{border-bottom:0}
+.fopt-n{margin-left:auto;color:var(--text-2);font-size:.8125rem;font-variant-numeric:tabular-nums}
+.fopt-tick{width:18px;height:18px;flex:0 0 auto;color:var(--accent);opacity:0}
+.fopt[aria-pressed="true"]{font-weight:500}
+.fopt[aria-pressed="true"] .fopt-tick{opacity:1}
+.fsheet-foot{display:flex;gap:10px;padding-top:var(--s3);border-top:1px solid var(--line)}
+.fsheet-foot .btn{flex:1;min-height:50px;border-radius:var(--pill);font-size:.875rem;cursor:pointer}
+.btn-ghost{border:1px solid var(--line-2);background:none;color:var(--text)}
+.btn-solid{border:1px solid var(--ink);background:var(--ink);color:var(--on-ink)}
+@media(prefers-reduced-motion:reduce){.fsheet-in{animation:none}}
+
+/* ------------------------------------------------------------- the player
    One skin over two engines. The big button is the whole affordance until the
    film is running, then it steps out of the way and the thin bar takes over. */
 .vp{position:relative;overflow:hidden;border-radius:var(--r-lg);background:var(--ink);

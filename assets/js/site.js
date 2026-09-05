@@ -490,16 +490,16 @@
 
   /* ---------------------------------------------------------- the player
 
-     One player for both kinds of film. A Cloudinary file gets a real <video>;
-     a Vimeo link gets their iframe driven over postMessage, so there is no
-     SDK to download and the controls are ours either way.
+     One skin, three engines: a file gets a real <video>; Vimeo and YouTube
+     get their iframes driven over postMessage, so there is no SDK to download
+     and the controls are ours in every case.
 
-     It behaves the way a portfolio should: the film starts, muted, when it
-     scrolls into view, and stops when it leaves. Sound is one tap away and
-     stays on for the rest of the visit once asked for. Nothing autoplays
+     It behaves the way a portfolio should — the film starts, muted, when it
+     scrolls into view and stops when it leaves; sound is one tap away and
+     stays on for the rest of the visit once asked for; nothing autoplays
      under reduced motion. */
 
-  var soundOn = false;          /* remembered across players on the page */
+  var soundOn = false;          /* remembered across every player on the page */
 
   var ICON = {
     play:  '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
@@ -508,13 +508,26 @@
     off:   '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
   };
 
+  W.youtubeId = function (url) {
+    var m = String(url || '').match(
+      /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/i);
+    return m ? m[1] : null;
+  };
+  /* what kind of link is this? */
+  W.videoKind = function (url) {
+    if (W.youtubeId(url)) return 'youtube';
+    if (W.vimeoId(url)) return 'vimeo';
+    return null;
+  };
+
   function clock(t) {
     if (!isFinite(t) || t < 0) t = 0;
     var m = Math.floor(t / 60), sec = Math.floor(t % 60);
     return m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
-  /* the shared skin — identical for both engines */
+  /* The shared skin. `engine` supplies play/pause/seek/volume; the skin never
+     knows or cares which of the three it is talking to. */
   function skin(box, engine) {
     box.classList.add('vp');
     var ui = document.createElement('div');
@@ -522,8 +535,10 @@
     ui.innerHTML =
       '<button class="vp-big" type="button" aria-label="Play">' + ICON.play + '</button>' +
       '<div class="vp-bottom">' +
-        '<button class="vp-toggle" type="button" aria-label="Pause">' + ICON.pause + '</button>' +
-        '<div class="vp-track"><div class="vp-seek"></div><div class="vp-fill"></div></div>' +
+        '<button class="vp-toggle" type="button" aria-label="Play">' + ICON.play + '</button>' +
+        '<div class="vp-track" role="slider" tabindex="0" aria-label="Seek"' +
+          ' aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">' +
+          '<div class="vp-seek"></div><div class="vp-fill"></div><div class="vp-knob"></div></div>' +
         '<span class="vp-time">0:00</span>' +
         '<button class="vp-sound" type="button" aria-label="Turn sound on">' + ICON.off + '</button>' +
       '</div>';
@@ -533,40 +548,105 @@
         tog = ui.querySelector('.vp-toggle'),
         track = ui.querySelector('.vp-track'),
         fill = ui.querySelector('.vp-fill'),
+        knob = ui.querySelector('.vp-knob'),
         time = ui.querySelector('.vp-time'),
         snd = ui.querySelector('.vp-sound');
 
-    var api = {
-      setPlaying: function (on) {
-        box.classList.toggle('is-playing', !!on);
-        big.setAttribute('aria-label', on ? 'Pause' : 'Play');
-        big.innerHTML = on ? ICON.pause : ICON.play;
-        tog.innerHTML = on ? ICON.pause : ICON.play;
-        tog.setAttribute('aria-label', on ? 'Pause' : 'Play');
-      },
-      setSound: function (on) {
-        box.classList.toggle('is-loud', !!on);
-        snd.innerHTML = on ? ICON.on : ICON.off;
-        snd.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
-      },
-      setProgress: function (at, of) {
-        fill.style.width = (of ? Math.min(100, at / of * 100) : 0) + '%';
-        time.textContent = clock(at) + (of ? ' / ' + clock(of) : '');
-      },
-      big: big, toggle: tog, track: track, soundBtn: snd
-    };
-    api.setSound(false);
-    api.setPlaying(false);
-    return api;
+    var duration = 0, scrubbing = false;
+
+    function setPlaying(on) {
+      box.classList.toggle('is-playing', !!on);
+      big.setAttribute('aria-label', on ? 'Pause' : 'Play');
+      tog.innerHTML = on ? ICON.pause : ICON.play;
+      tog.setAttribute('aria-label', on ? 'Pause' : 'Play');
+    }
+    function setSound(on) {
+      box.classList.toggle('is-loud', !!on);
+      snd.innerHTML = on ? ICON.on : ICON.off;
+      snd.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+    }
+    function paint(at, of) {
+      if (of) duration = of;
+      if (scrubbing) return;              /* the thumb belongs to the finger */
+      var pct = duration ? Math.min(100, Math.max(0, at / duration * 100)) : 0;
+      fill.style.width = pct + '%';
+      knob.style.left = pct + '%';
+      track.setAttribute('aria-valuenow', Math.round(pct));
+      time.textContent = clock(at) + (duration ? ' / ' + clock(duration) : '');
+    }
+
+    /* ---- scrubbing: pointer events, so mouse touch and pen are one path ---- */
+    function ratioAt(clientX) {
+      var r = track.getBoundingClientRect();
+      return r.width ? Math.max(0, Math.min(1, (clientX - r.left) / r.width)) : 0;
+    }
+    function preview(ratio) {
+      var pct = ratio * 100;
+      fill.style.width = pct + '%';
+      knob.style.left = pct + '%';
+      time.textContent = clock(ratio * duration) + (duration ? ' / ' + clock(duration) : '');
+    }
+    track.addEventListener('pointerdown', function (e) {
+      if (!duration) return;
+      scrubbing = true;
+      box.classList.add('is-scrubbing');
+      track.setPointerCapture(e.pointerId);
+      preview(ratioAt(e.clientX));
+      e.preventDefault();
+    });
+    track.addEventListener('pointermove', function (e) {
+      if (scrubbing) preview(ratioAt(e.clientX));
+    });
+    function drop(e) {
+      if (!scrubbing) return;
+      scrubbing = false;
+      box.classList.remove('is-scrubbing');
+      var r = ratioAt(e.clientX);
+      engine.seek(r * duration);
+      preview(r);
+    }
+    track.addEventListener('pointerup', drop);
+    track.addEventListener('pointercancel', function () {
+      scrubbing = false; box.classList.remove('is-scrubbing');
+    });
+    /* a plain click still works, including for anything without pointer events */
+    track.addEventListener('click', function (e) {
+      if (!duration) return;
+      var r = ratioAt(e.clientX);
+      engine.seek(r * duration);
+      preview(r);
+    });
+    track.addEventListener('keydown', function (e) {
+      if (!duration) return;
+      var step = e.shiftKey ? 10 : 5, now = engine.at();
+      if (e.key === 'ArrowRight') { engine.seek(Math.min(duration, now + step)); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { engine.seek(Math.max(0, now - step)); e.preventDefault(); }
+    });
+
+    /* ---- the buttons ---- */
+    function hit() {
+      /* Hide the big button on the click itself rather than waiting for the
+         engine to confirm — a remote player can take a moment to answer, and
+         a button that lingers reads as a click that did not register. */
+      if (!box.classList.contains('is-playing')) box.classList.add('is-playing');
+      engine.toggle();
+    }
+    big.addEventListener('click', hit);
+    tog.addEventListener('click', hit);
+    snd.addEventListener('click', function () {
+      soundOn = !soundOn;
+      engine.volume(soundOn);
+      setSound(soundOn);
+      if (soundOn) engine.play();
+    });
+
+    setSound(false);
+    setPlaying(false);
+    return { setPlaying: setPlaying, setSound: setSound, paint: paint,
+             get scrubbing() { return scrubbing; } };
   }
 
-  function seekRatio(track, e) {
-    var r = track.getBoundingClientRect();
-    var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-    return Math.max(0, Math.min(1, x / r.width));
-  }
-
-  /* watch one player and start/stop it as it passes through the viewport */
+  /* start and stop as the player passes through the viewport */
   function watch(box, onIn, onOut) {
     if (W.reduce || !('IntersectionObserver' in global)) return;
     new IntersectionObserver(function (entries) {
@@ -578,104 +658,149 @@
   function filePlayer(box) {
     var v = document.createElement('video');
     v.className = 'vp-media';
-    v.src = box.dataset.src;
     if (box.dataset.poster) v.poster = box.dataset.poster;
-    v.playsInline = true; v.muted = true; v.loop = false; v.preload = 'metadata';
+    v.playsInline = true; v.muted = !soundOn; v.preload = 'metadata';
     v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v.src = box.dataset.src;
     box.insertBefore(v, box.firstChild);
 
-    var ui = skin(box, 'file');
-    var started = false;
+    var ui = skin(box, {
+      toggle: function () { v.paused ? go() : v.pause(); },
+      play: function () { if (v.paused) go(); },
+      seek: function (t) { try { v.currentTime = t; } catch (e) { /* not seekable yet */ } },
+      at: function () { return v.currentTime || 0; },
+      volume: function (on) { v.muted = !on; }
+    });
 
-    function play() { var p = v.play(); if (p && p.catch) p.catch(function () { ui.setPlaying(false); }); }
-    v.addEventListener('play', function () { started = true; ui.setPlaying(true); });
+    function go() { var p = v.play(); if (p && p.catch) p.catch(function () { ui.setPlaying(false); }); }
+
+    v.addEventListener('play', function () { ui.setPlaying(true); });
     v.addEventListener('pause', function () { ui.setPlaying(false); });
-    v.addEventListener('ended', function () { ui.setPlaying(false); box.classList.remove('is-playing'); });
-    v.addEventListener('timeupdate', function () { ui.setProgress(v.currentTime, v.duration); });
-    v.addEventListener('loadedmetadata', function () { ui.setProgress(0, v.duration); });
+    v.addEventListener('ended', function () { ui.setPlaying(false); });
+    v.addEventListener('timeupdate', function () { ui.paint(v.currentTime, v.duration); });
+    v.addEventListener('loadedmetadata', function () { ui.paint(0, v.duration); });
+    v.addEventListener('durationchange', function () { ui.paint(v.currentTime, v.duration); });
+    ui.setSound(soundOn);
 
-    function toggle() { v.paused ? play() : v.pause(); }
-    ui.big.addEventListener('click', toggle);
-    ui.toggle.addEventListener('click', toggle);
-    ui.soundBtn.addEventListener('click', function () {
-      soundOn = !soundOn; v.muted = !soundOn; ui.setSound(soundOn);
-      if (soundOn && v.paused) play();
-    });
-    ui.track.addEventListener('click', function (e) {
-      if (v.duration) { v.currentTime = seekRatio(ui.track, e) * v.duration; }
-    });
-
-    v.muted = !soundOn; ui.setSound(soundOn);
-    watch(box, function () { if (v.paused) play(); },
-               function () { if (!v.paused) v.pause(); });
+    watch(box, function () { if (v.paused) go(); }, function () { if (!v.paused) v.pause(); });
   }
 
-  /* ---- Vimeo, driven over postMessage: no SDK, our own controls ---- */
-  function vimeoPlayer(box) {
-    var url = box.dataset.url, v = W.vimeoId(url);
-    if (!v) return;
+  /* ---- Vimeo and YouTube, over postMessage: no SDK, our own controls ---- */
+  function embedPlayer(box) {
+    var url = box.dataset.url, kind = W.videoKind(url);
+    if (!kind) return;
+
     var f = document.createElement('iframe');
     f.className = 'vp-media';
     f.title = box.dataset.title || 'Film';
     f.setAttribute('frameborder', '0');
-    f.allow = 'autoplay; fullscreen; picture-in-picture';
+    f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
     f.setAttribute('allowfullscreen', '');
-    f.src = 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
-            'controls=0&title=0&byline=0&portrait=0&dnt=1&autopause=0&muted=1&playsinline=1&transparent=0';
+
+    var origin, dur = 0, at = 0, playing = false, live = false, ui;
+
+    if (kind === 'vimeo') {
+      var vi = W.vimeoId(url);
+      origin = 'https://player.vimeo.com';
+      f.src = origin + '/video/' + vi.id + (vi.hash ? '?h=' + vi.hash + '&' : '?') +
+        'controls=0&title=0&byline=0&portrait=0&dnt=1&autopause=0&muted=1&playsinline=1';
+    } else {
+      origin = 'https://www.youtube.com';
+      f.src = origin + '/embed/' + W.youtubeId(url) +
+        '?enablejsapi=1&controls=0&modestbranding=1&rel=0&playsinline=1&mute=1&fs=0&iv_load_policy=3';
+    }
     box.insertBefore(f, box.firstChild);
 
-    var ui = skin(box, 'vimeo');
-    var dur = 0, live = false, playing = false;
-
-    function send(method, value) {
+    function post(payload) {
       if (!f.contentWindow) return;
-      var msg = { method: method };
-      if (value !== undefined) msg.value = value;
-      try { f.contentWindow.postMessage(JSON.stringify(msg), 'https://player.vimeo.com'); } catch (e) { /* not ready */ }
+      try { f.contentWindow.postMessage(JSON.stringify(payload), origin); } catch (e) { /* not ready */ }
     }
-    function listen(ev) { send('addEventListener', ev); }
+    /* the two services speak different dialects of the same idea */
+    var cmd = kind === 'vimeo'
+      ? {
+          play:   function () { post({ method: 'play' }); },
+          pause:  function () { post({ method: 'pause' }); },
+          /* the modern player uses setCurrentTime; older embeds used seekTo.
+             Sending both is harmless — the one it does not know is ignored. */
+          seek:   function (t) { post({ method: 'setCurrentTime', value: t });
+                                 post({ method: 'seekTo', value: t }); },
+          volume: function (on) { post({ method: 'setVolume', value: on ? 1 : 0 }); },
+          ask:    function () { post({ method: 'getDuration' }); }
+        }
+      : {
+          play:   function () { post({ event: 'command', func: 'playVideo', args: [] }); },
+          pause:  function () { post({ event: 'command', func: 'pauseVideo', args: [] }); },
+          seek:   function (t) { post({ event: 'command', func: 'seekTo', args: [t, true] }); },
+          volume: function (on) {
+            post({ event: 'command', func: on ? 'unMute' : 'mute', args: [] });
+            post({ event: 'command', func: 'setVolume', args: [on ? 100 : 0] });
+          },
+          ask:    function () { post({ event: 'listening', id: 1, channel: 'widget' }); }
+        };
+
+    ui = skin(box, {
+      toggle: function () { playing ? cmd.pause() : cmd.play(); },
+      play: function () { if (!playing) cmd.play(); },
+      seek: function (t) { at = t; cmd.seek(t); },
+      at: function () { return at; },
+      volume: function (on) { cmd.volume(on); }
+    });
 
     global.addEventListener('message', function (e) {
       if (e.source !== f.contentWindow) return;
       var d = e.data;
       if (typeof d === 'string') { try { d = JSON.parse(d); } catch (err) { return; } }
       if (!d) return;
-      if (d.event === 'ready') {
-        live = true;
-        ['play', 'pause', 'finish', 'timeupdate'].forEach(listen);
-        send('setVolume', soundOn ? 1 : 0);
-        ui.setSound(soundOn);
-      } else if (d.event === 'play') { playing = true; ui.setPlaying(true); }
-      else if (d.event === 'pause') { playing = false; ui.setPlaying(false); }
-      else if (d.event === 'finish') { playing = false; ui.setPlaying(false); }
-      else if (d.event === 'timeupdate' && d.data) {
-        dur = d.data.duration || dur;
-        ui.setProgress(d.data.seconds || 0, dur);
+
+      if (kind === 'vimeo') {
+        if (d.event === 'ready' || d.method === 'ready') {
+          live = true;
+          ['play', 'pause', 'finish', 'timeupdate'].forEach(function (ev) {
+            post({ method: 'addEventListener', value: ev });
+          });
+          cmd.volume(soundOn); ui.setSound(soundOn); cmd.ask();
+        } else if (d.event === 'play') { playing = true; ui.setPlaying(true); }
+        else if (d.event === 'pause' || d.event === 'finish') { playing = false; ui.setPlaying(false); }
+        else if (d.event === 'timeupdate' && d.data) {
+          at = d.data.seconds || 0; dur = d.data.duration || dur; ui.paint(at, dur);
+        } else if (d.method === 'getDuration') { dur = d.value || dur; ui.paint(at, dur); }
+      } else {
+        /* YouTube answers the listening handshake, then streams infoDelivery */
+        if (d.event === 'onReady' || d.event === 'initialDelivery') {
+          live = true; cmd.volume(soundOn); ui.setSound(soundOn);
+        }
+        if (d.event === 'onStateChange') {
+          playing = d.info === 1;
+          ui.setPlaying(playing);
+        }
+        var info = d.info;
+        if (info && typeof info === 'object') {
+          if (typeof info.duration === 'number' && info.duration) dur = info.duration;
+          if (typeof info.currentTime === 'number') at = info.currentTime;
+          if (typeof info.playerState === 'number') { playing = info.playerState === 1; ui.setPlaying(playing); }
+          ui.paint(at, dur);
+        }
       }
     });
 
-    function toggle() { playing ? send('pause') : send('play'); }
-    ui.big.addEventListener('click', toggle);
-    ui.toggle.addEventListener('click', toggle);
-    ui.soundBtn.addEventListener('click', function () {
-      soundOn = !soundOn;
-      send('setVolume', soundOn ? 1 : 0);
-      ui.setSound(soundOn);
-      if (soundOn && !playing) send('play');
-    });
-    ui.track.addEventListener('click', function (e) {
-      if (dur) send('seekTo', seekRatio(ui.track, e) * dur);
-    });
+    /* YouTube needs the handshake repeated until the frame is listening */
+    if (kind === 'youtube') {
+      var tries = 0;
+      var ping = setInterval(function () {
+        if (live || ++tries > 40) return clearInterval(ping);
+        cmd.ask();
+      }, 250);
+      f.addEventListener('load', function () { cmd.ask(); });
+    }
 
-    watch(box, function () { if (live && !playing) send('play'); },
-               function () { if (live && playing) send('pause'); });
+    watch(box, function () { cmd.play(); }, function () { cmd.pause(); });
   }
 
   W.players = function (root) {
     W.$$('[data-player]', root).forEach(function (box) {
       if (box.dataset.vpDone) return;
       box.dataset.vpDone = '1';
-      if (box.dataset.player === 'vimeo') vimeoPlayer(box); else filePlayer(box);
+      if (box.dataset.player === 'file') filePlayer(box); else embedPlayer(box);
     });
   };
 

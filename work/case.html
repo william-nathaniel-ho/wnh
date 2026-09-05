@@ -121,12 +121,13 @@ WNH.boot(function (d) {
         (W.cld.ok(b.poster) ? ' data-poster="' + W.esc(W.cld.poster(b.poster)) + '"' : '') +
         '></div>' + cap(b.caption) + '</figure>';
     },
+    /* one block for any hosted film — Vimeo or YouTube, same player */
     vimeo: function (b) {
-      if (!W.vimeoId(b.url)) {
+      if (!W.videoKind(b.url)) {
         return '<figure><div class="embed"><div class="embed-facade">' +
-          '<span class="play">Vimeo link not set yet</span></div></div>' + cap(b.caption) + '</figure>';
+          '<span class="play">Video link not set yet</span></div></div>' + cap(b.caption) + '</figure>';
       }
-      return '<figure><div class="vp" data-player="vimeo" data-url="' + W.esc(b.url) +
+      return '<figure><div class="vp" data-player="embed" data-url="' + W.esc(b.url) +
         '" data-title="' + W.esc(b.caption || p.title) + '"></div>' + cap(b.caption) + '</figure>';
     },
     quote: function (b) {
