@@ -621,8 +621,9 @@
       "tone": "cellmax",
       "summary": "3D product key visuals for the sun-protection brand's umbrella lines — 口袋系列, 膠囊系列 and 小黑傘系列 — each series given its own colour world while staying one family.",
       "cover": {
-        "src": "",
-        "alt": "BananaUnder umbrella series key visual"
+        "src": "wnh/bananaunder/lu6tvfd6rw01alsibnv8",
+        "alt": "BananaUnder umbrella series key visual",
+        "ar": 1.5273
       },
       "credits": [
         {
@@ -644,16 +645,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "口袋系列 — pocket series"
+              "src": "wnh/bananaunder/xrcvq00u4mxmuzwguird",
+              "alt": "口袋系列 — pocket series",
+              "ar": 2.1831
             },
             {
-              "src": "",
-              "alt": "膠囊系列 CAPSULE 4.0"
+              "src": "wnh/bananaunder/eft4cogzpq8ovmfddlrr",
+              "alt": "膠囊系列 CAPSULE 4.0",
+              "ar": 2.1831
             },
             {
-              "src": "",
-              "alt": "小黑傘系列 — mini black umbrella"
+              "src": "wnh/bananaunder/nal5hom1fksknl27jm9o",
+              "alt": "小黑傘系列 — mini black umbrella",
+              "ar": 2.1831
             }
           ],
           "caption": "Three series, three colour worlds"
@@ -665,10 +669,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/bananaunder/fyhqro0m1pkarlkuso8j",
           "alt": "Product key visual detail",
           "caption": "Rendered, not shot",
-          "size": "full"
+          "size": "full",
+          "ar": 2.1831
         }
       ],
       "sector": "Consumer & Retail"
