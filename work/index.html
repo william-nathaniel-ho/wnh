@@ -27,6 +27,8 @@
         <div class="filter-row">
           <span class="lab filter-lab">Discipline</span>
           <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
+          <button class="fpill fpill-wide" type="button" data-sheet="d">
+            <span class="fpill-v">All disciplines</span></button>
         </div>
       </div>
       <div class="fbar" id="fbar">
@@ -88,11 +90,18 @@ WNH.boot(function (d) {
   /* two filters that combine, so "Health & Care" + "Brand" is one question
      rather than two separate views of the same list */
   function chips(host, values, current, key) {
+    /* a count on each chip answers "is there anything in there" before the click */
+    function tally(v) {
+      return all.filter(function (p) {
+        return key === 's' ? p.sector === v : (p.disciplines || []).indexOf(v) > -1;
+      }).length;
+    }
     W.$(host).innerHTML =
       ['<button class="chip" data-v="" aria-pressed="' + (!current) + '">All</button>']
       .concat(values.map(function (x) {
         return '<button class="chip" data-v="' + W.esc(x) + '" aria-pressed="' +
-               (current === x) + '">' + W.esc(x) + '</button>';
+               (current === x) + '">' + W.esc(x) +
+               '<span class="chip-n">' + tally(x) + '</span></button>';
       })).join('');
     W.$(host).addEventListener('click', function (e) {
       var b = e.target.closest('.chip'); if (!b) return;
@@ -133,9 +142,10 @@ WNH.boot(function (d) {
   }
 
   function syncBar() {
-    W.$$('#fbar .fpill[data-sheet]').forEach(function (b) {
+    W.$$('.fpill[data-sheet]').forEach(function (b) {
       var v = b.dataset.sheet === 's' ? sector : active;
-      b.querySelector('.fpill-v').textContent = v || 'All';
+      var wide = b.classList.contains('fpill-wide');
+      b.querySelector('.fpill-v').textContent = v || (wide ? 'All disciplines' : 'All');
       b.classList.toggle('on', !!v);
     });
   }
@@ -150,10 +160,10 @@ WNH.boot(function (d) {
        'All' + '<span class="fopt-n">' + matches(open === 's' ? '' : sector, open === 'd' ? '' : active) +
        '</span></button>']
       .concat(cfg.values().map(function (x) {
+        var n = matches(open === 's' ? x : sector, open === 'd' ? x : active);
         return '<button class="fopt" type="button" data-v="' + W.esc(x) + '" aria-pressed="' +
-          (cur === x) + '">' + tick + W.esc(x) +
-          '<span class="fopt-n">' +
-          matches(open === 's' ? x : sector, open === 'd' ? x : active) + '</span></button>';
+          (cur === x) + '"' + (n ? '' : ' disabled') + '>' + tick + W.esc(x) +
+          '<span class="fopt-n">' + n + '</span></button>';
       })).join('');
     var n = matches(sector, active);
     W.$('#fsheet-done').textContent = 'Show ' + n + (n === 1 ? ' project' : ' projects');
@@ -177,7 +187,7 @@ WNH.boot(function (d) {
     });
   }
 
-  W.$$('#fbar .fpill[data-sheet]').forEach(function (b) {
+  W.$$('.fpill[data-sheet]').forEach(function (b) {
     b.addEventListener('click', function () {
       open = b.dataset.sheet;
       paintSheet();

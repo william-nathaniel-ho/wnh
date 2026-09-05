@@ -360,6 +360,8 @@ body.menu{overflow:hidden}
 }
 .chip:hover{color:var(--text);border-color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.chip-n{margin-left:7px;font-size:.6875rem;opacity:.55;font-variant-numeric:tabular-nums}
+.fopt[disabled]{opacity:.35;cursor:default}
 
 /* ==========================================================================
    CAPABILITIES — hairline grid
@@ -414,6 +416,15 @@ body.menu{overflow:hidden}
    one sticky row, and the options open in a sheet from the bottom — the
    pattern every app uses, because it keeps the work on screen. */
 .fbar{display:none}
+.fpill-wide{display:none}
+/* Thirteen discipline chips is a wall on any screen, and it only grows as work
+   is added. Sector is the cut people make first and stays as chips; discipline
+   collapses to one control that opens the full list with counts. */
+@media(min-width:900px){
+  .filter-row #filters{display:none}
+  .fpill-wide{display:inline-flex;justify-self:start;align-self:center;
+    min-width:230px;justify-content:space-between}
+}
 @media(max-width:899px){
   .filter-set{display:none}
   .fbar{display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:40;

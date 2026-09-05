@@ -110,6 +110,9 @@ body{font-size:15px}
 .imp-help pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;
   padding:11px;overflow:auto;max-height:26vh;font-size:.72rem;line-height:1.5}
 .imp-foot{display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);padding-top:12px}
+.imp-keep{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--text);
+  padding:9px 0;cursor:pointer}
+.imp-keep input{width:16px;height:16px;accent-color:var(--accent)}
 
 /* --- projects split -------------------------------------------------- */
 .split{display:grid;grid-template-columns:1fr;gap:18px}
@@ -1278,6 +1281,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       '<span class="lbl" style="margin:0">Editing ' + W.pad(S.pi + 1) + ' of ' + W.pad(arr.length) + '</span>' +
       '<button class="btn dim" type="button" id="dupproj">Duplicate</button>' +
       '<button class="btn dim" type="button" id="delproj">Delete project</button>' +
+      '<button class="btn dim" id="copy-json" type="button">Copy as JSON</button>' +
       (p.slug ? '<a class="btn dim" href="' + W.url('work/case.html?p=' + encodeURIComponent(p.slug)) +
         '" target="_blank" rel="noopener" title="Opens the published version, not your unsaved edits">Open published ↗</a>' : '');
     main.appendChild(head);
@@ -1291,6 +1295,21 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       S.pi += 1;
       dirty(true); rerender();
     });
+    /* Hand this project back out exactly as it stands — image ids included —
+       so a rewrite can come back through Import JSON and replace it losslessly. */
+    head.querySelector('#copy-json').addEventListener('click', function () {
+      var out = JSON.stringify({ projects: [clone(p)] }, function (k, v) {
+        return (k === '_slugLocked' || k === '_lastTitle') ? undefined : v;
+      }, 2);
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(out).then(
+          function () { toast('Project copied as JSON'); },
+          function () { toast('Could not reach the clipboard', true); });
+      } else {
+        toast('Clipboard unavailable in this browser', true);
+      }
+    });
+
     var del = head.querySelector('#delproj');
     del.addEventListener('click', function () {
       if (del.dataset.armed !== '1') {
@@ -1631,7 +1650,44 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     return { items: out, problems: problems };
   }
 
-  var impState = null;
+  /* A re-import replaces the whole project, which would drop every image id
+     if the incoming JSON has empty slots — the usual case when the words are
+     rewritten and the pictures are already up. So: where the import leaves a
+     slot empty and the project being replaced has something there, keep it.
+     Matching is by position and block type; a block whose type changed is left
+     alone rather than guessed at. */
+  function carryMedia(incoming, existing) {
+    var kept = 0;
+    if (!existing) return 0;
+    if (!incoming.cover.src && (existing.cover || {}).src) {
+      incoming.cover.src = existing.cover.src;
+      if (!incoming.cover.alt) incoming.cover.alt = existing.cover.alt || '';
+      if (existing.cover.ar) incoming.cover.ar = existing.cover.ar;
+      kept++;
+    }
+    (incoming.blocks || []).forEach(function (b, i) {
+      var e = (existing.blocks || [])[i];
+      if (!e || e.type !== b.type) return;
+      if ((b.type === 'image' || b.type === 'video') && !b.src && e.src) {
+        b.src = e.src; if (e.ar) b.ar = e.ar; if (!b.alt && e.alt) b.alt = e.alt;
+        if (!b.poster && e.poster) b.poster = e.poster;
+        kept++;
+      }
+      if (b.type === 'vimeo' && !b.url && e.url) { b.url = e.url; kept++; }
+      if (b.type === 'images') {
+        (b.items || []).forEach(function (it, j) {
+          var ei = (e.items || [])[j];
+          if (ei && !it.src && ei.src) {
+            it.src = ei.src; if (ei.ar) it.ar = ei.ar; if (!it.alt && ei.alt) it.alt = ei.alt;
+            kept++;
+          }
+        });
+      }
+    });
+    return kept;
+  }
+
+  var impState = null, impKeep = true;
 
   function paintImport() {
     var box = $('#imp-report'), text = $('#imp-text').value.trim();
@@ -1643,6 +1699,13 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     impState = res;
     var add = res.items.filter(function (x) { return x.replaces < 0; }).length;
     var rep = res.items.length - add;
+    /* count what keeping media would rescue, without committing to it yet */
+    var wouldKeep = 0;
+    res.items.forEach(function (x) {
+      if (x.replaces < 0) return;
+      x.kept = carryMedia(JSON.parse(JSON.stringify(x.project)), S.data.projects[x.replaces]);
+      wouldKeep += x.kept;
+    });
     box.innerHTML =
       '<p class="ok"><b>' + res.items.length + '</b> project' + (res.items.length === 1 ? '' : 's') +
       ' — ' + add + ' new, ' + rep + ' replacing what is there.</p><ul>' +
@@ -1654,7 +1717,13 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
           (x.dropped ? ', ' + x.dropped + ' unknown block' + (x.dropped === 1 ? '' : 's') + ' skipped' : '') +
           '</span></li>';
       }).join('') + '</ul>' +
+      (rep ? '<label class="imp-keep"><input type="checkbox" id="imp-keepmedia"' +
+        (impKeep ? ' checked' : '') + '> Keep images already in place where the import leaves a slot empty' +
+        (wouldKeep ? ' <span style="color:var(--muted)">(' + wouldKeep + ' would be kept)</span>' : '') +
+        '</label>' : '') +
       (res.problems.length ? '<p class="err">' + res.problems.map(esc).join('<br>') + '</p>' : '');
+    var kb = $('#imp-keepmedia');
+    if (kb) kb.addEventListener('change', function () { impKeep = kb.checked; });
     $('#imp-go').disabled = false;
   }
 
@@ -1709,8 +1778,10 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     snap();
     S.data.projects = S.data.projects || [];
     var added = 0, replaced = 0, firstNew = -1;
+    var keptTotal = 0;
     impState.items.forEach(function (x) {
       if (x.replaces > -1) {
+        if (impKeep) keptTotal += carryMedia(x.project, S.data.projects[x.replaces]);
         S.data.projects[x.replaces] = x.project;
         if (firstNew < 0) firstNew = x.replaces;
         replaced++;
@@ -1725,7 +1796,9 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     dirty(true);
     $('#imp').close();
     rerender();
-    toast(added + ' added, ' + replaced + ' replaced — review, then Publish');
+    toast(added + ' added, ' + replaced + ' replaced' +
+      (keptTotal ? ', ' + keptTotal + ' image' + (keptTotal === 1 ? '' : 's') + ' kept' : '') +
+      ' — review, then Publish');
   });
 
   $('#download').addEventListener('click', function () {
