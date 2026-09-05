@@ -1452,7 +1452,6 @@
       "year": 2025,
       "disciplines": [
         "Digital",
-        "3D",
         "Film"
       ],
       "role": "Direction, Build",
@@ -1461,9 +1460,10 @@
       "tone": "scroll",
       "summary": "A scroll-driven cinematic where the page scrub drives a single continuous camera through seven worlds — each one rebuilt from a real project.",
       "cover": {
-        "src": "",
+        "src": "wnh/wnh-scroll-world/s9uqdab2hrkzzfygnfih",
         "alt": "Scroll-driven cinematic portfolio",
-        "ratio": "16x9"
+        "ratio": "16x9",
+        "ar": 1.9628
       },
       "credits": [
         {
@@ -1478,10 +1478,11 @@
           "body": "Scroll position drives video time. The camera flies out of one world and into the next without a cut, so the whole portfolio reads as a single take.\n\nThe constraint is what makes it: if you cannot cut, every transition has to be designed rather than edited."
         },
         {
-          "type": "vimeo",
-          "url": "",
-          "caption": "Seven Scenes — continuous camera"
-        }
+          "type": "video",
+          "src": "wnh/wnh-scroll-world/t6wwljxzhhsbmxcrnc23",
+          "ar": 1.7778
+        },
+        []
       ],
       "sector": "Studio"
     }
