@@ -543,10 +543,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/milwaukee-house-builder/ohp8nchvzj4sruudux8s",
           "alt": "House Builder key visual with tools and timber house",
           "caption": "Key visual",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -557,8 +558,9 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Timber and plank texture study"
+              "src": "wnh/milwaukee-house-builder/ptalaoctnoro3gsphp3t",
+              "alt": "Timber and plank texture study",
+              "ar": 0.9996
             },
             {
               "src": "",
@@ -583,9 +585,9 @@
         }
       ],
       "cover": {
-        "src": "wnh/milwaukee-house-builder/tjd926u3r8sxxuqpunab",
+        "src": "wnh/milwaukee-house-builder/dyv9umz1va3cgzw23haf",
         "alt": "House Builder",
-        "ar": 1
+        "ar": 1.2218
       },
       "credits": [
         {
