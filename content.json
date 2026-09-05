@@ -715,10 +715,7 @@
         },
         {
           "type": "image",
-          "src": "",
-          "alt": "Vita Calm campaign banner",
-          "caption": "The banner, at full retail width",
-          "size": "full"
+          "caption": "The banner, at full retail width"
         },
         {
           "type": "text",
@@ -749,10 +746,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/dsa-52/pdrodgycijwp7mxmgue0",
           "alt": "DSA 52 key visual",
           "caption": "The key visual",
-          "size": "full"
+          "size": "wide",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -763,24 +761,28 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Stage backdrop and digital panels"
+              "src": "wnh/dsa-52/tj5uho5gxvu07f6oxpf6",
+              "alt": "Award group photo",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Winners' brochure spread"
+              "src": "wnh/dsa-52/kzuwjdmfmtrcvkobquuq",
+              "alt": "Brochure cover",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Award ribbon and medal"
+              "src": "wnh/dsa-52/jqcpsjxeiolkywu7l4gt",
+              "alt": "Stage backdrop and digital panels",
+              "ar": 1.7778
             }
           ],
           "caption": "Backdrop, brochure, award"
         }
       ],
       "cover": {
-        "src": "",
-        "alt": "Pride in Perseverance"
+        "src": "wnh/dsa-52/m5whdkmakwaiij720psm",
+        "alt": "Pride in Perseverance",
+        "ar": 1.7778
       },
       "credits": [
         {
