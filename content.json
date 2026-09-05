@@ -579,17 +579,12 @@
           "type": "text",
           "heading": "Modelled, lit, rendered, animated",
           "body": "3D modelling, game visual design, motion graphics and rendering, all in one pipeline — which is what let the marketing renders and the in-game art stay the same object rather than two interpretations of it."
-        },
-        {
-          "type": "vimeo",
-          "url": "",
-          "caption": "House Builder — 3D animation"
         }
       ],
       "cover": {
-        "src": "wnh/milwaukee-house-builder/dyv9umz1va3cgzw23haf",
+        "src": "wnh/milwaukee-house-builder/lo4zqx4n9262hw48dv6o",
         "alt": "House Builder",
-        "ar": 1.2218
+        "ar": 1.4643
       },
       "credits": [
         {
