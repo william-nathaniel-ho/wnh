@@ -88,6 +88,28 @@ body{font-size:15px}
   text-overflow:ellipsis;white-space:nowrap;font-size:.95rem}
 .item-tools{display:flex;gap:4px;flex:none}
 @media(pointer:coarse){.btn.sm{min-height:44px;min-width:44px}}
+.imp{border:0;padding:0;background:none;max-width:min(760px,94vw);width:100%}
+.imp::backdrop{background:rgba(11,13,20,.55);backdrop-filter:blur(5px)}
+.imp-in{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px;
+  max-height:88vh;display:flex;flex-direction:column;gap:12px}
+.imp-in header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.imp-in h2{margin:0;font-size:1.05rem;font-weight:500;letter-spacing:-.01em}
+.imp-x{border:0;background:none;font-size:1.4rem;line-height:1;color:var(--muted);
+  min-width:40px;min-height:40px;cursor:pointer}
+.imp-drop{border:1.5px dashed var(--line-2);border-radius:10px;padding:16px;text-align:center;
+  color:var(--muted);font-size:.85rem;cursor:pointer}
+.imp-drop.over{border-color:var(--accent);color:var(--accent)}
+.imp textarea{width:100%;min-height:150px;resize:vertical;font:inherit;font-size:.8rem;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.5;
+  border:1px solid var(--line);border-radius:8px;padding:11px 13px;background:var(--surface)}
+.imp-report{font-size:.85rem;line-height:1.6;overflow:auto;max-height:22vh}
+.imp-report .ok{color:var(--text)}
+.imp-report .err{color:var(--accent-2)}
+.imp-report ul{margin:6px 0 0;padding-left:18px}
+.imp-help summary{cursor:pointer;font-size:.82rem;color:var(--muted)}
+.imp-help pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:11px;overflow:auto;max-height:26vh;font-size:.72rem;line-height:1.5}
+.imp-foot{display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--line);padding-top:12px}
 
 /* --- projects split -------------------------------------------------- */
 .split{display:grid;grid-template-columns:1fr;gap:18px}
@@ -192,6 +214,31 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
   </div>
   <div id="pane" class="pane" role="tabpanel" tabindex="-1"></div>
 </div>
+
+<dialog id="imp" class="imp">
+  <div class="imp-in">
+    <header>
+      <h2>Import projects from JSON</h2>
+      <button class="imp-x" id="imp-x" type="button" aria-label="Close">&times;</button>
+    </header>
+    <p class="hint">Paste the JSON, or drop a .json file. Anything already using the same
+      slug is replaced, everything else is added. Nothing is published until you press Publish.</p>
+    <div class="imp-drop" id="imp-drop" tabindex="0" role="button">Drop a .json file, or click to choose one</div>
+    <textarea id="imp-text" spellcheck="false" placeholder='{ "projects": [ … ] }  —  or a single project object'></textarea>
+    <div class="imp-report" id="imp-report"></div>
+    <details class="imp-help">
+      <summary>The shape it expects</summary>
+      <p class="hint">Every field is optional except a title. Leave image ids empty and fill them in later —
+        that is the point. Block types: text, image, images, vimeo, video, quote, stats.</p>
+      <pre id="imp-eg"></pre>
+      <button class="btn dim" id="imp-copy" type="button">Copy this example</button>
+    </details>
+    <div class="imp-foot">
+      <button class="btn dim" id="imp-cancel" type="button">Cancel</button>
+      <button class="btn pri" id="imp-go" type="button" disabled>Import</button>
+    </div>
+  </div>
+</dialog>
 
 <div class="relock" id="relock" hidden>
   <div class="box">
@@ -807,6 +854,16 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     return box;
   }
 
+  /* addBtn snapshots and mutates; this one just runs something */
+  function mkBtn(label, fn) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn dim';
+    b.textContent = label;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
   function addBtn(label, fn, focusPath) {
     var b = document.createElement('button');
     b.className = 'btn';
@@ -1187,6 +1244,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
 
     var tools = document.createElement('div');
     tools.style.cssText = 'display:flex;gap:6px;margin-top:8px;flex-wrap:wrap';
+    tools.appendChild(mkBtn('Import JSON', function () { openImport(); }));
     tools.appendChild(addBtn('New project', function () {
       arr.unshift({
         slug: '', title: '', client: '', year: new Date().getFullYear(),
@@ -1449,6 +1507,220 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     if (k === 's') { e.preventDefault(); publish(); }
     else if (k === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
     else if ((k === 'z' && e.shiftKey) || k === 'y') { e.preventDefault(); redo(); }
+  });
+
+  /* ------------------------------------------------------- import JSON
+
+     Typing a case study into a form is the slowest way to get words onto a
+     page. This takes a project (or a whole batch) as JSON, checks it, says
+     exactly what it will do, and drops it into the editor for review — image
+     ids can stay empty and be filled in later. */
+
+  var IMP_EXAMPLE = {
+    projects: [{
+      slug: 'example-project',
+      title: 'What The Work Was Called',
+      client: 'Client Name',
+      year: 2025,
+      sector: 'Health & Care',
+      disciplines: ['Brand', 'Campaign'],
+      role: 'Design lead',
+      featured: true,
+      deep: false,
+      tone: 'wine',
+      summary: 'One or two sentences. Shown on the work index and at the top of the case study.',
+      cover: { src: '', alt: 'Describe the cover image' },
+      credits: [{ role: 'Design', name: 'WNH' }],
+      blocks: [
+        { type: 'text', heading: 'The brief', body: 'A paragraph.\n\nA blank line starts another.' },
+        { type: 'image', src: '', alt: 'Describe it', caption: 'Caption', size: 'wide' },
+        { type: 'images', items: [{ src: '', alt: 'One' }, { src: '', alt: 'Two' }], caption: 'A row' },
+        { type: 'vimeo', url: '', caption: 'Vimeo or YouTube link', size: 'wide' },
+        { type: 'quote', text: 'A short pull quote.', attribution: 'Who said it' },
+        { type: 'stats', items: [{ value: '12', label: 'Something counted' }] }
+      ]
+    }]
+  };
+
+  function slugify(str) {
+    return String(str || '').toLowerCase().trim()
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60);
+  }
+
+  /* keep only the keys each block type actually uses, so a stray field from a
+     hand-written file cannot end up in content.json */
+  function cleanBlock(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    var type = String(raw.type || '').trim();
+    var keep = BLOCK_KEEP[type];
+    if (!keep) return null;
+    var out = { type: type };
+    keep.forEach(function (k) {
+      if (k === 'type' || raw[k] === undefined) return;
+      out[k] = raw[k];
+    });
+    if (type === 'images') {
+      out.items = (Array.isArray(raw.items) ? raw.items : []).map(function (it) {
+        return { src: String((it && it.src) || ''), alt: String((it && it.alt) || ''),
+                 ar: (it && +it.ar) || undefined };
+      });
+    }
+    if (type === 'stats') {
+      out.items = (Array.isArray(raw.items) ? raw.items : []).map(function (it) {
+        return { value: String((it && it.value) || ''), label: String((it && it.label) || '') };
+      });
+    }
+    return out;
+  }
+
+  function cleanProject(raw, i) {
+    var p = {
+      slug: slugify(raw.slug || raw.title) || ('project-' + (i + 1)),
+      title: String(raw.title || '').trim(),
+      client: String(raw.client || '').trim(),
+      year: raw.year === undefined || raw.year === '' ? new Date().getFullYear() : raw.year,
+      sector: String(raw.sector || '').trim(),
+      disciplines: Array.isArray(raw.disciplines)
+        ? raw.disciplines.map(String)
+        : String(raw.disciplines || '').split(/\s*,\s*/).filter(Boolean),
+      role: String(raw.role || '').trim(),
+      featured: raw.featured !== false,
+      deep: raw.deep === true,
+      tone: String(raw.tone || 'wine'),
+      summary: String(raw.summary || '').trim(),
+      cover: { src: String((raw.cover && raw.cover.src) || ''),
+               alt: String((raw.cover && raw.cover.alt) || '') },
+      credits: (Array.isArray(raw.credits) ? raw.credits : []).map(function (c) {
+        return { role: String((c && c.role) || ''), name: String((c && c.name) || '') };
+      }),
+      blocks: (Array.isArray(raw.blocks) ? raw.blocks : []).map(cleanBlock).filter(Boolean)
+    };
+    var dropped = (Array.isArray(raw.blocks) ? raw.blocks.length : 0) - p.blocks.length;
+    return { project: p, dropped: dropped };
+  }
+
+  /* accept a bare project, an array of them, or a whole content.json */
+  function readImport(text) {
+    var data;
+    try { data = JSON.parse(text); }
+    catch (e) { return { error: 'That is not valid JSON — ' + e.message }; }
+    var list = Array.isArray(data) ? data
+             : (data && Array.isArray(data.projects)) ? data.projects
+             : (data && typeof data === 'object') ? [data] : null;
+    if (!list || !list.length) return { error: 'No projects found in that file.' };
+
+    var out = [], seen = {}, problems = [];
+    list.forEach(function (raw, i) {
+      if (!raw || typeof raw !== 'object') { problems.push('Item ' + (i + 1) + ' is not an object.'); return; }
+      var res = cleanProject(raw, i);
+      if (!res.project.title) problems.push('Item ' + (i + 1) + ' has no title.');
+      if (seen[res.project.slug]) problems.push('Two imported projects share the slug "' + res.project.slug + '".');
+      seen[res.project.slug] = true;
+      var existing = (S.data.projects || []).map(function (p) { return p.slug; }).indexOf(res.project.slug);
+      out.push({ project: res.project, dropped: res.dropped, replaces: existing });
+    });
+    if (!out.length) return { error: problems.join(' ') || 'Nothing usable in that file.' };
+    return { items: out, problems: problems };
+  }
+
+  var impState = null;
+
+  function paintImport() {
+    var box = $('#imp-report'), text = $('#imp-text').value.trim();
+    impState = null;
+    $('#imp-go').disabled = true;
+    if (!text) { box.innerHTML = ''; return; }
+    var res = readImport(text);
+    if (res.error) { box.innerHTML = '<p class="err">' + esc(res.error) + '</p>'; return; }
+    impState = res;
+    var add = res.items.filter(function (x) { return x.replaces < 0; }).length;
+    var rep = res.items.length - add;
+    box.innerHTML =
+      '<p class="ok"><b>' + res.items.length + '</b> project' + (res.items.length === 1 ? '' : 's') +
+      ' — ' + add + ' new, ' + rep + ' replacing what is there.</p><ul>' +
+      res.items.map(function (x) {
+        return '<li>' + esc(x.project.title || '(untitled)') + ' <span style="color:var(--muted)">— ' +
+          esc(x.project.slug) + ', ' + x.project.blocks.length + ' block' +
+          (x.project.blocks.length === 1 ? '' : 's') +
+          (x.replaces > -1 ? ', replaces the existing one' : ', new') +
+          (x.dropped ? ', ' + x.dropped + ' unknown block' + (x.dropped === 1 ? '' : 's') + ' skipped' : '') +
+          '</span></li>';
+      }).join('') + '</ul>' +
+      (res.problems.length ? '<p class="err">' + res.problems.map(esc).join('<br>') + '</p>' : '');
+    $('#imp-go').disabled = false;
+  }
+
+  function openImport() {
+    $('#imp-text').value = '';
+    $('#imp-report').innerHTML = '';
+    $('#imp-go').disabled = true;
+    $('#imp-eg').textContent = JSON.stringify(IMP_EXAMPLE, null, 2);
+    $('#imp').showModal();
+    $('#imp-text').focus();
+  }
+
+  function loadImportFile(file) {
+    if (!file) return;
+    var fr = new FileReader();
+    fr.onload = function () { $('#imp-text').value = String(fr.result || ''); paintImport(); };
+    fr.onerror = function () { toast('Could not read that file', true); };
+    fr.readAsText(file);
+  }
+
+  $('#imp-text').addEventListener('input', paintImport);
+  $('#imp-x').addEventListener('click', function () { $('#imp').close(); });
+  $('#imp-cancel').addEventListener('click', function () { $('#imp').close(); });
+  $('#imp').addEventListener('click', function (e) { if (e.target === $('#imp')) $('#imp').close(); });
+  $('#imp-copy').addEventListener('click', function () {
+    var t = $('#imp-eg').textContent;
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { toast('Example copied'); });
+  });
+
+  var impPicker = document.createElement('input');
+  impPicker.type = 'file';
+  impPicker.accept = 'application/json,.json';
+  impPicker.hidden = true;
+  document.body.appendChild(impPicker);
+  impPicker.addEventListener('change', function () { loadImportFile(impPicker.files[0]); impPicker.value = ''; });
+  $('#imp-drop').addEventListener('click', function () { impPicker.click(); });
+  $('#imp-drop').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); impPicker.click(); }
+  });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    $('#imp-drop').addEventListener(ev, function (e) { e.preventDefault(); this.classList.add('over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    $('#imp-drop').addEventListener(ev, function (e) { e.preventDefault(); this.classList.remove('over'); });
+  });
+  $('#imp-drop').addEventListener('drop', function (e) {
+    loadImportFile(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+
+  $('#imp-go').addEventListener('click', function () {
+    if (!impState) return;
+    snap();
+    S.data.projects = S.data.projects || [];
+    var added = 0, replaced = 0, firstNew = -1;
+    impState.items.forEach(function (x) {
+      if (x.replaces > -1) {
+        S.data.projects[x.replaces] = x.project;
+        if (firstNew < 0) firstNew = x.replaces;
+        replaced++;
+      } else {
+        S.data.projects.unshift(x.project);
+        firstNew = 0;
+        added++;
+      }
+    });
+    S.pi = firstNew < 0 ? 0 : firstNew;
+    S.tab = 'projects';
+    dirty(true);
+    $('#imp').close();
+    rerender();
+    toast(added + ' added, ' + replaced + ' replaced — review, then Publish');
   });
 
   $('#download').addEventListener('click', function () {
