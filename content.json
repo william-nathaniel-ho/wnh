@@ -874,8 +874,9 @@
       "tone": "cellmax",
       "summary": "Retail campaign for a Japanese-made health patch — a celebrity endorsement, three benefit claims and two product variants, held together by one idea a shopper understands in a second.",
       "cover": {
-        "src": "",
-        "alt": "和田保健貼 retail poster"
+        "src": "wnh/wada/r7rthkjnxzcog8drqfyu",
+        "alt": "和田保健貼 retail poster",
+        "ar": 0.6641
       },
       "credits": [
         {
@@ -895,10 +896,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/wada/hbrjwozfmne2dxfvchp8",
           "alt": "和田保健貼 retail poster",
           "caption": "The poster",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         },
         {
           "type": "text",
