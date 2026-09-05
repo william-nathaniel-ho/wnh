@@ -463,8 +463,9 @@
       "tone": "hksh",
       "summary": "A full identity for a Hong Kong nursing agency — a mark drawn from human figures arranged into a care cross, documented with construction, type and colour rules, and applied from ID badge to bilingual website.",
       "cover": {
-        "src": "",
-        "alt": "CAREARCH HK identity system"
+        "src": "wnh/carearch/mepwycpeqn9frnjonnxe",
+        "alt": "CAREARCH HK identity system",
+        "ar": 1.7686
       },
       "credits": [
         {
@@ -515,29 +516,6 @@
             }
           ],
           "caption": "Type, colour, and the secondary set"
-        },
-        {
-          "type": "text",
-          "heading": "Down to the lanyard",
-          "body": "Business cards, the staff ID badge on its lanyard, and a bilingual site built around the one thing a family actually arrives to do: search for care by district and service type.\n\n培育醫護專業 · 傳承愛心使命."
-        },
-        {
-          "type": "images",
-          "items": [
-            {
-              "src": "",
-              "alt": "Business cards"
-            },
-            {
-              "src": "",
-              "alt": "Staff ID badge and lanyard"
-            },
-            {
-              "src": "",
-              "alt": "Desktop and mobile site"
-            }
-          ],
-          "caption": "Applications"
         }
       ],
       "sector": "Health & Care"
