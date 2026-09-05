@@ -670,7 +670,7 @@
     },
     {
       "slug": "hksh-walk-for-a-vision",
-      "title": "Four Names, One Sentence",
+      "title": "One Step, One Heart",
       "client": "Hong Kong Sanatorium & Hospital 養和醫院",
       "year": 2023,
       "sector": "Health & Care",
@@ -681,15 +681,14 @@
         "Design Systems",
         "Charity"
       ],
-      "role": "Character design, 3D, campaign system",
+      "role": "Character design, 3D, campaign key visual",
       "featured": false,
       "deep": false,
       "tone": "imace",
-      "summary": "A four-character 3D cast for HKSH's Walk for a Vision walkathon — built once in Blender, specified tightly enough that the hospital can run the campaign again every year without the characters drifting.",
+      "summary": "一步一愛心 — a four-character 3D cast built in Blender for HKSH's 2023 charity walk, specified tightly enough that the hospital can run the campaign again without the characters drifting.",
       "cover": {
         "src": "wnh/hksh-walk-for-a-vision/qeqqcppuje9deagzvzqg",
-        "alt": "The four walkathon characters in a row, left to right",
-        "ar": 1.7778
+        "alt": "The four characters walking through the inflatable start arch under the 一步一愛心 lockup"
       },
       "credits": [
         {
@@ -697,7 +696,7 @@
           "name": "WNH"
         },
         {
-          "role": "Campaign identity",
+          "role": "Campaign key visual",
           "name": "WNH"
         },
         {
@@ -708,98 +707,98 @@
       "blocks": [
         {
           "type": "text",
-          "heading": "A walkathon needs a face",
-          "body": "HKSH's Walk for a Vision asks people to turn up on a morning and walk. What it needed was not a poster but a cast — four figures who could carry a fundraising campaign across registration forms, route maps, water-station signage, social posts and the finish-line arch, and still read as the same four people in every one of them.\n\nSo we built four characters in Blender rather than illustrating a scene. A scene is used once. A cast can be posed, re-lit and re-shot for whatever next year's campaign turns out to be."
+          "heading": "一步一愛心",
+          "body": "HKSH's 2023 charity walk asked people to turn up on a morning and walk — one step, one heart. What the campaign needed was not a poster but a cast: four figures who could carry it across registration, route signage, social posts and the finish arch, and still read as the same four people in every one of them.\n\nSo we built four characters in Blender rather than illustrating a scene. A scene gets used once. A cast can be re-posed, re-lit and re-shot for whatever the next walk turns out to be."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-walk-for-a-vision/yfffj0vm3h9woukkpwsl",
-              "alt": "The four-up lineup — the canonical reference render",
+              "alt": "The four characters standing together on the studio ground — the reference lineup",
               "ar": 0.8571
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/anpjat5cw4ukcdvpgrvi",
-              "alt": "Character A-poses, isolated on the studio ground",
+              "alt": "The four walking through a city street scene",
               "ar": 1.7686
             }
           ],
-          "caption": "The cast, in fixed order"
+          "caption": "The canon lineup, and the same four dropped into a street"
         },
         {
           "type": "text",
-          "heading": "The cast",
-          "body": "Four walkers, deliberately spread across the age range that actually shows up to a hospital walkathon: a man in his twenties, a woman in her late teens, a woman in her thirties, and a man in his sixties. Heights differ by eighteen centimetres end to end, so the lineup has a silhouette rather than four copies at different scales.\n\nEach one is separated by a single memorable detail and nothing else — a side-swept fringe, a high ponytail with a lime scrunchie, shoulder-length waves, matte black round-rectangle glasses. One feature each is enough to tell them apart at thumbnail size, and few enough that any of them can be rebuilt from the specification alone.\n\nTheir order is fixed left to right and never changes. Read across the lineup and the four names spell the campaign."
+          "heading": "Four walkers, one silhouette apart",
+          "body": "The cast is spread deliberately across the ages that actually turn up to a hospital walk: a man in his twenties, a woman in her late teens, a woman in her thirties, a man in his sixties. Eighteen centimetres separate the tallest from the shortest, so the lineup has a shape rather than four copies at different scales.\n\nEach one is separated by a single memorable detail and nothing more — a tousled side-swept fringe, a high ponytail with a lime scrunchie, shoulder-length waves, matte black round-rectangle glasses. One feature each is enough to tell them apart at thumbnail size, and few enough that any of them can be rebuilt from the specification alone. Their order in the lineup is fixed and never changes."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-walk-for-a-vision/kabu1lmuokup8mhw0pqq",
-              "alt": "Character one — side-swept fringe",
+              "alt": "The character in the Blender viewport, mid-build",
               "ar": 2.1004
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/g6varmms5iinjip6180d",
-              "alt": "Character two — glasses",
+              "alt": "The rig — armature and controls",
               "ar": 1.2554
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/o2xlzhmvu8pdmvx3n4r3",
-              "alt": "Character three — high ponytail and lime scrunchie",
+              "alt": "A character exported on transparency, ready to composite",
               "ar": 0.9096
             }
           ],
-          "caption": "One feature each — enough to tell them apart at thumbnail size"
+          "caption": "Built, rigged and exported clean"
         },
         {
           "type": "text",
           "heading": "Everything else is identical, on purpose",
-          "body": "All four wear exactly the same kit: a lime felt polo with a grey ribbed collar and a two-button placket, the 養和 calligraphy on the wearer's left chest, a white figure-with-heart pictogram on the lower right hem, periwinkle joggers, and lime sneakers with three white stripes.\n\nThe faces run on rules rather than drawing decisions — solid black almond eyes with no iris, whites or catchlight, thick black brows, and a single continuous white band for teeth with no lip line and no dark mouth cavity. It sounds austere written down. On screen it is what stops four characters from slowly becoming eight."
+          "body": "All four wear exactly the same kit: a lime felt polo with a grey ribbed collar and a two-button placket, the 養和 calligraphy on the wearer's left chest, a white figure-with-heart pictogram on the lower right hem, periwinkle joggers, lime sneakers with three white stripes.\n\nThe faces run on rules rather than drawing decisions — solid black almond eyes with no iris, whites or catchlight, thick black brows, and a single continuous white band for teeth with no lip line and no mouth cavity. It reads austere written down. On screen it is the thing that stops four characters slowly becoming eight."
         },
         {
           "type": "image",
           "src": "wnh/hksh-walk-for-a-vision/om4fen1sk6ehcka1qnq0",
-          "alt": "The colour specification — polo, trousers, collar, hair, skin and ground values",
-          "caption": "Every value sampled and written down, not eyeballed",
-          "size": "wide",
-          "ar": 1.7686
+          "alt": "The key visual — the four coming through the start arch in the hospital's green and gold",
+          "caption": "The arch takes the hospital's own green and gold; the cast supplies everything else",
+          "size": "wide"
         },
         {
           "type": "text",
-          "heading": "Built to outlast the campaign it was made for",
-          "body": "The part that mattered most was the split. The characters are permanent — proportions, uniform, face rules and colour values are canon and do not move. The campaign is a layer on top: the year, the slogan, the finish arch, the lockups. Change the layer and the same cast turns up for a different walkathon.\n\nThat separation is also what let the whole system survive the arrival of generative tools. Because the canon was written down to hex values and named features rather than living only in a Blender file, the cast can now be regenerated from reference without drifting — the hospital's team can produce new poses and situations years later and still get the same four people back."
+          "heading": "Written down, so it survives the year",
+          "body": "The part that mattered most was the split. The characters are permanent — proportions, uniform, face rules and colour values are canon and do not move. The campaign sits on top as a layer: the year, the slogan, the arch, the lockups. Change the layer and the same four turn up for the next walk.\n\nSo the deliverable was never four model files. It was a turnaround for every character, a colour value for every surface, and a written rule for every part of the face — the kind of specification a team can hand to whoever builds the next round and still get the same four people back."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-walk-for-a-vision/w0bxqhv7fg7rb21jqhlm",
-              "alt": "hf 20260905 073326 32c9a572 b4c1 45b9 b000 43c3f46d0e77",
+              "alt": "The four characters together, front on",
               "ar": 1.7686
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/ozlschblimxs3xlwmh6j",
-              "alt": "hf 20260905 073326 678add5f 338d 47f6 840c 247cd0014d23",
+              "alt": "Turnaround — front, three-quarter, side and back",
               "ar": 1.7686
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/uwoqrqfoai3ob3koar56",
-              "alt": "hf 20260905 073326 2c48bacf a5d7 49d4 93a1 a854a176ea84",
+              "alt": "Turnaround — front, three-quarter, side and back",
               "ar": 1.7686
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/d6gokqj6e3v0xygx9ezt",
-              "alt": "hf 20260905 073327 b1f25815 60d4 408c 9ce8 d117651e50a2",
+              "alt": "Turnaround — front, three-quarter, side and back",
               "ar": 1.7686
             },
             {
               "src": "wnh/hksh-walk-for-a-vision/qlag03c18jnxgbjzeqcl",
-              "alt": "hf 20260905 073326 e137befc bc4d 4aa0 ae0d eefe8ac68dde",
+              "alt": "Turnaround — front, three-quarter, side and back",
               "ar": 1.7686
             }
-          ]
+          ],
+          "caption": "Model sheets — four views each, so nothing has to be guessed later"
         },
         {
           "type": "stats",
@@ -809,8 +808,8 @@
               "label": "Characters, one uniform"
             },
             {
-              "value": "9",
-              "label": "Colour values locked"
+              "value": "16",
+              "label": "Turnaround views drawn"
             },
             {
               "value": "2023",
