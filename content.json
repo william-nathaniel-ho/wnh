@@ -484,10 +484,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/carearch/fcd4ppuppfn1beaqd0uu",
           "alt": "Primary logo and construction grid",
           "caption": "Primary logo, and the grid it is built on",
-          "size": "full"
+          "size": "wide",
+          "ar": 1.9884
         },
         {
           "type": "text",
