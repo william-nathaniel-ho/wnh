@@ -930,10 +930,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/cellmax/gpampjmiitjgnbi3aol5",
           "alt": "Cellmax fifteenth anniversary key visual",
           "caption": "Anniversary key visual",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -941,27 +942,36 @@
           "body": "The system fixes the proportions, the colour behaviour and the type relationship, so a new product or a new promotion joins the family instead of restarting it."
         },
         {
+          "type": "vimeo",
+          "url": "https://vimeo.com/1224179091",
+          "caption": "Cellmax-15-logo"
+        },
+        {
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Retail display"
+              "src": "wnh/cellmax/dkllqmfrwn484im2j6yy",
+              "alt": "Retail display",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Leaflet and brochure"
+              "src": "wnh/cellmax/hgocry6uwp92tvtbypy9",
+              "alt": "Leaflet and brochure",
+              "ar": 1.7778
             },
             {
-              "src": "",
-              "alt": "Social key visuals"
+              "src": "wnh/cellmax/dhahn7pxqdda0cspelo1",
+              "alt": "Social key visuals",
+              "ar": 1.7778
             }
           ],
           "caption": "Display, print, social"
         }
       ],
       "cover": {
-        "src": "",
-        "alt": "Fifteen Years"
+        "src": "wnh/cellmax/svld7ocuxpwjroyn0pnx",
+        "alt": "Fifteen Years",
+        "ar": 1.7778
       },
       "credits": [
         {
