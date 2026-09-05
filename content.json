@@ -401,10 +401,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/hkma-60/ecvujmjdjwjqxkely2bp",
           "alt": "HKMA 60 mark with construction grid and clear space",
           "caption": "Construction, clear space, colour",
-          "size": "full"
+          "size": "full",
+          "ar": 1.7778
         },
         {
           "type": "text",
@@ -415,16 +416,19 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Leaders index"
+              "src": "wnh/hkma-60/cgcmevgkfgpgzj4pgm5j",
+              "alt": "Leaders index",
+              "ar": 2.0478
             },
             {
-              "src": "",
-              "alt": "Interview page"
+              "src": "wnh/hkma-60/ohvz2dfj63wkjfex5o8a",
+              "alt": "Interview page",
+              "ar": 1.4168
             },
             {
-              "src": "",
-              "alt": "Field selection"
+              "src": "wnh/hkma-60/z9abrrygkrf1o5yeerfu",
+              "alt": "Field selection",
+              "ar": 2.2668
             }
           ],
           "caption": "The interview platform"
@@ -436,8 +440,9 @@
         }
       ],
       "cover": {
-        "src": "",
-        "alt": "Sixty Years of Management"
+        "src": "wnh/hkma-60/rmvmglqj6qnh8wblmexm",
+        "alt": "Sixty Years of Management",
+        "ar": 1.7686
       },
       "credits": [
         {
