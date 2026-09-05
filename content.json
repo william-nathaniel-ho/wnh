@@ -563,12 +563,14 @@
               "ar": 0.9996
             },
             {
-              "src": "",
-              "alt": "In-game tool selection UI"
+              "src": "wnh/milwaukee-house-builder/vm7dnh470aumalrkeybg",
+              "alt": "In-game tool selection UI",
+              "ar": 1
             },
             {
-              "src": "",
-              "alt": "Level progression screens"
+              "src": "wnh/milwaukee-house-builder/ftvraewsdjduma3veqwz",
+              "alt": "Level progression screens",
+              "ar": 1
             }
           ],
           "caption": "Texture study, tool UI, level progression"
