@@ -760,10 +760,11 @@
         },
         {
           "type": "image",
-          "src": "",
+          "src": "wnh/hksh-walk-for-a-vision/om4fen1sk6ehcka1qnq0",
           "alt": "The colour specification — polo, trousers, collar, hair, skin and ground values",
           "caption": "Every value sampled and written down, not eyeballed",
-          "size": "wide"
+          "size": "wide",
+          "ar": 1.7686
         },
         {
           "type": "text",
