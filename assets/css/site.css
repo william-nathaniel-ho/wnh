@@ -315,6 +315,10 @@ body.menu{overflow:hidden}
 .ph[data-tone="hkma"]{background:linear-gradient(150deg,#0D2246,#1F4E8C 55%,#06122A)}
 .ph[data-tone="cellmax"]{background:linear-gradient(150deg,#4A2436,#A85B79 55%,#231017)}
 .ph[data-tone="logistics"]{background:linear-gradient(150deg,#161E3E,#37479A 55%,#0A0E20)}
+.ph[data-tone="vitagreen"]{background:linear-gradient(150deg,#0A2A33,#1B7F86 55%,#05161B)}
+.ph[data-tone="ink"]{background:linear-gradient(150deg,#1A1A1C,#3D3D42 55%,#0B0B0C)}
+.ph[data-tone="sand"]{background:linear-gradient(150deg,#3A2E1E,#9A7B4F 55%,#1A140C)}
+.ph[data-tone="sky"]{background:linear-gradient(150deg,#123043,#3E7FA6 55%,#08171F)}
 
 /* list view (work index) */
 .rows{border-top:1px solid var(--line)}
