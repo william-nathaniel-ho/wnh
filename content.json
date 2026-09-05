@@ -669,6 +669,126 @@
       "sector": "Consumer & Retail"
     },
     {
+      "slug": "hksh-walk-for-a-vision",
+      "title": "Four Names, One Sentence",
+      "client": "Hong Kong Sanatorium & Hospital 養和醫院",
+      "year": 2023,
+      "sector": "Health & Care",
+      "disciplines": [
+        "3D",
+        "Brand",
+        "Campaign",
+        "Design Systems",
+        "Charity"
+      ],
+      "role": "Character design, 3D, campaign system",
+      "featured": false,
+      "deep": false,
+      "tone": "imace",
+      "summary": "A four-character 3D cast for HKSH's Walk for a Vision walkathon — built once in Blender, specified tightly enough that the hospital can run the campaign again every year without the characters drifting.",
+      "cover": {
+        "src": "wnh/hksh-walk-for-a-vision/vrojtvxzafvhpcaauyaz",
+        "alt": "The four walkathon characters in a row, left to right",
+        "ar": 1.7778
+      },
+      "credits": [
+        {
+          "role": "Character design and 3D",
+          "name": "WNH"
+        },
+        {
+          "role": "Campaign identity",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Hong Kong Sanatorium & Hospital"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A walkathon needs a face",
+          "body": "HKSH's Walk for a Vision asks people to turn up on a morning and walk. What it needed was not a poster but a cast — four figures who could carry a fundraising campaign across registration forms, route maps, water-station signage, social posts and the finish-line arch, and still read as the same four people in every one of them.\n\nSo we built four characters in Blender rather than illustrating a scene. A scene is used once. A cast can be posed, re-lit and re-shot for whatever next year's campaign turns out to be."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "The four-up lineup — the canonical reference render"
+            },
+            {
+              "src": "",
+              "alt": "Character A-poses, isolated on the studio ground"
+            }
+          ],
+          "caption": "The cast, in fixed order"
+        },
+        {
+          "type": "text",
+          "heading": "The cast",
+          "body": "Four walkers, deliberately spread across the age range that actually shows up to a hospital walkathon: a man in his twenties, a woman in her late teens, a woman in her thirties, and a man in his sixties. Heights differ by eighteen centimetres end to end, so the lineup has a silhouette rather than four copies at different scales.\n\nEach one is separated by a single memorable detail and nothing else — a side-swept fringe, a high ponytail with a lime scrunchie, shoulder-length waves, matte black round-rectangle glasses. One feature each is enough to tell them apart at thumbnail size, and few enough that any of them can be rebuilt from the specification alone.\n\nTheir order is fixed left to right and never changes. Read across the lineup and the four names spell the campaign."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Character one — side-swept fringe"
+            },
+            {
+              "src": "",
+              "alt": "Character two — glasses"
+            },
+            {
+              "src": "",
+              "alt": "Character three — high ponytail and lime scrunchie"
+            },
+            {
+              "src": "",
+              "alt": "Character four — shoulder-length waves"
+            }
+          ],
+          "caption": "One feature each — enough to tell them apart at thumbnail size"
+        },
+        {
+          "type": "text",
+          "heading": "Everything else is identical, on purpose",
+          "body": "All four wear exactly the same kit: a lime felt polo with a grey ribbed collar and a two-button placket, the 養和 calligraphy on the wearer's left chest, a white figure-with-heart pictogram on the lower right hem, periwinkle joggers, and lime sneakers with three white stripes.\n\nThe faces run on rules rather than drawing decisions — solid black almond eyes with no iris, whites or catchlight, thick black brows, and a single continuous white band for teeth with no lip line and no dark mouth cavity. It sounds austere written down. On screen it is what stops four characters from slowly becoming eight."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "The colour specification — polo, trousers, collar, hair, skin and ground values",
+          "caption": "Every value sampled and written down, not eyeballed",
+          "size": "wide"
+        },
+        {
+          "type": "text",
+          "heading": "Built to outlast the campaign it was made for",
+          "body": "The part that mattered most was the split. The characters are permanent — proportions, uniform, face rules and colour values are canon and do not move. The campaign is a layer on top: the year, the slogan, the finish arch, the lockups. Change the layer and the same cast turns up for a different walkathon.\n\nThat separation is also what let the whole system survive the arrival of generative tools. Because the canon was written down to hex values and named features rather than living only in a Blender file, the cast can now be regenerated from reference without drifting — the hospital's team can produce new poses and situations years later and still get the same four people back."
+        },
+        {
+          "type": "stats",
+          "items": [
+            {
+              "value": "4",
+              "label": "Characters, one uniform"
+            },
+            {
+              "value": "9",
+              "label": "Colour values locked"
+            },
+            {
+              "value": "2023",
+              "label": "Built to be reused since"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "slug": "vita-green",
       "title": "Vita Calm",
       "client": "Vita Green 維特健靈",
