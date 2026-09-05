@@ -634,7 +634,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       if (id && cn) {
         var url = isVideo
           ? 'https://res.cloudinary.com/' + cn + '/video/upload/so_1,w_200,h_200,c_fill,f_jpg/' + encodeURI(id) + '.jpg'
-          : 'https://res.cloudinary.com/' + cn + '/image/upload/f_auto,q_auto,w_200,h_200,c_fill/' + encodeURI(id);
+          : 'https://res.cloudinary.com/' + cn + '/image/upload/f_auto:animated,q_auto,w_200,h_200,c_fill/' + encodeURI(id);
         prev.innerHTML = '<img src="' + esc(url) + '" alt="">';
       } else {
         prev.innerHTML = '<div class="none">' + (id ? 'Set the cloud name' : 'Empty') + '</div>';
@@ -749,6 +749,11 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
            the first paint instead of reflowing once the pictures arrive */
         if (/\.src$/.test(path) && res.width && res.height) {
           set(path.replace(/\.src$/, '.ar'), +(res.width / res.height).toFixed(4));
+        }
+        /* note whether this one moves — an animated asset needs a different
+           delivery format from a still, and guessing at render time costs a request */
+        if (/\.src$/.test(path) && (res.format === 'gif' || (res.pages || 0) > 1)) {
+          set(path.replace(/\.src$/, '.anim'), true);
         }
         if (altPath && !get(altPath)) {
           set(altPath, file.name.replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' '));

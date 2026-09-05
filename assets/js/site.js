@@ -64,7 +64,11 @@
     ok: function (id) { return !!(id && String(id).trim() && W.cloud); },
     img: function (id, w) {
       return 'https://res.cloudinary.com/' + W.cloud +
-             '/image/upload/f_auto,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
+             /* f_auto alone hands Safari a still JPEG for an animated GIF — it
+                picks the best format without regard for the frames. f_auto:animated
+                keeps the choice inside formats that can actually animate, which is
+                the difference between motion work playing on an iPhone and not. */
+             '/image/upload/f_auto:animated,q_auto,c_limit,w_' + (w || 1440) + '/' + id;
     },
     srcset: function (id) {
       return WIDTHS.map(function (w) { return W.cld.img(id, w) + ' ' + w + 'w'; }).join(', ');
@@ -674,9 +678,20 @@
 
     function go() { var p = v.play(); if (p && p.catch) p.catch(function () { ui.setPlaying(false); }); }
 
-    v.addEventListener('play', function () { ui.setPlaying(true); });
+    /* timeupdate only fires about four times a second, which reads as a bar
+       that jumps rather than moves. Paint from a frame loop instead. */
+    var raf = null;
+    function tick() {
+      if (v.paused || v.ended) { raf = null; return; }
+      ui.paint(v.currentTime, v.duration);
+      raf = requestAnimationFrame(tick);
+    }
+    v.addEventListener('play', function () {
+      ui.setPlaying(true);
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
     v.addEventListener('pause', function () { ui.setPlaying(false); });
-    v.addEventListener('ended', function () { ui.setPlaying(false); });
+    v.addEventListener('ended', function () { ui.setPlaying(false); ui.paint(v.duration, v.duration); });
     v.addEventListener('timeupdate', function () { ui.paint(v.currentTime, v.duration); });
     v.addEventListener('loadedmetadata', function () { ui.paint(0, v.duration); });
     v.addEventListener('durationchange', function () { ui.paint(v.currentTime, v.duration); });
@@ -739,12 +754,41 @@
         };
 
     ui = skin(box, {
-      toggle: function () { playing ? cmd.pause() : cmd.play(); },
-      play: function () { if (!playing) cmd.play(); },
+      toggle: function () { playing ? want(false) : want(true); },
+      play: function () { if (!playing) want(true); },
       seek: function (t) { at = t; cmd.seek(t); },
       at: function () { return at; },
       volume: function (on) { cmd.volume(on); }
     });
+
+    /* Between progress messages the bar would sit still, so it is advanced
+       locally frame by frame from the last reported position and snapped back
+       whenever the service reports where it really is. */
+    var raf = null, markAt = 0, markT = 0;
+    function mark(sec) { markAt = sec; markT = (global.performance || Date).now(); }
+    function tick() {
+      if (!playing) { raf = null; return; }
+      var t = markAt + ((global.performance || Date).now() - markT) / 1000;
+      at = dur ? Math.min(t, dur) : t;
+      ui.paint(at, dur);
+      raf = requestAnimationFrame(tick);
+    }
+    function started() {
+      playing = true; ui.setPlaying(true); mark(at);
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    function stopped() { playing = false; ui.setPlaying(false); }
+
+    /* A player that is already on screen gets its play command before the
+       iframe is listening, and the message is simply lost. Remember the
+       intent and issue it the moment the player says it is ready. */
+    var wanted = false;
+    function want(on) {
+      wanted = on;
+      if (!live) return;
+      on ? cmd.play() : cmd.pause();
+    }
+    function flush() { if (wanted) cmd.play(); }
 
     global.addEventListener('message', function (e) {
       if (e.source !== f.contentWindow) return;
@@ -753,33 +797,39 @@
       if (!d) return;
 
       if (kind === 'vimeo') {
+        /* Vimeo has shipped two names for the same thing over the years —
+           playProgress on the classic player, timeupdate on the current one.
+           Ask for both and answer to both. */
         if (d.event === 'ready' || d.method === 'ready') {
           live = true;
-          ['play', 'pause', 'finish', 'timeupdate'].forEach(function (ev) {
-            post({ method: 'addEventListener', value: ev });
-          });
-          cmd.volume(soundOn); ui.setSound(soundOn); cmd.ask();
-        } else if (d.event === 'play') { playing = true; ui.setPlaying(true); }
-        else if (d.event === 'pause' || d.event === 'finish') { playing = false; ui.setPlaying(false); }
-        else if (d.event === 'timeupdate' && d.data) {
-          at = d.data.seconds || 0; dur = d.data.duration || dur; ui.paint(at, dur);
-        } else if (d.method === 'getDuration') { dur = d.value || dur; ui.paint(at, dur); }
+          ['play', 'pause', 'ended', 'finish', 'timeupdate', 'playProgress', 'seeked', 'loaded']
+            .forEach(function (ev) { post({ method: 'addEventListener', value: ev }); });
+          cmd.volume(soundOn); ui.setSound(soundOn); cmd.ask(); flush();
+        }
+        /* every Vimeo event carries the position and length in its data */
+        if (d.data && typeof d.data === 'object') {
+          if (typeof d.data.duration === 'number' && d.data.duration) dur = d.data.duration;
+          if (typeof d.data.seconds === 'number') { at = d.data.seconds; mark(at); ui.paint(at, dur); }
+        }
+        if (d.event === 'play') started();
+        else if (d.event === 'pause') stopped();
+        else if (d.event === 'finish' || d.event === 'ended') { stopped(); ui.paint(dur, dur); }
+        else if (d.method === 'getDuration') { dur = d.value || dur; ui.paint(at, dur); }
       } else {
         /* YouTube answers the listening handshake, then streams infoDelivery */
         if (d.event === 'onReady' || d.event === 'initialDelivery') {
-          live = true; cmd.volume(soundOn); ui.setSound(soundOn);
-        }
-        if (d.event === 'onStateChange') {
-          playing = d.info === 1;
-          ui.setPlaying(playing);
+          live = true; cmd.volume(soundOn); ui.setSound(soundOn); flush();
         }
         var info = d.info;
         if (info && typeof info === 'object') {
           if (typeof info.duration === 'number' && info.duration) dur = info.duration;
-          if (typeof info.currentTime === 'number') at = info.currentTime;
-          if (typeof info.playerState === 'number') { playing = info.playerState === 1; ui.setPlaying(playing); }
+          if (typeof info.currentTime === 'number') { at = info.currentTime; mark(at); }
           ui.paint(at, dur);
+          if (typeof info.playerState === 'number') {
+            info.playerState === 1 ? started() : stopped();
+          }
         }
+        if (d.event === 'onStateChange') { d.info === 1 ? started() : stopped(); }
       }
     });
 
@@ -793,7 +843,7 @@
       f.addEventListener('load', function () { cmd.ask(); });
     }
 
-    watch(box, function () { cmd.play(); }, function () { cmd.pause(); });
+    watch(box, function () { want(true); }, function () { want(false); });
   }
 
   W.players = function (root) {
