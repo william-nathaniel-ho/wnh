@@ -11,6 +11,7 @@
 <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
+<div class="preload" id="preload" aria-hidden="true"><div class="pl-mark"></div></div>
 <a class="skip" href="#work">Skip to work</a>
 <div id="shell-nav"></div>
 
@@ -101,10 +102,7 @@ WNH.boot(function (d) {
 
   var reel = W.$('#pf-reel');
   reel.innerHTML = (s.reel && s.reel.vimeo && W.vimeoId(s.reel.vimeo))
-    ? '<div class="embed" data-vimeo="' + W.esc(s.reel.vimeo) + '" data-title="Showreel">' +
-      '<div class="embed-facade" role="button" tabindex="0"><span class="play">' +
-      '<svg width="11" height="13" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0l12 7-12 7z"/></svg>' +
-      ' Play reel</span></div></div>'
+    ? '<div class="vp" data-player="vimeo" data-url="' + W.esc(s.reel.vimeo) + '" data-title="Showreel"></div>'
     : '<div class="embed"><div class="embed-facade">' +
       '<span class="play">Reel — add a Vimeo link in /admin</span></div></div>';
 
@@ -133,6 +131,7 @@ WNH.boot(function (d) {
           '<span class="lab">' + W.t(p.client) + '</span><span class="lab">' + W.esc(p.year) + '</span></div>' +
         '<h3 class="h-card">' + W.t(p.title) + '</h3>' + W.tags(p.disciplines) + '</div></a>';
     }).join('');
+    W.imgloads();
   }
   W.$('#pf-filters').innerHTML =
     ['<button class="chip" data-d="" aria-pressed="true">All</button>']
@@ -159,11 +158,6 @@ WNH.boot(function (d) {
     return '<div class="tool"><h4>' + W.t(t.title) + '</h4><p>' + W.t(t.body) + '</p></div>';
   }).join('');
 
-  W.$$('.embed-facade').forEach(function (f) {
-    f.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); }
-    });
-  });
 });
 </script>
 </body>

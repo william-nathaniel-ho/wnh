@@ -29,6 +29,12 @@
           <div class="filters" id="filters" role="group" aria-label="Filter by discipline"></div>
         </div>
       </div>
+      <div class="fbar" id="fbar">
+        <button class="fpill" type="button" data-sheet="s">
+          <span class="fpill-k">Sector</span><span class="fpill-v">All</span></button>
+        <button class="fpill" type="button" data-sheet="d">
+          <span class="fpill-k">Discipline</span><span class="fpill-v">All</span></button>
+      </div>
       <div style="display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;padding-block:var(--s3)">
         <span class="lab" id="count"></span>
         <button class="chip" id="clear" hidden>Clear filters</button>
@@ -36,6 +42,19 @@
       </div>
     </div>
   </section>
+
+  <dialog class="fsheet" id="fsheet">
+    <div class="fsheet-in">
+      <div class="fsheet-grab" aria-hidden="true"></div>
+      <header><h2 id="fsheet-t">Sector</h2>
+        <button class="fsheet-x" id="fsheet-x" type="button" aria-label="Close">&times;</button></header>
+      <div class="fsheet-list" id="fsheet-list"></div>
+      <div class="fsheet-foot">
+        <button class="btn btn-ghost" id="fsheet-clear" type="button">Clear</button>
+        <button class="btn btn-solid" id="fsheet-done" type="button">Show all</button>
+      </div>
+    </div>
+  </dialog>
 
   <section class="sec-tight" id="list" style="padding-top:var(--s3)">
     <div class="wrap">
@@ -85,11 +104,105 @@ WNH.boot(function (d) {
       sector ? u.searchParams.set('s', sector) : u.searchParams.delete('s');
       active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
       history.replaceState(null, '', u);
+      syncBar();
       draw();
     });
   }
   chips('#sectors', W.sectors(), sector, 's');
   chips('#filters', W.disciplines(2), active, 'd');
+
+  /* ---------------------------------------------------------------- phone
+     The same two questions, asked one at a time in a sheet. It writes to the
+     same `sector` / `active` variables and calls the same draw(), so the two
+     interfaces can never disagree. */
+  var SHEET = {
+    s: { title: 'Sector', values: W.sectors,
+         count: function (v) { return all.filter(function (p) { return p.sector === v; }).length; } },
+    d: { title: 'Discipline', values: function () { return W.disciplines(2); },
+         count: function (v) {
+           return all.filter(function (p) { return (p.disciplines || []).indexOf(v) > -1; }).length;
+         } }
+  };
+  var dlg = W.$('#fsheet'), open = null;
+
+  function matches(nextS, nextD) {
+    return all.filter(function (p) {
+      return (!nextS || p.sector === nextS) &&
+             (!nextD || (p.disciplines || []).indexOf(nextD) > -1);
+    }).length;
+  }
+
+  function syncBar() {
+    W.$$('#fbar .fpill[data-sheet]').forEach(function (b) {
+      var v = b.dataset.sheet === 's' ? sector : active;
+      b.querySelector('.fpill-v').textContent = v || 'All';
+      b.classList.toggle('on', !!v);
+    });
+  }
+
+  function paintSheet() {
+    var cfg = SHEET[open], cur = open === 's' ? sector : active;
+    var tick = '<svg class="fopt-tick" viewBox="0 0 20 20" aria-hidden="true">' +
+               '<path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+    W.$('#fsheet-t').textContent = cfg.title;
+    W.$('#fsheet-list').innerHTML =
+      ['<button class="fopt" type="button" data-v="" aria-pressed="' + (!cur) + '">' + tick +
+       'All' + '<span class="fopt-n">' + matches(open === 's' ? '' : sector, open === 'd' ? '' : active) +
+       '</span></button>']
+      .concat(cfg.values().map(function (x) {
+        return '<button class="fopt" type="button" data-v="' + W.esc(x) + '" aria-pressed="' +
+          (cur === x) + '">' + tick + W.esc(x) +
+          '<span class="fopt-n">' +
+          matches(open === 's' ? x : sector, open === 'd' ? x : active) + '</span></button>';
+      })).join('');
+    var n = matches(sector, active);
+    W.$('#fsheet-done').textContent = 'Show ' + n + (n === 1 ? ' project' : ' projects');
+    W.$('#fsheet-clear').disabled = !sector && !active;
+  }
+
+  function pushURL() {
+    var u = new URL(location);
+    sector ? u.searchParams.set('s', sector) : u.searchParams.delete('s');
+    active ? u.searchParams.set('d', active) : u.searchParams.delete('d');
+    history.replaceState(null, '', u);
+  }
+
+  /* keep the desktop chips in step, so switching orientation is seamless */
+  function syncChips() {
+    W.$$('#sectors .chip').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.v === sector));
+    });
+    W.$$('#filters .chip').forEach(function (c) {
+      c.setAttribute('aria-pressed', String(c.dataset.v === active));
+    });
+  }
+
+  W.$$('#fbar .fpill[data-sheet]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      open = b.dataset.sheet;
+      paintSheet();
+      dlg.showModal();
+    });
+  });
+  W.$('#fsheet-list').addEventListener('click', function (e) {
+    var b = e.target.closest('.fopt'); if (!b) return;
+    if (open === 's') sector = b.dataset.v; else active = b.dataset.v;
+    pushURL(); syncChips(); syncBar(); paintSheet(); draw();
+  });
+  W.$('#fsheet-clear').addEventListener('click', function () {
+    sector = ''; active = '';
+    pushURL(); syncChips(); syncBar(); paintSheet(); draw();
+  });
+  W.$('#fsheet-done').addEventListener('click', function () { dlg.close(); });
+  W.$('#fsheet-x').addEventListener('click', function () { dlg.close(); });
+  /* Tapping the dimmed area closes it. Testing e.target against the dialog
+     itself rather than walking up from it matters: choosing an option
+     re-renders the list, which detaches the element that was clicked, and a
+     detached node reports no ancestors — which would read as a backdrop tap
+     and close the sheet on every choice. */
+  dlg.addEventListener('click', function (e) {
+    if (e.target === dlg) dlg.close();
+  });
 
   W.$('#clear').addEventListener('click', function () {
     sector = ''; active = '';
@@ -97,6 +210,7 @@ WNH.boot(function (d) {
       c.setAttribute('aria-pressed', String(!c.dataset.v));
     });
     history.replaceState(null, '', location.pathname);
+    syncBar();
     draw();
   });
 
@@ -142,6 +256,7 @@ WNH.boot(function (d) {
     W.$('#rows').hidden = !listView;
   });
 
+  syncBar();
   draw();
 });
 </script>

@@ -117,20 +117,17 @@ WNH.boot(function (d) {
     },
     video: function (b) {
       if (!W.cld.ok(b.src)) return R.image({ src: '', alt: b.caption, caption: b.caption });
-      return '<figure><div class="media"><video src="' + W.cld.video(b.src) + '"' +
-        (W.cld.ok(b.poster) ? ' poster="' + W.cld.poster(b.poster) + '"' : '') +
-        ' controls playsinline preload="metadata"></video></div>' + cap(b.caption) + '</figure>';
+      return '<figure><div class="vp" data-player="file" data-src="' + W.esc(W.cld.video(b.src)) + '"' +
+        (W.cld.ok(b.poster) ? ' data-poster="' + W.esc(W.cld.poster(b.poster)) + '"' : '') +
+        '></div>' + cap(b.caption) + '</figure>';
     },
     vimeo: function (b) {
       if (!W.vimeoId(b.url)) {
         return '<figure><div class="embed"><div class="embed-facade">' +
           '<span class="play">Vimeo link not set yet</span></div></div>' + cap(b.caption) + '</figure>';
       }
-      /* a facade, not a live iframe — four players on one page is a slow page */
-      return '<figure><div class="embed" data-vimeo="' + W.esc(b.url) + '" data-title="' +
-        W.esc(b.caption || p.title) + '"><div class="embed-facade" role="button" tabindex="0">' +
-        '<span class="play"><svg width="11" height="13" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true">' +
-        '<path d="M0 0l12 7-12 7z"/></svg> Play</span></div></div>' + cap(b.caption) + '</figure>';
+      return '<figure><div class="vp" data-player="vimeo" data-url="' + W.esc(b.url) +
+        '" data-title="' + W.esc(b.caption || p.title) + '"></div>' + cap(b.caption) + '</figure>';
     },
     quote: function (b) {
       return '<div class="blk-quote"><blockquote>' + W.t(b.text || '') + '</blockquote>' +
@@ -162,11 +159,6 @@ WNH.boot(function (d) {
   W.$('#c-next').href = W.url('work/case.html?p=' + encodeURIComponent(next.slug));
   W.$('#c-next-title').innerHTML = W.t(next.title);
 
-  W.$$('.embed-facade').forEach(function (f) {
-    f.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); }
-    });
-  });
 });
 </script>
 </body>

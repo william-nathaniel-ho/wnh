@@ -134,11 +134,22 @@
       }
     }
 
+    var posterUrl = conf.poster
+      ? (W.cld.ok(conf.poster) ? W.cld.img(conf.poster, 720) : W.url(conf.poster))
+      : (src.poster || '');
+
     var still = document.createElement('div');
     still.className = 'loop-still';
-    still.innerHTML = conf.poster
-      ? '<img alt="" src="' + W.esc(W.cld.ok(conf.poster) ? W.cld.img(conf.poster, 720) : W.url(conf.poster)) + '">'
-      : W.MARK;
+    if (posterUrl) {
+      var pi = document.createElement('img');
+      pi.alt = '';
+      /* a poster that will not load must not leave a broken-image glyph */
+      pi.addEventListener('error', function () { still.innerHTML = W.MARK; }, { once: true });
+      pi.src = posterUrl;
+      still.appendChild(pi);
+    } else {
+      still.innerHTML = W.MARK;
+    }
     box.appendChild(still);
 
     var ready = function () { box.classList.add('is-ready'); };
@@ -146,18 +157,54 @@
     if (src.kind === 'file') {
       var v = document.createElement('video');
       v.className = 'loop-media';
-      v.src = src.url;
-      if (src.poster) v.poster = src.poster;
+      /* the poster goes on the video itself as well as behind it: if a phone
+         refuses to autoplay, the element still shows the film's first frame
+         rather than a black rectangle */
+      if (posterUrl) v.poster = posterUrl;
       v.muted = true; v.loop = true; v.playsInline = true;
       v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
       v.setAttribute('aria-hidden', 'true');
       v.preload = W.reduce ? 'metadata' : 'auto';
-      /* nothing autoplays under reduced motion: hand over the real controls,
-         and drop the still so it cannot sit on top of them */
-      if (W.reduce) { v.controls = true; still.remove(); ready(); }
-      else { v.autoplay = true; v.addEventListener('playing', ready, { once: true });
-             v.addEventListener('loadeddata', ready, { once: true }); }
-      v.addEventListener('error', function () { box.classList.remove('is-ready'); });
+      v.src = src.url;
+
+      if (W.reduce) {
+        /* nothing autoplays under reduced motion: hand over the real controls,
+           and drop the still so it cannot sit on top of them */
+        v.controls = true;
+        v.removeAttribute('aria-hidden');
+        still.remove();
+        ready();
+      } else {
+        v.autoplay = true;
+        /* iOS fires these inconsistently, and can refuse autoplay outright
+           (Low Power Mode, data saver). Reveal on whichever arrives first, and
+           reveal anyway once the first frame exists — a paused first frame is
+           a better result than a holding mark that never leaves. */
+        ['playing', 'loadeddata', 'canplay'].forEach(function (ev) {
+          v.addEventListener(ev, ready, { once: true });
+        });
+        box.appendChild(v);
+        var kick = v.play();
+        if (kick && kick.catch) {
+          kick.catch(function () {
+            /* autoplay refused — show it as a still and let a tap start it */
+            ready();
+            v.controls = true;
+            v.removeAttribute('aria-hidden');
+            box.classList.add('is-paused');
+          });
+        }
+        v.addEventListener('error', function () {
+          box.classList.remove('is-ready');
+          if (v.parentNode) v.parentNode.removeChild(v);
+        });
+        return true;
+      }
+      v.addEventListener('error', function () {
+        box.classList.remove('is-ready');
+        if (v.parentNode) v.parentNode.removeChild(v);
+      });
       box.appendChild(v);
       return true;
     }
@@ -441,23 +488,199 @@
     setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 600);
   };
 
-  /* click-to-load Vimeo, so one page never pulls four players at once */
-  W.facades = function () {
-    W.$$('.embed[data-vimeo]').forEach(function (box) {
-      var facade = box.querySelector('.embed-facade');
-      if (!facade) return;
-      facade.addEventListener('click', function () {
-        var f = document.createElement('iframe');
-        f.src = W.vimeoSrc(box.dataset.vimeo, true);
-        f.allow = 'autoplay; fullscreen; picture-in-picture';
-        f.setAttribute('allowfullscreen', '');
-        f.title = box.dataset.title || 'Video';
-        box.innerHTML = '';
-        box.appendChild(f);
-      });
+  /* ---------------------------------------------------------- the player
+
+     One player for both kinds of film. A Cloudinary file gets a real <video>;
+     a Vimeo link gets their iframe driven over postMessage, so there is no
+     SDK to download and the controls are ours either way.
+
+     It behaves the way a portfolio should: the film starts, muted, when it
+     scrolls into view, and stops when it leaves. Sound is one tap away and
+     stays on for the rest of the visit once asked for. Nothing autoplays
+     under reduced motion. */
+
+  var soundOn = false;          /* remembered across players on the page */
+
+  var ICON = {
+    play:  '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5h3v13H8zM13 5.5h3v13h-3z" fill="currentColor"/></svg>',
+    on:    '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 010 6M18 6.5a7.5 7.5 0 010 11" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>',
+    off:   '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  };
+
+  function clock(t) {
+    if (!isFinite(t) || t < 0) t = 0;
+    var m = Math.floor(t / 60), sec = Math.floor(t % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  /* the shared skin — identical for both engines */
+  function skin(box, engine) {
+    box.classList.add('vp');
+    var ui = document.createElement('div');
+    ui.className = 'vp-ui';
+    ui.innerHTML =
+      '<button class="vp-big" type="button" aria-label="Play">' + ICON.play + '</button>' +
+      '<div class="vp-bottom">' +
+        '<button class="vp-toggle" type="button" aria-label="Pause">' + ICON.pause + '</button>' +
+        '<div class="vp-track"><div class="vp-seek"></div><div class="vp-fill"></div></div>' +
+        '<span class="vp-time">0:00</span>' +
+        '<button class="vp-sound" type="button" aria-label="Turn sound on">' + ICON.off + '</button>' +
+      '</div>';
+    box.appendChild(ui);
+
+    var big = ui.querySelector('.vp-big'),
+        tog = ui.querySelector('.vp-toggle'),
+        track = ui.querySelector('.vp-track'),
+        fill = ui.querySelector('.vp-fill'),
+        time = ui.querySelector('.vp-time'),
+        snd = ui.querySelector('.vp-sound');
+
+    var api = {
+      setPlaying: function (on) {
+        box.classList.toggle('is-playing', !!on);
+        big.setAttribute('aria-label', on ? 'Pause' : 'Play');
+        big.innerHTML = on ? ICON.pause : ICON.play;
+        tog.innerHTML = on ? ICON.pause : ICON.play;
+        tog.setAttribute('aria-label', on ? 'Pause' : 'Play');
+      },
+      setSound: function (on) {
+        box.classList.toggle('is-loud', !!on);
+        snd.innerHTML = on ? ICON.on : ICON.off;
+        snd.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+      },
+      setProgress: function (at, of) {
+        fill.style.width = (of ? Math.min(100, at / of * 100) : 0) + '%';
+        time.textContent = clock(at) + (of ? ' / ' + clock(of) : '');
+      },
+      big: big, toggle: tog, track: track, soundBtn: snd
+    };
+    api.setSound(false);
+    api.setPlaying(false);
+    return api;
+  }
+
+  function seekRatio(track, e) {
+    var r = track.getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    return Math.max(0, Math.min(1, x / r.width));
+  }
+
+  /* watch one player and start/stop it as it passes through the viewport */
+  function watch(box, onIn, onOut) {
+    if (W.reduce || !('IntersectionObserver' in global)) return;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.isIntersecting ? onIn() : onOut(); });
+    }, { threshold: 0.55 }).observe(box);
+  }
+
+  /* ---- a Cloudinary / local file ---- */
+  function filePlayer(box) {
+    var v = document.createElement('video');
+    v.className = 'vp-media';
+    v.src = box.dataset.src;
+    if (box.dataset.poster) v.poster = box.dataset.poster;
+    v.playsInline = true; v.muted = true; v.loop = false; v.preload = 'metadata';
+    v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    box.insertBefore(v, box.firstChild);
+
+    var ui = skin(box, 'file');
+    var started = false;
+
+    function play() { var p = v.play(); if (p && p.catch) p.catch(function () { ui.setPlaying(false); }); }
+    v.addEventListener('play', function () { started = true; ui.setPlaying(true); });
+    v.addEventListener('pause', function () { ui.setPlaying(false); });
+    v.addEventListener('ended', function () { ui.setPlaying(false); box.classList.remove('is-playing'); });
+    v.addEventListener('timeupdate', function () { ui.setProgress(v.currentTime, v.duration); });
+    v.addEventListener('loadedmetadata', function () { ui.setProgress(0, v.duration); });
+
+    function toggle() { v.paused ? play() : v.pause(); }
+    ui.big.addEventListener('click', toggle);
+    ui.toggle.addEventListener('click', toggle);
+    ui.soundBtn.addEventListener('click', function () {
+      soundOn = !soundOn; v.muted = !soundOn; ui.setSound(soundOn);
+      if (soundOn && v.paused) play();
+    });
+    ui.track.addEventListener('click', function (e) {
+      if (v.duration) { v.currentTime = seekRatio(ui.track, e) * v.duration; }
+    });
+
+    v.muted = !soundOn; ui.setSound(soundOn);
+    watch(box, function () { if (v.paused) play(); },
+               function () { if (!v.paused) v.pause(); });
+  }
+
+  /* ---- Vimeo, driven over postMessage: no SDK, our own controls ---- */
+  function vimeoPlayer(box) {
+    var url = box.dataset.url, v = W.vimeoId(url);
+    if (!v) return;
+    var f = document.createElement('iframe');
+    f.className = 'vp-media';
+    f.title = box.dataset.title || 'Film';
+    f.setAttribute('frameborder', '0');
+    f.allow = 'autoplay; fullscreen; picture-in-picture';
+    f.setAttribute('allowfullscreen', '');
+    f.src = 'https://player.vimeo.com/video/' + v.id + (v.hash ? '?h=' + v.hash + '&' : '?') +
+            'controls=0&title=0&byline=0&portrait=0&dnt=1&autopause=0&muted=1&playsinline=1&transparent=0';
+    box.insertBefore(f, box.firstChild);
+
+    var ui = skin(box, 'vimeo');
+    var dur = 0, live = false, playing = false;
+
+    function send(method, value) {
+      if (!f.contentWindow) return;
+      var msg = { method: method };
+      if (value !== undefined) msg.value = value;
+      try { f.contentWindow.postMessage(JSON.stringify(msg), 'https://player.vimeo.com'); } catch (e) { /* not ready */ }
+    }
+    function listen(ev) { send('addEventListener', ev); }
+
+    global.addEventListener('message', function (e) {
+      if (e.source !== f.contentWindow) return;
+      var d = e.data;
+      if (typeof d === 'string') { try { d = JSON.parse(d); } catch (err) { return; } }
+      if (!d) return;
+      if (d.event === 'ready') {
+        live = true;
+        ['play', 'pause', 'finish', 'timeupdate'].forEach(listen);
+        send('setVolume', soundOn ? 1 : 0);
+        ui.setSound(soundOn);
+      } else if (d.event === 'play') { playing = true; ui.setPlaying(true); }
+      else if (d.event === 'pause') { playing = false; ui.setPlaying(false); }
+      else if (d.event === 'finish') { playing = false; ui.setPlaying(false); }
+      else if (d.event === 'timeupdate' && d.data) {
+        dur = d.data.duration || dur;
+        ui.setProgress(d.data.seconds || 0, dur);
+      }
+    });
+
+    function toggle() { playing ? send('pause') : send('play'); }
+    ui.big.addEventListener('click', toggle);
+    ui.toggle.addEventListener('click', toggle);
+    ui.soundBtn.addEventListener('click', function () {
+      soundOn = !soundOn;
+      send('setVolume', soundOn ? 1 : 0);
+      ui.setSound(soundOn);
+      if (soundOn && !playing) send('play');
+    });
+    ui.track.addEventListener('click', function (e) {
+      if (dur) send('seekTo', seekRatio(ui.track, e) * dur);
+    });
+
+    watch(box, function () { if (live && !playing) send('play'); },
+               function () { if (live && playing) send('pause'); });
+  }
+
+  W.players = function (root) {
+    W.$$('[data-player]', root).forEach(function (box) {
+      if (box.dataset.vpDone) return;
+      box.dataset.vpDone = '1';
+      if (box.dataset.player === 'vimeo') vimeoPlayer(box); else filePlayer(box);
     });
   };
 
+  /* kept so older markup still works */
+  W.facades = function () { W.players(); };
 
   /* ------------------------------------------------------------- enquiry
      A real form rather than a mailto: most people never finish a mailto —
@@ -580,7 +803,9 @@
       document.body.classList.add('loaded');
       W.unveil();
     }).catch(function (err) {
-      console.error('WNH: could not load content.json', err);
+      /* this catch covers the whole render, not just the fetch — say which */
+      console.error('WNH: ' + (W.data ? 'failed while building the page' :
+                    'could not load content.json'), err);
       document.body.classList.add('loaded');
       W.unveil();
     });
