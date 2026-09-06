@@ -365,6 +365,26 @@
             }
           ],
           "caption": "3D framework, wall graphics, showcase"
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "wnh/hksh-centenary/ouxrgrkejwxnwcy8hbzq",
+              "alt": "Web Showcase Mockup",
+              "ar": 1.4925
+            },
+            {
+              "src": "wnh/hksh-centenary/w0tjzxtmxnx85ckfvrlu",
+              "alt": " DSC2618(1)",
+              "ar": 1.4991
+            },
+            {
+              "src": "wnh/hksh-centenary/vg6lhegrzxqspb9x0ohq",
+              "alt": "Web Showcase Mockup2",
+              "ar": 1.4925
+            }
+          ]
         }
       ],
       "cover": {
