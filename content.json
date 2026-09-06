@@ -596,6 +596,84 @@
       "sector": "Consumer & Retail"
     },
     {
+      "slug": "irish-chaplaincy",
+      "title": "Irish Chaplaincy",
+      "client": "Irish Chaplaincy",
+      "year": 2016,
+      "sector": "Culture & Non-profit",
+      "disciplines": [
+        "Brand",
+        "Design Systems",
+        "Digital"
+      ],
+      "role": "Identity, Design System, Website Design",
+      "featured": true,
+      "deep": false,
+      "tone": "shamrock",
+      "summary": "A rebrand for the London charity that has supported excluded, vulnerable and isolated Irish people in Britain since 1957 — replacing a Celtic crest with a three-strand mark, and carrying it through to the website.",
+      "cover": {
+        "src": "",
+        "alt": "Irish Chaplaincy mark and colour palette"
+      },
+      "credits": [
+        {
+          "role": "Design",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Irish Chaplaincy, London"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A crest that had stopped travelling",
+          "body": "The Irish Chaplaincy has looked after Irish people in Britain since 1957 — prisoners, Travellers, and older emigrants who came over for work and grew old a long way from home.\n\nThe old identity was a circular Celtic crest: knotwork, a green map of Britain and Ireland, and the words Cúram an Deoraí, care of the exile. It said the right thing, but it said it in a form that had stopped moving. Fine letterpressed on a card; illegible at the size of an app icon, a Twitter avatar, a lanyard or a van door. And read quickly by someone who did not already know the charity, a map of two islands inside a ring looks like heritage — not like a service you could ring today."
+        },
+        {
+          "type": "image",
+          "src": "wnh/irish-chaplaincy/bltzfzcxkvqiwqho6jxh",
+          "alt": "The old Celtic crest beside the new three-strand mark",
+          "caption": "Old to new",
+          "ar": 1.7771
+        },
+        {
+          "type": "text",
+          "heading": "Three strands, drawn as one line",
+          "body": "The new mark is three leaf shapes turning around a shared centre — a shamrock and a trefoil knot at the same time, so the Irishness survives the modernising instead of being deleted by it.\n\nIt also carries the structure of the organisation. Three services — prisoners, Travellers, seniors — each with its own colour, overlapping rather than sitting in separate boxes. Because the shapes are open strokes rather than filled panels, the mark holds together at favicon size and still has air in it at the top of a wall.\n\nThe palette gives each strand a light and a deep tone: green #9FCB3A / #50A447, warm orange #E0AE3A / #E95E24, blue #79C9ED / #30789F, with the wordmark in neutral grey so no single service outranks the others. That two-step is what makes the system work in practice — the light tone for large areas, the deep one for type and rules that still have to pass contrast."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "wnh/irish-chaplaincy/rpoehi0snstcffbghurq",
+              "alt": "Irish Chaplaincy mark and hex palette",
+              "ar": 1.7778
+            },
+            {
+              "src": "wnh/irish-chaplaincy/zosyvsefgmtcrpxgpg3i",
+              "alt": "The mark on a pale ground",
+              "ar": 1.7778
+            }
+          ],
+          "caption": "The mark, and the palette it generates"
+        },
+        {
+          "type": "text",
+          "heading": "From a logo to something the charity could run",
+          "body": "A small charity does not need a brand book it will never open; it needs a set of decisions it can repeat without a designer in the room. So the identity was handed over as a working system — the three colour pairs, the grey wordmark, and a way of using the strand colours to signpost each service across the site.\n\nThe website put it to work: colour-washed section headers, the three services as the spine of the navigation, and the two things the charity actually needs from a visitor — donate and volunteer — pinned where they can always be reached, on phone and desktop alike.\n\nIt has held. The mark is still in use, the charity is still working, and it is heading for its seventieth year."
+        },
+        {
+          "type": "image",
+          "src": "wnh/irish-chaplaincy/zggcmoabuixcunpqukrz",
+          "alt": "Irish Chaplaincy website shown on a monitor, laptop and phone",
+          "caption": "The site, across desktop, laptop and phone",
+          "ar": 1.7778
+        }
+      ]
+    },
+    {
       "slug": "bananaunder",
       "title": "Pocket, Capsule, Mini",
       "client": "BananaUnder",
