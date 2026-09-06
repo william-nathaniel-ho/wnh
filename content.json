@@ -612,7 +612,7 @@
       "tone": "shamrock",
       "summary": "A rebrand for the London charity that has supported excluded, vulnerable and isolated Irish people in Britain since 1957 — replacing a Celtic crest with a three-strand mark, and carrying it through to the website.",
       "cover": {
-        "src": "",
+        "src": "wnh/irish-chaplaincy/bltzfzcxkvqiwqho6jxh",
         "alt": "Irish Chaplaincy mark and colour palette"
       },
       "credits": [
@@ -633,7 +633,7 @@
         },
         {
           "type": "image",
-          "src": "wnh/irish-chaplaincy/bltzfzcxkvqiwqho6jxh",
+          "src": "wnh/irish-chaplaincy/rpoehi0snstcffbghurq",
           "alt": "The old Celtic crest beside the new three-strand mark",
           "caption": "Old to new",
           "ar": 1.7771
@@ -647,12 +647,12 @@
           "type": "images",
           "items": [
             {
-              "src": "wnh/irish-chaplaincy/rpoehi0snstcffbghurq",
+              "src": "wnh/irish-chaplaincy/zosyvsefgmtcrpxgpg3i",
               "alt": "Irish Chaplaincy mark and hex palette",
               "ar": 1.7778
             },
             {
-              "src": "wnh/irish-chaplaincy/zosyvsefgmtcrpxgpg3i",
+              "src": "",
               "alt": "The mark on a pale ground",
               "ar": 1.7778
             }
