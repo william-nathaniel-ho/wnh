@@ -1336,50 +1336,62 @@
     },
     {
       "slug": "st-christophers",
-      "title": "Seventy Dollars a Month",
+      "title": "小小助養人計劃",
       "client": "S.K.H. St. Christopher's Home 聖公會聖基道兒童院",
       "year": 2025,
+      "sector": "Culture & Non-profit",
       "disciplines": [
+        "Charity",
         "Campaign",
-        "Social",
-        "Charity"
+        "Print",
+        "Product"
       ],
-      "role": "Campaign Design",
+      "role": "Artwork & Production Support (to the Home's design direction)",
       "featured": false,
       "deep": false,
       "tone": "opera",
-      "summary": "A child sponsorship campaign for the children's home's ninetieth year — 童愛傳承, and one number the reader has to be able to say yes to.",
+      "summary": "Assisting on the key visual and the charity chocolate packaging for the children's home's sponsorship programme in its ninetieth year — the Home set the direction, I made the artwork work and got it through production.",
       "cover": {
         "src": "wnh/st-christophers/trnacbkmyp2eputxkrx8",
-        "alt": "小小助養人計劃 campaign",
-        "ar": 1.3333
+        "alt": "小小助養人計劃 童愛傳承 leaflet"
       },
       "credits": [
         {
-          "role": "Design",
+          "role": "Design direction",
+          "name": "S.K.H. St. Christopher's Home"
+        },
+        {
+          "role": "Key visual artwork & production",
           "name": "WNH"
         },
         {
-          "role": "Client",
-          "name": "S.K.H. St. Christopher's Home"
+          "role": "Packaging artwork & production",
+          "name": "WNH"
+        },
+        {
+          "role": "Illustrations",
+          "name": "Children of St. Christopher's Home"
         }
       ],
       "blocks": [
         {
           "type": "text",
-          "heading": "The number does the asking",
-          "body": "小小助養人計劃 — the Little Sponsor Programme. Charity work fails when the ask is buried under the mission statement. Here 每月70元 sits on its own card at the bottom of the frame, at a size nothing else competes with, so the reader reaches a decision rather than a feeling.\n\n童愛傳承 above it carries the ninetieth year — the argument that this is a thing being handed on, not launched."
+          "heading": "Someone else's direction, made to work",
+          "body": "小小助養人計劃, the Little Sponsor Programme, under the line 童愛傳承 — the Home has been looking after children in Hong Kong since 1935, and 2025 is its ninetieth year.\n\nThe Home had its own direction for how this should look, which is often the case with a charity that knows its families better than any studio ever will. My part was the making: the key visual artwork, the chocolate packaging, and getting both through production.\n\nThat is a different job from designing it, and worth saying plainly. A campaign can be entirely decided before it reaches you and still live or die on whether the artwork actually holds — whether the ask stays readable next to the photograph, whether the sponsor line survives being reduced to a leaflet corner, whether the files behave at the printer."
+        },
+        {
+          "type": "text",
+          "heading": "The children drew it; the job was to keep it theirs",
+          "body": "The charity chocolate is sold to support the programme, and the artwork on it is by the children of the Home — two of them riding a unicorn through the stars on the gift box, a girl in a red dress and a mushroom hat on the pouch, and a different drawing on every individual wrapper.\n\nProduction is where that kind of artwork usually gets quietly flattened. Children's drawings are drawn at one size, in soft pencil and marker, with lines that thin out and colours that do not separate. They have to end up on a paper pouch, a rigid box and a wrapper a few centimetres across, printed by three different processes, and still look like a child drew them rather than like a brand imitating one.\n\nSo the work was trapping, redrawing and rebuilding the line art for each substrate, keeping the wobble that makes it real, and holding the star motif and the peach edge steady across the set so a box, a bag and a single square read as one thing on a table."
         },
         {
           "type": "image",
           "src": "wnh/st-christophers/n2azlxandruy9meyxahk",
-          "alt": "小小助養人計劃 campaign visual",
-          "caption": "The ask, and the year it sits in",
-          "size": "full",
-          "ar": 1.7778
+          "alt": "The campaign leaflet, charity chocolate box, pouch, wrappers and order form",
+          "caption": "Leaflet, gift box, pouch, wrappers and the order form",
+          "size": "full"
         }
-      ],
-      "sector": "Culture & Non-profit"
+      ]
     },
     {
       "slug": "hksh-open-day",
