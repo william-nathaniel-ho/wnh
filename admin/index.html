@@ -183,6 +183,34 @@ body{font-size:15px}
 .relock p{margin:0 0 20px;color:var(--text-2);font-size:.9rem;line-height:1.55}
 
 kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
+
+/* --- media library ------------------------------------------------------- */
+.mlbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+.mlfilter{font-size:.5625rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:0 11px;min-height:36px;display:inline-flex;align-items:center;gap:7px;
+  background:none;border:1px solid var(--line);color:var(--text-2);cursor:pointer}
+.mlfilter:hover{color:var(--text);border-color:var(--line-2)}
+.mlfilter.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mlfilter .n{opacity:.6;font-variant-numeric:tabular-nums}
+.mlnote{font-size:.6875rem;color:var(--text-2)}
+.mlnote.bad{color:var(--accent-2)}
+.mlgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.mltile{border:1px solid var(--line);background:var(--surface);display:grid;
+  grid-template-columns:88px minmax(0,1fr);gap:11px;padding:10px}
+.mltile.orphan{border-color:var(--line-2);background:var(--surface-2)}
+.mlthumb{width:88px;height:88px;background:var(--surface-2);position:relative;overflow:hidden}
+.mlthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.mlkind{position:absolute;left:0;bottom:0;font-size:.4375rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:2px 5px;background:var(--ink);color:var(--bg)}
+.mlbody{min-width:0;display:flex;flex-direction:column;gap:5px}
+.mlid{font-size:.6875rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mlmeta{font-size:.5625rem;letter-spacing:.06em;color:var(--text-2);text-transform:uppercase}
+.mluse{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.mltag{align-self:flex-start;font-size:.4375rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:3px 6px;border:1px solid var(--line-2);color:var(--text-2)}
+.mltag.ok{border-color:var(--ink);color:var(--ink)}
+.mlwhere{font-size:.625rem;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mlacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
 </style>
 </head>
 <body>
@@ -271,7 +299,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
 
   var S = {
     data: null, sha: null, dirty: false, tab: 'site', pi: 0, cfg: {},
-    q: '', past: [], future: [], focusSnap: null, wantFocus: null, publishing: false
+    q: '', past: [], future: [], focusSnap: null, wantFocus: null, publishing: false,
+    media: { assets: null, loading: false, error: '', filter: 'all', loadedAt: null }
   };
 
   /* =====================================================================
@@ -597,6 +626,46 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
     var s = JSON.stringify(S.data), needle = JSON.stringify(id), n = 0, i = s.indexOf(needle);
     while (i > -1) { n++; i = s.indexOf(needle, i + needle.length); }
     return n;
+  }
+
+  /* Every place an id is referenced, as something a person can read.
+     usesOf() counts; this one says where, which is what you need before
+     deciding an asset is safe to delete. */
+  function whereUsed(id) {
+    var hits = [];
+    if (!id) return hits;
+
+    function label(trail) {
+      var d = S.data;
+      if (trail[0] === 'projects') {
+        var p = (d.projects || [])[trail[1]] || {};
+        var name = p.title || p.slug || 'Untitled project';
+        if (trail[2] === 'cover') return name + ' — cover';
+        if (trail[2] === 'blocks') {
+          var b = (p.blocks || [])[trail[3]] || {};
+          var which = 'block ' + (Number(trail[3]) + 1);
+          if (trail[4] === 'items') which += ', image ' + (Number(trail[5]) + 1);
+          return name + ' — ' + which + (b.type ? ' (' + b.type + ')' : '');
+        }
+        return name;
+      }
+      if (trail[0] === 'site') {
+        if (trail[1] === 'studioLoop') return 'Site — logo animation' + (trail[2] === 'poster' ? ' poster' : '');
+        if (trail[1] === 'reel') return 'Site — showreel';
+        return 'Site — ' + trail.slice(1).join(' › ');
+      }
+      return trail.filter(function (t) { return typeof t !== 'number'; }).join(' › ');
+    }
+
+    (function walk(node, trail) {
+      if (typeof node === 'string') { if (node === id) hits.push(label(trail)); return; }
+      if (Array.isArray(node)) { node.forEach(function (v, i) { walk(v, trail.concat(i)); }); return; }
+      if (node && typeof node === 'object') {
+        Object.keys(node).forEach(function (k) { walk(node[k], trail.concat(k)); });
+      }
+    })(S.data, []);
+
+    return hits;
   }
 
   /* an asset that no longer exists must not stay referenced anywhere */
@@ -1009,7 +1078,8 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
      ===================================================================== */
   var TABS = [
     ['site', 'Site'], ['clients', 'Rolling names'], ['capabilities', 'Capabilities'],
-    ['process', 'Process'], ['tools', 'Toolkit'], ['projects', 'Projects']
+    ['process', 'Process'], ['tools', 'Toolkit'], ['projects', 'Projects'],
+    ['media', 'Media library']
   ];
 
   function paneSite() {
@@ -1432,6 +1502,286 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
   /* =====================================================================
      RENDER
      ===================================================================== */
+  /* =====================================================================
+     MEDIA LIBRARY
+
+     Every asset the site owns in Cloudinary, matched against what the editor
+     currently references. "Unused" is measured against the editor's state —
+     including edits you have not published yet — so an image you have only
+     just placed still counts as in use.
+     ===================================================================== */
+  function cloudName() {
+    return (((S.data.site || {}).cloudinary || {}).cloud || '').trim();
+  }
+
+  function thumbUrl(a) {
+    var c = cloudName();
+    if (!c) return '';
+    return a.resource_type === 'video'
+      ? 'https://res.cloudinary.com/' + c + '/video/upload/so_0,c_fill,g_auto,w_320,h_320/' + a.public_id + '.jpg'
+      : 'https://res.cloudinary.com/' + c + '/image/upload/f_auto,q_auto,c_fill,g_auto,w_320,h_320/' + a.public_id;
+  }
+
+  function loadMedia(force) {
+    if (S.media.loading) return;
+    if (S.media.assets && !force) return;
+    S.media.loading = true;
+    S.media.error = '';
+    render();
+    api('media').then(function (res) {
+      S.media.loading = false;
+      S.media.assets = res.assets || [];
+      S.media.loadedAt = new Date();
+      render();
+    }).catch(function (e) {
+      S.media.loading = false;
+      if (e.session) return relock();
+      S.media.error = e.message || 'Could not read the library';
+      render();
+    });
+  }
+
+  function paneMedia() {
+    var f = document.createDocumentFragment();
+
+    f.appendChild(subHead('Media library',
+      'Everything sitting in your Cloudinary folder, matched against what this editor references. ' +
+      'Unused files are ones nothing on the site points at any more — usually leftovers from a re-upload or a deleted project. ' +
+      'Deleting is permanent.'));
+
+    var bar = document.createElement('div');
+    bar.className = 'mlbar';
+    f.appendChild(bar);
+
+    if (!cloudName()) {
+      var warn = document.createElement('p');
+      warn.className = 'note';
+      warn.textContent = 'Set the Cloudinary cloud name on the Site tab first — the library needs it to show thumbnails.';
+      f.appendChild(warn);
+    }
+
+    if (S.media.loading) {
+      bar.innerHTML = '<span class="mlnote">Reading Cloudinary…</span>';
+      return f;
+    }
+
+    if (!S.media.assets) {
+      var load = document.createElement('button');
+      load.type = 'button';
+      load.className = 'btn';
+      load.textContent = 'Load library';
+      load.addEventListener('click', function () { loadMedia(true); });
+      bar.appendChild(load);
+      if (S.media.error) {
+        var err = document.createElement('span');
+        err.className = 'mlnote bad';
+        err.textContent = S.media.error;
+        bar.appendChild(err);
+      }
+      return f;
+    }
+
+    /* annotate every asset with where it is used, once */
+    var rows = S.media.assets.map(function (a) {
+      var used = whereUsed(a.public_id);
+      return { a: a, used: used };
+    });
+    var unused = rows.filter(function (r) { return !r.used.length; });
+    var inUse = rows.length - unused.length;
+    var wasteBytes = unused.reduce(function (n, r) { return n + (r.a.bytes || 0); }, 0);
+    var allBytes = rows.reduce(function (n, r) { return n + (r.a.bytes || 0); }, 0);
+
+    var counts = { all: rows.length, used: inUse, unused: unused.length };
+    [['all', 'All'], ['used', 'In use'], ['unused', 'Unused']].forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'mlfilter' + (S.media.filter === t[0] ? ' on' : '');
+      b.innerHTML = esc(t[1]) + ' <span class="n">' + counts[t[0]] + '</span>';
+      b.addEventListener('click', function () { S.media.filter = t[0]; render(); });
+      bar.appendChild(b);
+    });
+
+    var stat = document.createElement('span');
+    stat.className = 'mlnote';
+    stat.textContent = kb(allBytes) + ' total' +
+      (unused.length ? ' · ' + kb(wasteBytes) + ' in unused files' : '');
+    bar.appendChild(stat);
+
+    var refresh = document.createElement('button');
+    refresh.type = 'button';
+    refresh.className = 'btn sm dim';
+    refresh.textContent = 'Refresh';
+    refresh.addEventListener('click', function () { loadMedia(true); });
+    bar.appendChild(refresh);
+
+    if (unused.length) bar.appendChild(bulkButton(unused));
+
+    var list = S.media.filter === 'used' ? rows.filter(function (r) { return r.used.length; })
+      : S.media.filter === 'unused' ? unused
+      : rows;
+
+    if (!list.length) {
+      var none = document.createElement('p');
+      none.className = 'note';
+      none.textContent = S.media.filter === 'unused'
+        ? 'Nothing unused — every file in the folder is on the site.'
+        : 'Nothing to show.';
+      f.appendChild(none);
+      return f;
+    }
+
+    var grid = document.createElement('div');
+    grid.className = 'mlgrid';
+    list.forEach(function (r) { grid.appendChild(mediaTile(r)); });
+    f.appendChild(grid);
+
+    var foot = document.createElement('p');
+    foot.className = 'note';
+    foot.textContent = 'Read ' + rows.length + ' files' +
+      (S.media.loadedAt ? ' at ' + S.media.loadedAt.toLocaleTimeString() : '') +
+      '. Unpublished edits count as use, so an image you just placed is safe.';
+    f.appendChild(foot);
+
+    return f;
+  }
+
+  function mediaTile(r) {
+    var a = r.a;
+    var el = document.createElement('div');
+    el.className = 'mltile' + (r.used.length ? '' : ' orphan');
+
+    var tail = a.public_id.split('/').slice(1).join('/') || a.public_id;
+    var url = thumbUrl(a);
+
+    el.innerHTML =
+      '<div class="mlthumb">' + (url ? '<img loading="lazy" alt="" src="' + esc(url) + '">' : '') +
+        (a.resource_type === 'video' ? '<span class="mlkind">video</span>' : '') + '</div>' +
+      '<div class="mlbody">' +
+        '<div class="mlid" title="' + esc(a.public_id) + '">' + esc(tail) + '</div>' +
+        '<div class="mlmeta">' + esc([(a.format || '').toUpperCase(),
+            (a.width && a.height ? a.width + '×' + a.height : ''), kb(a.bytes || 0)]
+            .filter(Boolean).join(' · ')) + '</div>' +
+        '<div class="mluse"></div>' +
+        '<div class="mlacts"></div>' +
+      '</div>';
+
+    var use = el.querySelector('.mluse');
+    if (r.used.length) {
+      use.innerHTML = '<span class="mltag ok">In use ' + (r.used.length > 1 ? '· ' + r.used.length + '×' : '') + '</span>';
+      r.used.slice(0, 4).forEach(function (w) {
+        var line = document.createElement('div');
+        line.className = 'mlwhere';
+        line.textContent = w;
+        use.appendChild(line);
+      });
+      if (r.used.length > 4) {
+        var more = document.createElement('div');
+        more.className = 'mlwhere';
+        more.textContent = '+ ' + (r.used.length - 4) + ' more';
+        use.appendChild(more);
+      }
+    } else {
+      use.innerHTML = '<span class="mltag">Unused</span>';
+    }
+
+    var acts = el.querySelector('.mlacts');
+
+    var copy = document.createElement('button');
+    copy.type = 'button';
+    copy.className = 'btn sm dim';
+    copy.textContent = 'Copy id';
+    copy.addEventListener('click', function () {
+      if (navigator.clipboard) navigator.clipboard.writeText(a.public_id).then(
+        function () { toast('Copied ' + a.public_id); },
+        function () { toast('Clipboard unavailable', true); });
+    });
+    acts.appendChild(copy);
+
+    acts.appendChild(deleteButton(a, r.used.length));
+    return el;
+  }
+
+  /* Same two-step arming as the delete inside an image field: one click says
+     what it will cost, the second does it. */
+  function deleteButton(a, uses) {
+    var del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'btn sm dim';
+    del.textContent = 'Delete';
+    var t = null;
+    function disarm() { clearTimeout(t); del.dataset.armed = '0'; del.classList.remove('danger'); del.textContent = 'Delete'; }
+
+    del.addEventListener('click', function () {
+      if (del.dataset.armed !== '1') {
+        del.dataset.armed = '1';
+        del.classList.add('danger');
+        del.textContent = uses ? 'Delete? used ' + uses + '×' : 'Delete for good?';
+        t = setTimeout(disarm, 5000);
+        return;
+      }
+      disarm();
+      del.disabled = true;
+      del.textContent = 'Deleting…';
+      destroyAsset(a).then(function () {
+        toast('Deleted ' + a.public_id + (uses ? ' — references cleared, publish to save' : ''));
+        render();
+      }).catch(function (e) {
+        if (e.session) return relock();
+        toast(e.message, true);
+        del.disabled = false;
+        disarm();
+      });
+    });
+    return del;
+  }
+
+  function destroyAsset(a) {
+    return api('destroy', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ public_id: a.public_id, resource_type: a.resource_type === 'video' ? 'video' : 'image' })
+    }).then(function () {
+      if (whereUsed(a.public_id).length) { snap(); clearRefs(S.data, a.public_id); dirty(true); }
+      S.media.assets = (S.media.assets || []).filter(function (x) { return x.public_id !== a.public_id; });
+    });
+  }
+
+  function bulkButton(unused) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn sm dim';
+    b.textContent = 'Delete ' + unused.length + ' unused';
+    var t = null;
+    function disarm() { clearTimeout(t); b.dataset.armed = '0'; b.classList.remove('danger'); b.textContent = 'Delete ' + unused.length + ' unused'; }
+
+    b.addEventListener('click', function () {
+      if (b.dataset.armed !== '1') {
+        b.dataset.armed = '1';
+        b.classList.add('danger');
+        b.textContent = 'Delete all ' + unused.length + ' for good?';
+        t = setTimeout(disarm, 6000);
+        return;
+      }
+      disarm();
+      b.disabled = true;
+      var queue = unused.map(function (r) { return r.a; }), done = 0, failed = 0;
+
+      /* one at a time: Cloudinary rate-limits the admin API, and a half-done
+         parallel run is harder to reason about than a slow serial one */
+      (function next() {
+        if (!queue.length) {
+          toast('Deleted ' + done + ' file(s)' + (failed ? ', ' + failed + ' failed' : ''), !!failed);
+          render();
+          return;
+        }
+        b.textContent = 'Deleting ' + (done + failed + 1) + ' of ' + unused.length + '…';
+        destroyAsset(queue.shift()).then(function () { done++; next(); },
+          function (e) { if (e.session) return relock(); failed++; next(); });
+      })();
+    });
+    return b;
+  }
+
   function render() {
     $('#tabs').innerHTML = TABS.map(function (t) {
       return '<button class="tab" type="button" role="tab" id="tab-' + t[0] + '" aria-controls="pane" data-t="' + t[0] +
@@ -1441,7 +1791,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
 
     var pane = $('#pane');
     pane.innerHTML = '';
-    pane.classList.toggle('wide', S.tab === 'projects');
+    pane.classList.toggle('wide', S.tab === 'projects' || S.tab === 'media');
 
     pane.appendChild(
       S.tab === 'site' ? paneSite() :
@@ -1455,6 +1805,7 @@ kbd{font-size:.9em;border:1px solid var(--line-2);padding:1px 5px}
       S.tab === 'tools' ? paneList('tools',
         [['title', 'Group'], ['body', 'Tools', 'multi']], 'title',
         function () { return { id: '', title: '', body: '' }; }) :
+      S.tab === 'media' ? paneMedia() :
       paneProjects()
     );
 
