@@ -223,10 +223,11 @@
         },
         {
           "type": "image",
-          "src": "wnh/milwaukee-breakthrough/lgi1a8owhqdf6djv5i0v ",
+          "src": "wnh/milwaukee-breakthrough/o8epcopgsxarbcolvjak",
           "alt": "Broadcast gallery during Asia Breakthrough Growth",
           "caption": "Multi-camera gallery, live to region",
-          "size": "wide"
+          "size": "wide",
+          "ar": 1.5
         },
         {
           "type": "text",
@@ -237,16 +238,18 @@
           "type": "images",
           "items": [
             {
-              "src": "wnh/milwaukee-breakthrough/eyymqhdnxdmdoybokvsp ",
-              "alt": "Stage and product reveal"
+              "src": "wnh/milwaukee-breakthrough/dotyw5mhzcb9vc0x8chq",
+              "alt": "Stage and product reveal",
+              "ar": 1.5
             },
             {
               "src": "wnh/milwaukee-breakthrough/kstwfpizoumtsm1ndl2e",
               "alt": "Presenter to camera"
             },
             {
-              "src": "wnh/milwaukee-breakthrough/lkxmdjrdzcl1fulqhhii",
-              "alt": "Floor team before broadcast"
+              "src": "wnh/milwaukee-breakthrough/epvxu78sbcssaim44xuw",
+              "alt": "Floor team before broadcast",
+              "ar": 1.5
             }
           ],
           "caption": "Product reveal, presenter position, floor team"
