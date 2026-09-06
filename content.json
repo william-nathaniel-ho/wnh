@@ -1397,8 +1397,9 @@
       "tone": "hksh",
       "summary": "A modular booth system for a hospital open day built around diabetes education — measuring stations, interactive panels and take-home print that a nursing team could set up and run without a designer present.",
       "cover": {
-        "src": "",
-        "alt": "HKSH open day booth system"
+        "src": "wnh/hksh-open-day/irqnz13j3xuoruyuzuy4",
+        "alt": "HKSH open day booth system",
+        "ar": 1.5
       },
       "credits": [
         {
@@ -1420,16 +1421,15 @@
           "type": "images",
           "items": [
             {
-              "src": "",
-              "alt": "Measuring station"
+              "src": "wnh/hksh-open-day/hbqjecncgpgciivpxkwu",
+              "alt": "Measuring station",
+              "ar": 1,
+              "anim": true
             },
             {
-              "src": "",
-              "alt": "Blood sugar panel"
-            },
-            {
-              "src": "",
-              "alt": "Myth-busting game"
+              "src": "wnh/hksh-open-day/lazg42lwocmeryzqhsv6",
+              "alt": "Myth-busting game",
+              "ar": 1.7778
             }
           ],
           "caption": "Stations across the floor"
@@ -1440,11 +1440,20 @@
           "body": "The stands are modular and repeatable, so the same kit works in a lobby, a corridor or a hall, and the team running it can set it up themselves. Leaflets and take-home print carry the same system, so what a visitor leaves with matches what they just stood in front of."
         },
         {
-          "type": "image",
-          "src": "",
-          "alt": "Take-home leaflets and print",
+          "type": "images",
           "caption": "What visitors take home",
-          "size": "full"
+          "items": [
+            {
+              "src": "wnh/hksh-open-day/yxb60m4r003f97nflfeg",
+              "alt": "dm openday event 01",
+              "ar": 1.7778
+            },
+            {
+              "src": "wnh/hksh-open-day/hxiqr0uyqugxbjicbgyb",
+              "alt": "dm openday event 03",
+              "ar": 1.7778
+            }
+          ]
         }
       ],
       "sector": "Health & Care"
