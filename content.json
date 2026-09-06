@@ -1383,80 +1383,85 @@
     },
     {
       "slug": "hksh-open-day",
-      "title": "Open Day",
+      "title": "樂胰同樂日",
       "client": "Hong Kong Sanatorium & Hospital",
       "year": 2023,
+      "sector": "Health & Care",
       "disciplines": [
-        "Exhibition",
         "Campaign",
+        "3D",
+        "Motion",
+        "Exhibition",
         "Print"
       ],
-      "role": "Booth System, Graphics",
+      "role": "Theme & Key Visual, 3D, Game Booth Design, Motion Graphics, Print",
       "featured": false,
       "deep": false,
       "tone": "hksh",
-      "summary": "A modular booth system for a hospital open day built around diabetes education — measuring stations, interactive panels and take-home print that a nursing team could set up and run without a designer present.",
+      "summary": "The whole theme for HKSH's 2023 diabetes open day — a 3D title, a set of game booths and the motion and print that carried them — built to get people to spend a Saturday afternoon learning about a disease they would rather not think about.",
       "cover": {
         "src": "wnh/hksh-open-day/irqnz13j3xuoruyuzuy4",
-        "alt": "HKSH open day booth system",
-        "ar": 1.5
+        "alt": "樂胰同樂日 2023 three-dimensional title"
       },
       "credits": [
         {
-          "role": "Design",
+          "role": "Theme, design, 3D and motion",
           "name": "WNH"
         },
         {
           "role": "Client",
-          "name": "Hong Kong Sanatorium & Hospital"
+          "name": "HKSH Endocrine & Diabetes Centre"
         }
       ],
       "blocks": [
         {
           "type": "text",
-          "heading": "Health education has to be handled",
-          "body": "健康你「圖」多少 — an open day where visitors check their own numbers. Blood sugar readings, a myth-busting game, a measuring wheel: the graphics are not there to be admired, they are there to be touched by strangers and explained by a nurse in thirty seconds."
+          "heading": "A pun does the work a warning cannot",
+          "body": "The HKSH Endocrine & Diabetes Centre runs a public open day each year around World Diabetes Day. The 2023 edition — Saturday 4 November, two till five, free — took on the link between diabetes and heart disease.\n\nThat is a hard afternoon to sell. Nobody gives up a Saturday to be told what is wrong with them, and the usual health-education look — a red warning triangle, a cross-section of an artery — pushes away exactly the people who most need to walk in.\n\nSo the theme starts with a joke. 樂胰同樂日: 胰 is the pancreas, and it sits where 而 would in 樂而同樂 — a fun day for your pancreas. Under it, 糖路與你 從「心」出發, the sugar road and you, setting out from the heart, with the 心 drawn as an actual heart. Two puns, and between them they carry the entire medical message: this is about sugar, this is about your heart, and it is not going to lecture you."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-open-day/hbqjecncgpgciivpxkwu",
-              "alt": "Measuring station",
-              "ar": 1,
-              "anim": true
+              "alt": "The 樂胰同樂日 2023 title modelled in 3D",
+              "ar": 1
             },
             {
               "src": "wnh/hksh-open-day/lazg42lwocmeryzqhsv6",
-              "alt": "Myth-busting game",
+              "alt": "Backdrop and the programme leaflet",
               "ar": 1.7778
             }
           ],
-          "caption": "Stations across the floor"
+          "caption": "The 3D title, and the system it generated"
         },
         {
           "type": "text",
-          "heading": "Built to be run by the ward, not the studio",
-          "body": "The stands are modular and repeatable, so the same kit works in a lobby, a corridor or a hall, and the team running it can set it up themselves. Leaflets and take-home print carry the same system, so what a visitor leaves with matches what they just stood in front of."
+          "heading": "Sweets, not syringes",
+          "body": "The title was built in 3D rather than set in type — glossy translucent spheres, soft clouds and little plus signs, in green, teal, amber, violet and pink. It reads as boiled sweets and balloons, which for a diabetes campaign is a deliberate risk and the whole point: the thing people are frightened of, made into the thing that gets them through the door.\n\nThe same world runs through everything else. The leaflet sits over a small isometric city in the same candy palette, so the programme, the backdrop, the easel signs and the booths are visibly one afternoon rather than five separate print jobs. Motion versions carried it onto screens."
+        },
+        {
+          "type": "text",
+          "heading": "Games that leave a number behind",
+          "body": "The floor was a set of game booths, each one built around a single thing a visitor could take away.\n\n捉走膽固醇 — catch the cholesterol — is a scored wall of food. Every dish is a photograph in a ring: green and a plus for broccoli, oats, apple, tofu; red and a minus for luncheon meat, fatty pork, crisps, cake. Players pick what they actually ate and add it up. Nobody has to be told what the number means.\n\n我的血糖機 puts a real glucose meter in visitors' hands, and 糖尿病小知識 handles the questions people are too embarrassed to ask a doctor. The stands are modular and repeatable — the same kit works in a lobby, a corridor or a hall — because the people running them on the day are nurses and volunteers, not a design team."
         },
         {
           "type": "images",
-          "caption": "What visitors take home",
           "items": [
             {
               "src": "wnh/hksh-open-day/yxb60m4r003f97nflfeg",
-              "alt": "dm openday event 01",
+              "alt": "Backdrop wall and easel signs",
               "ar": 1.7778
             },
             {
               "src": "wnh/hksh-open-day/hxiqr0uyqugxbjicbgyb",
-              "alt": "dm openday event 03",
+              "alt": "The scored food wall and the game booths",
               "ar": 1.7778
             }
-          ]
+          ],
+          "caption": "The booth system, from backdrop to counters"
         }
-      ],
-      "sector": "Health & Care"
+      ]
     },
     {
       "slug": "jann-global",
