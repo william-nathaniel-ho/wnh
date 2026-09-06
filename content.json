@@ -272,28 +272,39 @@
       "title": "A Century of Clinical Excellence",
       "client": "Hong Kong Sanatorium & Hospital",
       "year": 2022,
+      "sector": "Health & Care",
       "disciplines": [
         "Brand",
-        "Exhibition",
+        "Event",
+        "Live Broadcast",
         "3D",
-        "Live Broadcast"
+        "Exhibition"
       ],
-      "role": "Design, 3D & Exhibition, Broadcast Technical",
+      "role": "Commemorative Design, 3D, Exhibition Structure, Live Broadcast Lead",
+      "featured": true,
       "deep": true,
       "tone": "hksh",
-      "summary": "The centenary programme for Hong Kong Sanatorium & Hospital — commemorative design, an exhibition taken from 3D model to finished build, and the technical side of the opening ceremony's online broadcast.",
+      "summary": "The centenary of Hong Kong Sanatorium & Hospital, held in a year when nobody could gather — a live-streamed ceremony I led end to end, a 3D centenary mark built as a real object and filled by hand, and a heritage-museum exhibition that had to stand without touching the building.",
+      "cover": {
+        "src": "wnh/hksh-centenary/wz6xv1bjnhjkaq64oxgv",
+        "alt": "A Century of Clinical Excellence"
+      },
       "credits": [
         {
           "role": "Commemorative design",
           "name": "WNH"
         },
         {
-          "role": "Exhibition — 3D to build",
+          "role": "Centenary live broadcast — project lead",
           "name": "WNH"
         },
         {
-          "role": "Opening ceremony — broadcast technical",
+          "role": "3D mark and exhibition structure",
           "name": "WNH"
+        },
+        {
+          "role": "Exhibition venue",
+          "name": "Hong Kong Museum of Medical Sciences"
         },
         {
           "role": "Client",
@@ -303,100 +314,93 @@
       "blocks": [
         {
           "type": "text",
-          "heading": "A hundred years is not a logo",
-          "body": "Hong Kong Sanatorium & Hospital turned a hundred in 2022. A centenary of that size lands as a ceremony, an exhibition, a film series and several hundred commemorative pieces — and all of it has to read as one year rather than six separate jobs.\n\n醫護傳承 · 卓越百年 — A Century of Clinical Excellence."
+          "heading": "A hundred years, in the year nobody could gather",
+          "body": "Hong Kong Sanatorium & Hospital turned a hundred in 2022 — 醫護傳承 · 卓越百年, A Century of Clinical Excellence.\n\nA centenary of that size is normally a hall full of people. Covid took the hall away. So the whole thing had to happen down a wire: no audience, no crowd shot, no room to carry the moment. What replaced it was a live stream, and I led that project end to end — the plan, the setup, the run of show and the technical build, not just the graphics that went into it.\n\nThat is an unusual pairing and a useful one. Ceremony graphics are normally designed for a room and then fall apart on a stream. Here the same person who designed what was on the stage was responsible for how it reached everyone who could not be there, so everything was built already knowing what a camera and a compressed feed would do to it."
         },
         {
           "type": "video",
-          "caption": "The opening ceremony",
           "src": "wnh/hksh-centenary/uotuoiare4zkvzqvjdgu",
-          "ar": 1.7778
+          "caption": "The centenary ceremony, streamed live"
         },
         {
           "type": "text",
-          "heading": "Designed it, then ran the broadcast of it",
-          "body": "Alongside the commemorative design, the technical side of the opening ceremony's online broadcast was mine — which meant the same person who designed what was on the stage was responsible for how it reached everyone who could not be in the room.\n\nThat is an unusual pairing, and a useful one. Ceremony graphics get designed for the room and then fall apart on a stream; here they were built knowing exactly what the stream would do to them."
-        },
-        {
-          "type": "text",
-          "heading": "The mark had to be an object first",
-          "body": "The centenary mark was modelled in 3D before it was drawn flat, because it had to exist as a physical sculpture on the ceremony stage. Designing it as an object first meant the printed version inherited the real thing's proportions, rather than the sculpture being a thickened copy of a logo."
+          "heading": "A mark you could pour into",
+          "body": "The centenary mark was modelled in 3D before it was drawn flat, because it had to exist as a physical object on the stage — a hollow, transparent 100 with the hospital's crest set inside the second zero.\n\nHollow, because the ceremony needed something to do. Instead of a ribbon or a switch, the officiating guests poured small green beads into the numeral until it filled and lit up. 凝聚力 — many separate grains, no single one of them the story, becoming one solid form. A hundred years of a hospital is exactly that: thousands of people's shifts, poured in one at a time.\n\nIt also solved the streaming problem. A pour is slow, physical and legible on a small screen, and it gives a camera something to move on when there is no applause to cut to. Designing the mark as an object first meant the printed version inherited the real thing's proportions, rather than the sculpture being a thickened copy of a logo."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-centenary/bf9mevcmivwvblpuaqhq",
-              "alt": "Centenary mark, front view",
+              "alt": "The 3D centenary mark in model view, filled with green granules",
               "ar": 1
             },
             {
               "src": "wnh/hksh-centenary/o47bxqdvfoeatjqywugd",
-              "alt": "Centenary mark, side view",
+              "alt": "The centenary mark modelled in 3D, side view",
               "ar": 1.6205
             },
             {
               "src": "wnh/hksh-centenary/jv8jyt9yojjovwlipgol",
-              "alt": "Stage sculpture in place",
+              "alt": "The finished sculpture in place for the ceremony",
               "ar": 1.4991
             }
           ],
-          "caption": "Front, side, and as built"
+          "caption": "Modelled, then made — and filled by hand on the day"
         },
         {
           "type": "text",
-          "heading": "From three-dimensional model to finished build",
-          "body": "The centenary exhibition set out a hundred years of the hospital's part in medical advances in Hong Kong — healthcare delivery, medical education and clinical research, and how the institution held its standard of care through each of them.\n\nThe framework was built from 3D models through to the finished thing on the floor. Exhibition work is unforgiving in a way print is not: a wrong measurement is not a reprint, it is a carpenter."
+          "heading": "An exhibition that could not touch the building",
+          "body": "The historical showcase went into the Hong Kong Museum of Medical Sciences — which is itself a declared monument, an Edwardian institute building with its own arched windows, floors and plaster to answer for.\n\nSo the brief had a hard constraint before it had a subject: nothing may be fixed to the fabric. No wall anchors, no drilling, no load on anything historic. I worked out the structure around that — a free-standing system of panels that carries its own weight, holds the graphics and the vitrines, threads through the existing rooms and comes out again leaving the monument exactly as it was found.\n\nThat is why the whole thing was resolved in 3D first. Exhibition work is unforgiving in a way print is not: a wrong measurement is not a reprint, it is a carpenter — and in a protected building it is also a conversation you do not want to have."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-centenary/gktasqevw9dpvrhuyjl9",
-              "alt": "Exhibition framework in 3D",
+              "alt": "The free-standing exhibition structure resolved in 3D",
               "ar": 1.7778
             },
             {
               "src": "wnh/hksh-centenary/p1xzjfyh9xu2fiysai6r",
-              "alt": "Wall graphics and archive vitrines",
+              "alt": "Graphic panels and archive vitrines as built",
               "ar": 1.7778
             },
             {
               "src": "wnh/hksh-centenary/o1vuaqxr4y2oudsypeti",
-              "alt": "Uniform display and showcase items",
+              "alt": "Historic nurse's uniform on display inside the museum",
               "ar": 1.4988
             }
           ],
-          "caption": "3D framework, wall graphics, showcase"
+          "caption": "The 3D plan, and the same structure standing in the museum"
+        },
+        {
+          "type": "text",
+          "heading": "One year, told three ways",
+          "body": "The exhibition set out a hundred years of the hospital's part in medicine in Hong Kong — care, medical education and clinical research — through the objects that survived it: instruments, uniforms, photographs, paperwork.\n\nBetween the stream, the sculpture and the showcase, the centenary reached three different audiences in three different ways and still read as one year rather than six separate jobs."
         },
         {
           "type": "images",
           "items": [
             {
               "src": "wnh/hksh-centenary/ouxrgrkejwxnwcy8hbzq",
-              "alt": "Web Showcase Mockup",
+              "alt": "Centenary showcase online",
               "ar": 1.4925
             },
             {
               "src": "wnh/hksh-centenary/w0tjzxtmxnx85ckfvrlu",
-              "alt": " DSC2618(1)",
+              "alt": "The broadcast set, cameras and crew around the centenary mark",
               "ar": 1.4991
             },
             {
               "src": "wnh/hksh-centenary/vg6lhegrzxqspb9x0ohq",
-              "alt": "Web Showcase Mockup2",
+              "alt": "Centenary showcase online, second view",
               "ar": 1.4925
             }
-          ]
+          ],
+          "caption": "Online showcase, and the broadcast set on the day"
         }
-      ],
-      "cover": {
-        "src": "wnh/hksh-centenary/wz6xv1bjnhjkaq64oxgv",
-        "alt": "A Century of Clinical Excellence",
-        "ar": 1.4991
-      },
-      "featured": true,
-      "sector": "Health & Care"
+      ]
     },
     {
       "slug": "hkma-60",
