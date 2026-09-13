@@ -183,6 +183,108 @@
   ],
   "projects": [
     {
+      "slug": "compass-offices-brand",
+      "title": "A Great Place To Work",
+      "client": "Compass Offices",
+      "year": 2025,
+      "sector": "Corporate & Institutional",
+      "disciplines": [
+        "Brand",
+        "Design Systems",
+        "Print",
+        "Presentation"
+      ],
+      "role": "Brand Revamp, Identity System, Guidelines",
+      "featured": true,
+      "deep": true,
+      "tone": "ember",
+      "summary": "A brand revamp for a serviced-office operator working across nine cities — and the two documents that anchor it: a Brand Identity that settles what the company stands for, and a Brand Guidelines manual written so that people who are not designers can hold the brand together without one.",
+      "cover": {
+        "src": "",
+        "alt": "Compass Offices Brand Guidelines"
+      },
+      "credits": [
+        {
+          "role": "Brand revamp, identity and guidelines",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Compass Offices"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "Nine cities, and everyone making their own artwork",
+          "body": "Compass Offices runs serviced offices across Asia-Pacific. Every centre has a reception, a signage rack, a poster frame, a sales deck and a business card, and every one of those was being made locally by whoever needed it that week — centre managers, sales, HR, a printer down the road.\n\nThat is not a discipline problem. It is a missing-instructions problem. A brand does not fall apart because people ignore it; it falls apart because nobody ever told them what the rule was, and the file they needed was three folders deep in somebody's drive.\n\nSo the revamp produced two documents rather than one. A Brand Identity that settles what the company is, and a Brand Guidelines manual that settles how to make things — written for the person actually making them."
+        },
+        {
+          "type": "image",
+          "src": "",
+          "alt": "Compass Offices Brand Guidelines cover",
+          "caption": "The manual — the 03/2025 edition"
+        },
+        {
+          "type": "text",
+          "heading": "The identity: a vision short enough to fit on a business card",
+          "body": "/ A GREAT PLACE TO WORK / — set between two slashes so it works as a lockup, a footer, a strapline on an umbrella, or a line on a dark envelope flap.\n\nUnder it, three values with the language a serviced-office team would actually use: Grow & Learn, Fulfilment & Happiness, Empowerment — each one landing on concrete behaviours rather than abstractions. Be speedy and efficient. Celebrate success. Transparency, flexibility, respect for others, resilience.\n\nTone of voice is set as five sliders rather than adjectives: formal to casual, serious to playful, friendly to corporate, complex to simple — and orange to blue, which is the one that matters most and sits hard at the orange end. Sliders are harder to argue with than a word list, and easier for a copywriter in another city to aim at.\n\nThe imagery rule is a single sentence and it does more work than a mood board: every image has people in it. A photograph of an empty meeting room sells a room. A photograph of people in it sells a place to work."
+        },
+        {
+          "type": "text",
+          "heading": "The mark, built on a grid so it survives being redrawn",
+          "body": "The logo is the orange disc with the white chevron — direction, focus, growth, and an A for the company all in one shape. It is documented on an 8×8 grid with the circle and the chevron's angles constructed, so anyone rebuilding it from scratch lands in the same place.\n\nClear space is defined using the mark's own circle as the unit, which means it scales with the logo instead of being a measurement someone has to remember. Scaling is specified at four real sizes — 80, 60, 40 and 20 px — with the lockup shown at each, because the question is never \"how small can it go\" in the abstract, it is \"what happens on a 20-pixel favicon\".\n\nColour is four values with Pantone, CMYK and RGB alongside the hex, each with a tint ramp: Premium Grey #282828 (Black 7 C), White, Light Grey #EFEFEF (Cool Gray 1 C), and Bright Orange #FF6600 (151 C). Print and screen get the same page, because the person making a laminated sign and the person making a web banner are often the same person."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Logo mark and 8x grid construction"
+            },
+            {
+              "src": "",
+              "alt": "Colour palette with Pantone, CMYK, RGB and hex"
+            }
+          ],
+          "caption": "Grid construction, scaling, and the colour system"
+        },
+        {
+          "type": "text",
+          "heading": "Type that can hold five languages",
+          "body": "Neue Haas Grotesk Display Pro carries headlines and key messages across five weights. Neutraface Text sits underneath it for body and captions, giving the page a warmer, more geometric second voice without competing.\n\nThe part that matters operationally is the third row: Noto Sans for everything non-Latin — JP for Japanese, TC and SC for Chinese, VN for Vietnamese. A company operating in Tokyo, Hong Kong, Shanghai and Ho Chi Minh City cannot have a type system that only works in English, and \"use something similar\" is how a brand ends up with four different Japanese faces.\n\nHierarchy is specified in points, not in adjectives: sub-headline Light 10pt, small headline Medium 14pt, large headline Bold 40pt, body Neutraface Book 12pt, caption 9pt, image frames with 3 mm radius corners. Anyone can follow that. Nobody can follow \"make the headline bigger\"."
+        },
+        {
+          "type": "text",
+          "heading": "Written for the person holding the corner rounder",
+          "body": "This is where the manual stops being a brand book and becomes an operations document, and it is the part I am most pleased with.\n\nCentre signage gets four numbered steps: find and print the file at A4 on 200–250 gsm, trim each sign to 105 × 74 mm, round the corners before laminating, laminate, then trim and round again. That instruction exists because laminated corners cut square catch on a pocket and peel, and because the person doing it at 9 a.m. in a reception is not going to ask.\n\nBusiness cards come in four versions — English, bilingual Japanese, bilingual Traditional Chinese, and a centre Contact Us card — with production notes about CMYK, bleed, crop marks and outlined text. There is a vCard QR generator for the contact codes, and a warning in small type: relink the PNG in the Illustrator file rather than placing a new one, because placing changes the size and image settings. That is a rule written by somebody who has fixed that exact mistake.\n\nThe same logic runs through the rest of it. Two icon families with stated jobs — glassmorphism for digital and marketing, outlined for presentations and UI. Envelope sizes as C4 and DL. A letterhead as a Word document, because that is what a contract actually gets typed into. A PowerPoint template with six named elements. Poster footers in three variants, full width, nothing else allowed inside the footer. Swag from lanyard to umbrella, with local premiums routed back through the marketing team for approval.\n\nOne line on page two carries the whole thing: any deviation must be approved by the marketing team. A guideline without an escalation route is a suggestion."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "",
+              "alt": "Business card versions and production template"
+            },
+            {
+              "src": "",
+              "alt": "Centre signage set and the four-step production process"
+            },
+            {
+              "src": "",
+              "alt": "Envelopes, letterhead, PowerPoint and poster templates"
+            }
+          ],
+          "caption": "Applications — cards, signage, stationery, deck and swag"
+        },
+        {
+          "type": "text",
+          "heading": "What it is actually for",
+          "body": "The measure of a brand system is not how it looks in the PDF. It is whether the centre in Osaka can print a correct sign on a Tuesday without emailing anyone.\n\nThat is why the documents are split. The Identity is for the induction and the boardroom — what we stand for, in language the company can repeat. The Guidelines are for the desk — sizes, files, steps, and the one instruction that stops the recurring mistake.\n\nBoth carry a version stamp, because a brand manual that cannot be dated is a brand manual nobody trusts."
+        }
+      ]
+    },
+    {
       "slug": "milwaukee-breakthrough",
       "title": "Asia Breakthrough Growth",
       "client": "Milwaukee — TTI",
