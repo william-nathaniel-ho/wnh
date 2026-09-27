@@ -183,6 +183,138 @@
   ],
   "projects": [
     {
+      "slug": "yan-partners",
+      "title": "Where It Goes, Not How It Works",
+      "client": "Yan & Partners Engineering 恩泊利工程有限公司",
+      "year": 2026,
+      "sector": "Corporate & Institutional",
+      "disciplines": [
+        "Brand",
+        "Design Systems",
+        "Digital",
+        "Copy"
+      ],
+      "role": "Brand Identity, Guidelines, Website Design & Build",
+      "featured": true,
+      "deep": true,
+      "tone": "imace",
+      "summary": "A brand system and bilingual website for a Hong Kong underwater and hydraulic engineering firm whose most distinctive asset — a patented drainage pipe — is the one thing it cannot show. That constraint became the rule the whole identity is built on.",
+      "cover": {
+        "src": "wnh/yan-partners/uqonqixhdc68z0z5xdif",
+        "alt": "Yan & Partners Brand Guidelines 2026",
+        "ar": 1.5962
+      },
+      "credits": [
+        {
+          "role": "Brand identity, guidelines and website",
+          "name": "WNH"
+        },
+        {
+          "role": "Client",
+          "name": "Yan & Partners Engineering Co., Ltd."
+        }
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "heading": "A firm whose best asset is the one it cannot show",
+          "body": "Yan & Partners have been doing underwater construction, hydraulic engineering and drainage work in Hong Kong since 1999 — welding, cutting, piling and inspection below the waterline; diversion, pipework and desilting above it. Stanley Pier in 2005. Wan Chai Reclamation in 2010 and 2016. Cutting out the old marine piles under the Avenue of Stars in 2018.\n\nThey also invent. The Multipurpose-Drain Pipe is their own patented drainage system, and it is the thing that makes the company more than a contractor.\n\nIt is also unpublishable. The core design, the internal structure, the cross-sections and the moulds stay private. So the brief had a constraint before it had a look: build an identity around an invention nobody is allowed to see inside.\n\nThe answer became the rule the whole system runs on — show where the system goes, never how it works inside. That one line decided the photography, the diagrams, the article structure and the tone of voice."
+        },
+        {
+          "type": "image",
+          "src": "wnh/yan-partners/b10wmeu9mxthjpsduqpt",
+          "alt": "Primary logo on light and on brand dark",
+          "caption": "The mark kept from 2021, redocumented",
+          "ar": 1.5962
+        },
+        {
+          "type": "text",
+          "heading": "Keep the ampersand. Rebuild everything around it.",
+          "body": "The 2021 guidelines gave the company two things worth keeping: the teal ampersand and the teal itself. Everything else had aged past the work.\n\nSo this edition leaves the mark and the colour untouched and rebuilds the system around them. The ampersand is documented as what it actually is — two interlocking rings and a diagonal stroke — with the instruction never to redraw it, only to place the master SVG. Clear space is defined as the height of the ampersand's own lower ring, so it scales with the logo instead of being a number to remember. Minimum sizes are given for both worlds: 30 mm primary and 8 mm icon in print, 120 px and 24 px on screen.\n\nTwo secondary lockups carry the legal name — a stacked English version for letterheads, contracts and tenders, and a Chinese-first lockup for documents that open in Chinese."
+        },
+        {
+          "type": "text",
+          "heading": "Dark, with one bright accent",
+          "body": "Brand Dark #0E0E0E replaces pure black as the ground. Yan Teal #00CCCC is the signature and is rationed: the logo, labels, active states and numbered markers, and nothing else.\n\nThe page that does the most work is the proportion bar — dark and surfaces around 78 per cent, greys 12, white 6, teal 4. A ratio tells someone how to build a layout; a row of swatches only tells them what is allowed.\n\nContrast is published rather than assumed. Teal on dark is 9.7:1, white on dark 19.3:1, body grey 10.3:1, caption grey 5.6:1 — all passing AA. Teal on white is 2.0:1, which is why the guidelines say plainly that it is for the logo and graphics and never for text. Writing the failing number down is what stops it being used anyway."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "wnh/yan-partners/hydkxcul9brpr6bq1gty",
+              "alt": "Colour palette, proportions and WCAG contrast ratios",
+              "ar": 1.5962
+            },
+            {
+              "src": "wnh/yan-partners/f2nly2wprvnctbnifahe",
+              "alt": "Poppins and Noto Sans TC type system",
+              "ar": 1.5962
+            }
+          ],
+          "caption": "Colour with published contrast ratios, and the type system"
+        },
+        {
+          "type": "text",
+          "heading": "Two scripts, written separately",
+          "body": "Poppins replaces Source Sans Pro for Latin — geometric and open, chosen because it sits with the round ampersand rather than against it. The wordmark stays drawn; it is never retyped in the live font.\n\nChinese runs on Noto Sans TC on the web and Noto Sans CJK TC in print, traditional characters throughout.\n\nThe rule underneath is editorial, not typographic: Chinese is written, not machine-translated. Same meaning, composed separately, because a sentence that reads correctly in English and awkwardly in Chinese has failed half the audience. An English/Chinese switch sits on every page of the site."
+        },
+        {
+          "type": "text",
+          "heading": "Photographs, concepts and diagrams never mix",
+          "body": "Site photography — their own divers, their own equipment, real water — keeps its own section, with natural colour and only enough darkening to hold a text overlay.\n\nAI concept visuals are allowed, on three conditions: always grouped under \"Concept visuals\", never presented as a finished project, and never used to depict a real product the company makes. The welding handle they actually build gets a photograph or nothing.\n\nDiagrams solve the confidentiality problem and the bilingual problem at once. Numbered teal markers sit on the drawing and the explanation lives in a legend underneath, so one image serves both languages — and the legend can say where the system sits without the drawing ever revealing what is inside it.\n\nRunning through all of it is an honesty rule that shows up on every card: Concept, Testing, or In use. A company that labels its own ideas as unfinished is more believable about the ones that are finished."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "wnh/yan-partners/nrqt6i13c8hlkqo11gr1",
+              "alt": "Imagery rules — site photography and labelled concept visuals",
+              "ar": 1.5962
+            },
+            {
+              "src": "wnh/yan-partners/xhvpetwmmy8ymmrz5ptr",
+              "alt": "Numbered teal markers with a single bilingual legend",
+              "ar": 1.5962
+            }
+          ],
+          "caption": "Imagery rules, and diagrams that label without revealing"
+        },
+        {
+          "type": "text",
+          "heading": "The website the guidelines were written from",
+          "body": "yanpartners.com is dark and full-bleed, built on split media-and-text panels, pill buttons and slow ease-out motion with no bounce.\n\nThe research timeline is the piece I like most: inactive years sit in slate, the active year turns teal, and the line is always solid — a small rule that stops a decade of work looking like a row of empty boxes. Projects carry real dates, and the research index gives each idea its status rather than implying everything is finished.\n\nThe order of work matters here. The site was designed first and the guidelines were written from it, which is why the web components section documents what the site already does instead of describing an ideal the site never quite matched. It is also why the two will not drift apart."
+        },
+        {
+          "type": "images",
+          "items": [
+            {
+              "src": "wnh/yan-partners/rjxqvav0uqlntppkzxgg",
+              "alt": "Web components — buttons, labels, research timeline",
+              "ar": 1.5962
+            },
+            {
+              "src": "wnh/yan-partners/ytyqouyszbtj8uca3oic",
+              "alt": "yanpartners.com on desktop and mobile, English and Chinese",
+              "ar": 1.5962
+            }
+          ],
+          "caption": "Web components, and the site they were taken from"
+        },
+        {
+          "type": "text",
+          "heading": "Since 1999",
+          "body": "The round badge — the ampersand ringed by the company name and the founding year — goes on uniforms, helmets and giveaways. It carried over from the 2021 guidelines with one change: new print runs set the ring text in Poppins SemiBold so it matches everything else.\n\nThe handover is three files. logo-light.svg, logo-dark.svg, and the icon. Everything else in the manual exists so that those three are never redrawn."
+        },
+        {
+          "type": "image",
+          "src": "wnh/yan-partners/uupndvp9enls1c51uwqd",
+          "alt": "The Since 1999 badge on merchandise, helmets and uniforms",
+          "caption": "The Since 1999 badge",
+          "ar": 1.5962
+        }
+      ]
+    },
+    {
       "slug": "compass-offices-brand",
       "title": "A Great Place To Work",
       "client": "Compass Offices",
