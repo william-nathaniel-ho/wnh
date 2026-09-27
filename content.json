@@ -1711,68 +1711,6 @@
       ]
     },
     {
-      "slug": "jann-global",
-      "title": "Jann Global Logistics",
-      "client": "Jann Global Logistics",
-      "year": 2019,
-      "disciplines": [
-        "Brand"
-      ],
-      "role": "Identity System",
-      "tone": "logistics",
-      "summary": "A complete identity for a freight company — mark, typographic spec, a custom set of 3D logistics icons, colour system and full stationery.",
-      "blocks": [
-        {
-          "type": "text",
-          "heading": "A freight company that had to look like one",
-          "body": "A complete identity for a logistics business — mark, typographic specification, colour system and full stationery, documented so it could be used without asking."
-        },
-        {
-          "type": "image",
-          "src": "",
-          "alt": "Jann Global Logistics identity",
-          "caption": "The mark and colour system",
-          "size": "full"
-        },
-        {
-          "type": "text",
-          "heading": "Icons as part of the system",
-          "body": "Logistics companies drown in stock icons that never match. This one got a custom set, modelled in 3D and lit consistently, so a diagram of a service reads as the same brand as the letterhead."
-        },
-        {
-          "type": "images",
-          "items": [
-            {
-              "src": "",
-              "alt": "Custom 3D logistics icon set"
-            },
-            {
-              "src": "",
-              "alt": "Typographic specification"
-            },
-            {
-              "src": "",
-              "alt": "Stationery"
-            }
-          ],
-          "caption": "Icons, type spec, stationery"
-        }
-      ],
-      "cover": {
-        "src": "",
-        "alt": "Jann Global Logistics"
-      },
-      "credits": [
-        {
-          "role": "Design & Direction",
-          "name": "WNH"
-        }
-      ],
-      "featured": false,
-      "deep": false,
-      "sector": "Corporate & Institutional"
-    },
-    {
       "slug": "sing-ping-opera",
       "title": "Keeping the Songs",
       "client": "Sing Ping Cantonese Opera",
