@@ -332,8 +332,8 @@
       "tone": "compass",
       "summary": "A brand revamp for a serviced-office operator working across nine cities — and the two documents that anchor it: a Brand Identity that settles what the company stands for, and a Brand Guidelines manual written so that people who are not designers can hold the brand together without one.",
       "cover": {
-        "src": "wnh/compass-offices-brand/yuftmbdh4z6nlvn7vwde",
-        "alt": "Compass Offices Brand Identity — cover",
+        "src": "wnh/compass-offices-brand/we17jv1gxycn5k7sk5ii",
+        "alt": "Compass Offices lounge, 9 Queen’s Road Central",
         "ar": 1.7778
       },
       "credits": [
@@ -1569,8 +1569,7 @@
       "summary": "Two hundred-odd single-file web tools that let a marketing and sales team across nine cities produce on-brand material without a designer in the room — proposals, price lists, availability, social posts, directories — with the brand built into the tool rather than written down beside it.",
       "cover": {
         "src": "wnh/compass-web-tools/gfbc0l8c5t7tdkvrgdwr",
-        "alt": "Four of the Compass Offices staff tools",
-        "ar": 1.6
+        "alt": "Four of the Compass Offices staff tools"
       },
       "credits": [
         {
@@ -1592,8 +1591,7 @@
           "type": "image",
           "src": "wnh/compass-web-tools/in27nb1a2umfovo2krf6",
           "alt": "One-Pager Builder — office lookup, pricing rows and live preview",
-          "caption": "The One-Pager Builder — pick the office, the proposal assembles itself",
-          "ar": 1.6
+          "caption": "The One-Pager Builder — pick the office, the proposal assembles itself"
         },
         {
           "type": "text",
@@ -1611,20 +1609,10 @@
           "body": "The One-Pager Builder is the one that gets opened most. Choose a centre, look up the office, and it assembles the proposal — the right room photograph, the floor plan with the room marked, the furniture stamps, the pricing rows and the deposit terms — then prints to PDF or goes out as an email card. What used to be an afternoon in PowerPoint is a lookup.\n\nThe price list has its own editor and a set of Service Price Guides per market, so a rate is changed once and comes out consistent everywhere, in every language. The availability tool sits on the occupancy plan and answers the only question a sales call actually has: what is free, where, and from when.\n\nBehind them, where live data is needed, the back end is a Google Sheet with an Apps Script endpoint in front of it. The people who own the numbers keep editing them where they already do, and nothing has to be re-keyed."
         },
         {
-          "type": "images",
-          "items": [
-            {
-              "src": "wnh/compass-web-tools/wil5ltzdkwqwwnjplwha",
-              "alt": "Centre Content Studio — coverage across all 31 centres",
-              "ar": 1.6
-            },
-            {
-              "src": "wnh/compass-web-tools/o4uetaqgcrhtu2gfvirh",
-              "alt": "Org Chart Editor — four languages, live preview, WordPress embed",
-              "ar": 1.6
-            }
-          ],
-          "caption": "The content dashboard behind the centre pages, and the multilingual org chart editor"
+          "type": "image",
+          "src": "wnh/compass-web-tools/wil5ltzdkwqwwnjplwha",
+          "alt": "Centre Content Studio — coverage across all 31 centres",
+          "caption": "The content dashboard behind the centre pages — 31 centres, seven markets"
         },
         {
           "type": "text",
@@ -1636,28 +1624,19 @@
           "items": [
             {
               "src": "wnh/compass-web-tools/aknsayjwz4ivixwmmuqo",
-              "alt": "Social Schedule — EDM, Instagram, LinkedIn, RedNote and blog on one calendar",
-              "ar": 1.6
+              "alt": "Social Schedule — EDM, Instagram, LinkedIn, RedNote and blog on one calendar"
             },
             {
               "src": "wnh/compass-web-tools/tzt1f9yw2tsoldbben5k",
-              "alt": "RedNote maker — paste the copy, drop the photos, get the whole set",
-              "ar": 1.6
+              "alt": "RedNote maker — paste the copy, drop the photos, get the whole set"
             }
           ],
           "caption": "The social schedule across five channels, and the RedNote maker"
         },
         {
           "type": "text",
-          "heading": "Where they live",
-          "body": "They live at compassoffices.io, a private staff site running on Cloudflare Pages behind Cloudflare Access. The login is a one-time PIN sent to a company email address — no password to share, no account to provision — with a short list of pages deliberately left public because they are the ones that get sent to clients.\n\nThat gate matters more than it looks. It is what makes it safe for these tools to hold real pricing, real availability and real client-facing material, and it is why the suite could grow past two hundred pages without becoming something the company has to worry about."
-        },
-        {
-          "type": "image",
-          "src": "wnh/compass-web-tools/lasnvwiwvxxdzajmqoca",
-          "alt": "Office Availability — staff sign-in",
-          "caption": "Staff only — a one-time PIN to a company address",
-          "ar": 1.6
+          "heading": "What it changes",
+          "body": "The point was never the number of tools. It is that the job moved — from making each artefact to making the thing that makes the artefacts correctly.\n\nA guideline asks people to remember a rule. A tool means they never have to. The centre manager, the salesperson and the marketer all send out work that looks like the company made it, and none of them had to think about the brand to do it.\n\nWhich is the same measure the brand manual set itself, met in software instead of on paper."
         },
         {
           "type": "stats",
